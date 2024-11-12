@@ -25,31 +25,12 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
                                     realized = TRUE, threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
-    if (is.list(feature_sets)) {
-        seed <- check_seed(seed, length(feature_sets))
-        out <- .mapply(function(features, seed) {
-            .scoreFeatureSet(
-                object = object,
-                features = features,
-                rank = rank, scale = scale,
-                block = block, block_weight_policy = block_weight_policy,
-                variable_block_weight = variable_block_weight,
-                extra_work = extra_work,
-                iterations = iterations,
-                seed = seed,
-                realized = realized, threads = threads
-            )
-        }, list(features = feature_sets, seed = seed), NULL)
-        weights <- lapply(out, attr, which = "weights", exact = TRUE)
-        weights <- do.call(base::cbind, weights)
-        out <- do.call(base::rbind, out)
-        colnames(out) <- colnames(object)
-        structure(out, weights = weights)
-    } else {
-        seed <- check_seed(seed)
-        out <- .scoreFeatureSet(
+    if (!is.list(feature_sets)) feature_sets <- list(feature_sets)
+    seed <- check_seed(seed, length(feature_sets))
+    out <- .mapply(function(features, seed) {
+        .scoreFeatureSet(
             object = object,
-            features = feature_sets,
+            features = features,
             rank = rank, scale = scale,
             block = block, block_weight_policy = block_weight_policy,
             variable_block_weight = variable_block_weight,
@@ -58,10 +39,12 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
             seed = seed,
             realized = realized, threads = threads
         )
-        dim(out) <- c(1L, length(out))
-        colnames(out) <- colnames(object)
-        out
-    }
+    }, list(features = feature_sets, seed = seed), NULL)
+    weights <- lapply(out, attr, which = "weights", exact = TRUE)
+    weights <- do.call(base::cbind, weights)
+    out <- do.call(base::rbind, out)
+    colnames(out) <- colnames(object)
+    structure(out, weights = weights)
 }
 
 #' @param name A string of the assay name for the scores.
