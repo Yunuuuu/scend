@@ -1,7 +1,7 @@
 #' Quick fastMNN with `scrapper`
 #'
-#' @inheritDotParams runPCA
-#' @inheritParams runMNN
+#' @inheritDotParams runMNN
+#' @inheritParams runPCA
 #' @inheritParams logNormCounts
 #' @seealso
 #' - [`logNormCounts`]
@@ -15,14 +15,14 @@ quickMNN <- function(object, ...) UseMethod("quickMNN")
 quickMNN.SingleCellExperiment <- function(
     object, block, size_factors = NULL,
     # `runPCA` arguments
-    ...,
+    d = 50L, scale = FALSE, subset_row = NULL,
+    block_weight_policy = NULL,
+    variable_block_weight = c(0, 1000),
+    from_residuals = FALSE, extra_work = 7,
+    iterations = 1000, seed = NULL,
+    realized = TRUE,
     # `runMNN` arguments
-    k = 15L, n_mads = 3L,
-    robust_iterations = 2, robust_trim = 0.25,
-    mass_cap = NULL,
-    order = NULL, reference_policy = NULL,
-    BNPARAM = AnnoyParam(), threads = NULL,
-    name = "corrected") {
+    ..., threads = NULL) {
     # nromalization, adjust for differences in sequencing depth
     object <- logNormCounts(
         object = object, block = block, threads = threads,
@@ -32,20 +32,21 @@ quickMNN.SingleCellExperiment <- function(
 
     # dimensionality reduction
     object <- runPCA(
-        object = object, block = block, ...,
+        object = object, block = block,
         assay = "multiBatchNorm",
-        threads = threads, name = "PCA"
+        threads = threads, name = "PCA",
+        d = d, scale = scale, subset_row = subset_row,
+        block = block, block_weight_policy = block_weight_policy,
+        variable_block_weight = variable_block_weight,
+        from_residuals = from_residuals, extra_work = extra_work,
+        iterations = iterations, seed = seed,
+        realized = realized
     )
 
     # run MNN for batch correction
     runMNN(
         object = object, block = block, dimred = "PCA",
-        k = k, n_mads = n_mads,
-        robust_iterations = robust_iterations,
-        robust_trim = robust_trim,
-        mass_cap = mass_cap,
-        order = order, reference_policy = reference_policy,
-        BNPARAM = BNPARAM, threads = threads, name = name
+        ..., threads = threads
     )
 }
 
@@ -54,14 +55,14 @@ quickMNN.SingleCellExperiment <- function(
 quickMNN.Seurat <- function(
     object, block, size_factors = NULL,
     # `runPCA` arguments
-    ...,
+    d = 50L, scale = FALSE, subset_row = NULL,
+    block_weight_policy = NULL,
+    variable_block_weight = c(0, 1000),
+    from_residuals = FALSE, extra_work = 7,
+    iterations = 1000, seed = NULL,
+    realized = TRUE,
     # `runMNN` arguments
-    k = 15L, n_mads = 3L,
-    robust_iterations = 2, robust_trim = 0.25,
-    mass_cap = NULL,
-    order = NULL, reference_policy = NULL,
-    BNPARAM = AnnoyParam(), threads = NULL,
-    name = "corrected") {
+    ..., threads = NULL) {
     # nromalization, adjust for differences in sequencing depth
     object <- logNormCounts(
         object = object, block = block, threads = threads,
@@ -71,19 +72,20 @@ quickMNN.Seurat <- function(
 
     # dimensionality reduction
     object <- runPCA(
-        object = object, block = block, ...,
+        object = object, block = block,
         layer = "multiBatchNorm",
-        threads = threads, name = "PCA"
+        threads = threads, name = "PCA",
+        d = d, scale = scale, subset_row = subset_row,
+        block = block, block_weight_policy = block_weight_policy,
+        variable_block_weight = variable_block_weight,
+        from_residuals = from_residuals, extra_work = extra_work,
+        iterations = iterations, seed = seed,
+        realized = realized
     )
 
     # run MNN for batch correction
     runMNN(
         object = object, block = block, dimred = "PCA",
-        k = k, n_mads = n_mads,
-        robust_iterations = robust_iterations,
-        robust_trim = robust_trim,
-        mass_cap = mass_cap,
-        order = order, reference_policy = reference_policy,
-        BNPARAM = BNPARAM, threads = threads, name = name
+        ..., threads = threads
     )
 }

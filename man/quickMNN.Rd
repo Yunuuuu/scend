@@ -12,86 +12,90 @@ quickMNN(object, ...)
   object,
   block,
   size_factors = NULL,
+  d = 50L,
+  scale = FALSE,
+  subset_row = NULL,
+  block_weight_policy = NULL,
+  variable_block_weight = c(0, 1000),
+  from_residuals = FALSE,
+  extra_work = 7,
+  iterations = 1000,
+  seed = NULL,
+  realized = TRUE,
   ...,
-  k = 15L,
-  n_mads = 3L,
-  robust_iterations = 2,
-  robust_trim = 0.25,
-  mass_cap = NULL,
-  order = NULL,
-  reference_policy = NULL,
-  BNPARAM = AnnoyParam(),
-  threads = NULL,
-  name = "corrected"
+  threads = NULL
 )
 
 \method{quickMNN}{Seurat}(
   object,
   block,
   size_factors = NULL,
+  d = 50L,
+  scale = FALSE,
+  subset_row = NULL,
+  block_weight_policy = NULL,
+  variable_block_weight = c(0, 1000),
+  from_residuals = FALSE,
+  extra_work = 7,
+  iterations = 1000,
+  seed = NULL,
+  realized = TRUE,
   ...,
-  k = 15L,
-  n_mads = 3L,
-  robust_iterations = 2,
-  robust_trim = 0.25,
-  mass_cap = NULL,
-  order = NULL,
-  reference_policy = NULL,
-  BNPARAM = AnnoyParam(),
-  threads = NULL,
-  name = "corrected"
+  threads = NULL
 )
 }
 \arguments{
 \item{object}{A matrix-like object. Rows are features and columns are cells.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=runPCA]{runPCA}}
+  Arguments passed on to \code{\link[=runMNN]{runMNN}}
   \describe{
     \item{\code{}}{}
   }}
 
 \item{block}{Factor specifying the block of origin (e.g., batch, sample) for
-each cell in \code{object}.}
+each cell in \code{x}. Alternatively \code{NULL} if all cells are from the same block.}
 
 \item{size_factors}{A numeric vector of length equal to the number of cells
 in \code{object}, containing positive size factors for all cells.}
 
-\item{k}{Integer scalar specifying the number of neighbors to use when
-identifying MNN pairs.}
+\item{d}{Integer scalar specifying the number of top PCs to obtain.}
 
-\item{n_mads}{Numeric scalar specifying the number of median absolute
-deviations to use for removing outliers in the center-of-mass calculations.}
+\item{scale}{Logical scalar indicating whether to scale rows to unit
+variance.}
 
-\item{robust_iterations}{Integer scalar specifying the number of iterations
-for robust calculation of the center of mass.}
+\item{subset_row}{Integer, logical or character vector specifying which
+features to use in the PCA (e.g., highly variable genes). If \code{NULL}, all
+features in \code{object} are used.}
 
-\item{robust_trim}{Numeric scalar in [0, 1) specifying the trimming
-proportion for robust calculation of the center of mass.}
+\item{block_weight_policy}{A string of \code{"variable"}, \code{"equal"}, or \code{"none"}
+specifying the policy to use for weighting different blocks when computing
+the average for each statistic Only used if \code{block} is not \code{NULL}.}
 
-\item{mass_cap}{Integer scalar specifying the cap on the number of
-observations to use for center-of-mass calculations on the reference dataset.
-A value of \verb{100,000} may be appropriate for speeding up correction of very
-large datasets. If \code{NULL}, no cap is used.}
+\item{variable_block_weight}{Numeric vector of length 2, specifying the
+parameters for variable block weighting. The first and second values are used
+as the lower and upper bounds, respectively, for the variable weight
+calculation. Only used if \code{block} is not \code{NULL} and \code{block_weight_policy = "variable"}.}
 
-\item{order}{Vector containing levels of \code{block} in the desired merge
-order. If \code{NULL}, a suitable merge order is automatically determined.}
+\item{from_residuals}{Logical scalar indicating whether to compute the PC
+scores from the residuals in the presence of a blocking factor. By default,
+the residuals are only used to compute the rotation matrix, and the original
+expression values of the cells are projected onto this new space. Only used
+if \code{block} is not \code{NULL}.}
 
-\item{reference_policy}{String specifying the policy to use to choose the
-first reference batch. This can be based on the largest batch (\code{"max-size"}),
-the most variable batch (\code{"max-variance"}), the batch with the largest
-residual sum of squares (\code{"max-rss"}), or the first specified input
-(\code{"input"}). Only used for automatic merges, i.e., when \code{order=NULL}.}
+\item{extra_work}{Integer scalar specifying the extra dimensions for the
+IRLBA workspace.}
 
-\item{BNPARAM}{A \linkS4class{BiocNeighborParam} object specifying the nearest-neighbor algorithm to use.}
+\item{iterations}{Integer scalar specifying the maximum nunber of restart iterations for IRLBA.}
+
+\item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
+
+\item{realized}{Logical scalar indicating whether to realize \code{x} into an optimal memory layout for IRLBA.
+This improves computation time at the cost of increased memory usage.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, all detected threads will be used. See
 \code{\link[parallel:detectCores]{detectCores}}.}
-
-\item{name}{String specifying the name to be used to store the result in the
-\code{\link[SingleCellExperiment:reducedDims]{reducedDims}} or
-\code{\link[SeuratObject:Seurat-class]{reductions}} of the output.}
 }
 \description{
 Quick fastMNN with \code{scrapper}
