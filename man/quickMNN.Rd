@@ -98,6 +98,8 @@ Quick fastMNN with \code{scrapper}
 }
 \seealso{
 \itemize{
-\item \link{runMNN}
+\item \code{\link{logNormCounts}}
+\item \code{\link{runPCA}}
+\item \code{\link{runMNN}}
 }
 }
