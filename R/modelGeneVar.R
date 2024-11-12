@@ -15,7 +15,6 @@
 #' each block.
 #' @export
 modelGeneVar <- function(object, ...) {
-    rlang::check_dots_used()
     UseMethod("modelGeneVar")
 }
 
@@ -75,6 +74,7 @@ modelGeneVar.default <- function(object,
                                  transform = TRUE, span = 0.3,
                                  use_min_width = FALSE, min_width = 1,
                                  min_window_count = 200, threads = NULL) {
+    rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.null(block)) {
         block_weight_policy <- match.arg(
