@@ -50,7 +50,7 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
         realized = realized
     )
 
-    # run MNN for batch correction
+    # run clusterSNNGraph
     clusterSNNGraph(
         object = object, dimred = "PCA",
         ..., threads = threads, seed = random_seed(1L)
