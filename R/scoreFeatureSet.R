@@ -2,7 +2,10 @@
 #'
 #' @inheritParams runPCA
 #' @export
-scoreFeatureSet <- function(object, ...) UseMethod("scoreFeatureSet")
+scoreFeatureSet <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("scoreFeatureSet")
+}
 
 #' @param feature_sets A list of integer, logical or character vector specifying
 #' the features that belong to the set. You can also directly input an atomic
@@ -21,7 +24,6 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
                                     extra_work = 7,
                                     iterations = 1000, seed = NULL,
                                     realized = TRUE, threads = NULL) {
-    rlang::check_dots_empty()
     threads <- set_threads(threads)
     seed <- check_seed(seed)
     set_seed(seed)

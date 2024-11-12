@@ -1,7 +1,10 @@
 #' Fast mutual nearest neighbors correction with `scrapper`
 #'
 #' @export
-runMNN <- function(object, ...) UseMethod("runMNN")
+runMNN <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("runMNN")
+}
 
 #' @param block Factor specifying the block of origin (e.g., batch, sample) for
 #' each cell in `object`.
@@ -34,7 +37,6 @@ runMNN.default <- function(object, block, k = 15L, ...,
                            mass_cap = NULL,
                            order = NULL, reference_policy = NULL,
                            BNPARAM = AnnoyParam(), threads = NULL) {
-    rlang::check_dots_empty()
     # run MNN --------------------------------------------------------
     .runMNN(
         object = object,

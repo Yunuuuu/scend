@@ -1,6 +1,9 @@
 #' Score marker genes
 #' @export
-scoreMarkers <- function(object, ...) UseMethod("scoreMarkers")
+scoreMarkers <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("scoreMarkers")
+}
 
 #' @export
 #' @rdname scoreMarkers
@@ -66,7 +69,6 @@ scoreMarkers.default <- function(object, groups,
                                  compute_auc = TRUE,
                                  threshold = 0L, all_pairwise = FALSE,
                                  threads = NULL) {
-    rlang::check_dots_empty()
     threads <- set_threads(threads)
     scores <- scrapper::scoreMarkers(
         x = object,

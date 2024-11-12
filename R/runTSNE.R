@@ -1,7 +1,10 @@
 #' Compute the t-stochastic neighbor embedding with `scrapper`
 #'
 #' @export
-runTSNE <- function(object, ...) UseMethod("runTSNE")
+runTSNE <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("runTSNE")
+}
 
 #' @param perplexity Numeric scalar specifying the perplexity to use in the
 #' t-SNE algorithm.
@@ -31,7 +34,6 @@ runTSNE.default <- function(object, perplexity = 30L, n_neighbors = NULL,
                             max_depth = 20L, approximate = FALSE,
                             max_iter = 500L, seed = NULL,
                             BNPARAM = AnnoyParam(), threads = NULL) {
-    rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (is.null(n_neighbors)) {
         n_neighbors <- scrapper::tsnePerplexityToNeighbors(perplexity)

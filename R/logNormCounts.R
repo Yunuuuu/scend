@@ -1,6 +1,9 @@
 #' @inherit scrapper::normalizeCounts title description
 #' @export
-logNormCounts <- function(object, ...) UseMethod("logNormCounts")
+logNormCounts <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("logNormCounts")
+}
 
 #' @inheritParams modelGeneVar
 #' @param size_factors A numeric vector of length equal to the number of cells
@@ -27,7 +30,6 @@ logNormCounts.default <- function(object, size_factors = NULL,
                                   center_size_factors = TRUE,
                                   block = NULL, mode = NULL,
                                   threads = NULL) {
-    rlang::check_dots_empty()
     ans <- .logNormCounts(
         object = object,
         size_factors = size_factors,

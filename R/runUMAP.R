@@ -1,7 +1,10 @@
 #' Compute the uniform manifold approximation and projection with `scrapper`
 #'
 #' @export
-runUMAP <- function(object, ...) UseMethod("runUMAP")
+runUMAP <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("runUMAP")
+}
 
 #' @param n_dim Integer scalar specifying the number of dimensions of the output
 #' embedding.
@@ -25,7 +28,6 @@ runUMAP.default <- function(object, n_dim = 2L, n_neighbors = 15L,
                             ...,
                             optimization = FALSE, seed = NULL,
                             BNPARAM = AnnoyParam(), threads = NULL) {
-    rlang::check_dots_empty()
     threads <- set_threads(threads)
     seed <- check_seed(seed)
     scrapper::runUmap(

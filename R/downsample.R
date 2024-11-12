@@ -1,7 +1,10 @@
 #' @inherit scrapper::subsampleByNeighbors title description return
 #' @inheritParams modelGeneVar
 #' @export
-downsample <- function(object, ...) UseMethod("downsample")
+downsample <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("downsample")
+}
 
 #' @export
 #' @rdname downsample
@@ -33,7 +36,6 @@ downsample.Seurat <- function(object, ...,
 downsample.default <- function(object, n_neighbors = 20, ...,
                                min_remaining = 10, BNPARAM = AnnoyParam(),
                                threads = NULL) {
-    rlang::check_dots_empty()
     assert_number_whole(n_neighbors)
     assert_number_whole(min_remaining)
     threads <- set_threads(threads)
