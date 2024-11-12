@@ -9,7 +9,7 @@ runPCA <- function(object, ...) {
 
 #' @param subset_row Integer, logical or character vector specifying which
 #' features to use in the PCA (e.g., highly variable genes). If `NULL`, all
-#' features in `sce_raw` are used.
+#' features in `object` are used.
 #' @param d Integer scalar specifying the number of top PCs to obtain.
 #' @param scale Logical scalar indicating whether to scale rows to unit
 #' variance.

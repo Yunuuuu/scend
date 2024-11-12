@@ -61,7 +61,7 @@ variance.}
 
 \item{subset_row}{Integer, logical or character vector specifying which
 features to use in the PCA (e.g., highly variable genes). If \code{NULL}, all
-features in \code{sce_raw} are used.}
+features in \code{object} are used.}
 
 \item{block}{Factor specifying the block of origin (e.g., batch, sample) for
 each cell in \code{x}. Alternatively \code{NULL} if all cells are from the same block.}
