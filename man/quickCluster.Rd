@@ -79,8 +79,8 @@ IRLBA workspace.}
 
 \item{iterations}{Integer scalar specifying the maximum nunber of restart iterations for IRLBA.}
 
-\item{seed}{Integer scalar specifying the seed to use for the initial random
-vector in \code{IRLBA} and for \code{multi-level} or \code{Leiden} clustering.}
+\item{seed}{Integer specifying the seed to use for the initial random vector
+in \code{IRLBA} and for \code{multi-level} or \code{Leiden} clustering.}
 
 \item{realized}{Logical scalar indicating whether to realize \code{object} into an
 optimal memory layout for \code{IRLBA}. This improves computation time at the cost

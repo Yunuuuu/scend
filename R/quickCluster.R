@@ -6,8 +6,8 @@
 #' @param n_hvgs Integer specifying the number of top genes to retain.
 #' @param prop_hvgs Numeric scalar specifying the proportion of genes to report
 #' as HVGs.
-#' @param seed Integer scalar specifying the seed to use for the initial random
-#' vector in `IRLBA` and for `multi-level` or `Leiden` clustering.
+#' @param seed Integer specifying the seed to use for the initial random vector
+#' in `IRLBA` and for `multi-level` or `Leiden` clustering.
 #' @seealso
 #' - [`logNormCounts`]
 #' - [`runPCA`]
@@ -30,9 +30,13 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
         object = object, threads = threads,
         size_factors = size_factors
     )
-
-    seed <- check_seed(seed)
-    set_seed(seed)
+    if (length(seed) == 2L) {
+        seed <- as.integer(seed)
+    } else {
+        seed <- check_seed(seed)
+        set_seed(seed)
+        seed <- random_seed(2L)
+    }
 
     if (is.null(subset_row)) {
         fit <- modelGeneVar(object, threads = threads)
@@ -46,14 +50,14 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
         threads = threads,
         d = d, scale = scale, subset_row = subset_row,
         from_residuals = from_residuals, extra_work = extra_work,
-        iterations = iterations, seed = random_seed(1L),
+        iterations = iterations, seed = seed[1L],
         realized = realized
     )
 
     # run clusterSNNGraph
     clusterSNNGraph(
         object = object, dimred = "PCA",
-        ..., threads = threads, seed = random_seed(1L)
+        ..., threads = threads, seed = seed[2L]
     )
 }
 
