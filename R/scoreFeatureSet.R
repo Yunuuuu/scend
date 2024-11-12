@@ -39,7 +39,7 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
         weights <- do.call(base::cbind, weights)
         out <- do.call(base::rbind, out)
         colnames(out) <- colnames(object)
-        rlang::inject(structure(out, !!!weights))
+        structure(out, weights = weights)
     } else {
         out <- .scoreFeatureSet(
             object = object,
