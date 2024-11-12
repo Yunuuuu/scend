@@ -7,7 +7,7 @@
 \usage{
 getTopHVGs(stats, ...)
 
-\method{getTopHVGs}{scend_modelGeneVar}(stats, top = 2000, larger = TRUE, keep_ties = TRUE, ...)
+\method{getTopHVGs}{scend_modelGeneVar}(stats, n = 2000, larger = TRUE, keep_ties = TRUE, ...)
 }
 \arguments{
 \item{stats}{Numeric vector of variances (or a related statistic) across all
@@ -15,7 +15,7 @@ genes. Typically the \code{residuals} from \code{\link{modelGeneVar}} are used h
 
 \item{...}{Arguments passed to methods.}
 
-\item{top}{Integer specifying the number of top genes to retain.}
+\item{n}{Integer specifying the number of top genes to retain.}
 
 \item{larger}{Logical scalar indicating whether larger values of \code{stats} correspond to more variable genes.}
 
