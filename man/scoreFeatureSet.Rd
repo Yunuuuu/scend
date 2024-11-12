@@ -66,8 +66,9 @@ IRLBA workspace.}
 
 \item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
 
-\item{realized}{Logical scalar indicating whether to realize \code{x} into an optimal memory layout for IRLBA.
-This improves computation time at the cost of increased memory usage.}
+\item{realized}{Logical scalar indicating whether to realize \code{object} into an
+optimal memory layout for \code{IRLBA}. This improves computation time at the cost
+of increased memory usage.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, all detected threads will be used. See

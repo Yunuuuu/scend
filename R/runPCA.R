@@ -22,6 +22,9 @@ runPCA <- function(object, ...) {
 #' if `block` is not `NULL`.
 #' @param extra_work Integer scalar specifying the extra dimensions for the
 #' IRLBA workspace.
+#' @param realized Logical scalar indicating whether to realize `object` into an
+#' optimal memory layout for `IRLBA`. This improves computation time at the cost
+#' of increased memory usage.
 #' @seealso [`runPca`][scrapper::runPca]
 #' @return
 #'  - `default` method: A numeric matrix where rows are cells and columns are

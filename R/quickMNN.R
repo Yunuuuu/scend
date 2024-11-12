@@ -32,7 +32,7 @@ quickMNN.SingleCellExperiment <- function(
 
     # dimensionality reduction
     object <- runPCA(
-        object = object, block = block,
+        object = object,
         assay = "multiBatchNorm",
         threads = threads, name = "PCA",
         d = d, scale = scale, subset_row = subset_row,
