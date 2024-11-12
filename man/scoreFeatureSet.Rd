@@ -88,5 +88,5 @@ Compute per-cell scores for a gene set, defined as the column sums of a rank-1 a
 This uses the same approach implemented in the \pkg{GSDecon} package from Jason Hackney.
 }
 \seealso{
-\link[scrapper:scoreGeneSet]{scoreGeneSet}
+\code{\link[scrapper:scoreGeneSet]{scoreGeneSet}}
 }

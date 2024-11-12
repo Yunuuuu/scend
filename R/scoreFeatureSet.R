@@ -14,7 +14,7 @@ scoreFeatureSet <- function(object, ...) {
 #' @inheritParams scrapper::scoreGeneSet
 #' @inherit scrapper::scoreGeneSet description details
 #' @return A matrix of feature scores.
-#' @seealso [scoreGeneSet][scrapper::scoreGeneSet]
+#' @seealso [`scoreGeneSet`][scrapper::scoreGeneSet]
 #' @rdname scoreFeatureSet
 #' @export
 scoreFeatureSet.default <- function(object, feature_sets, ...,
