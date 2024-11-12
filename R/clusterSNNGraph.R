@@ -17,8 +17,8 @@ clusterSNNGraph <- function(object, ...) {
 #' @param n_neighbors Integer scalar specifying the number of neighbors to use
 #' to construct the graph.
 #' @param method String specifying the community detection method to use.
-#' Options are multi-level (`"multilevel"`), Walktrap (`"walktrap"`) or Leiden
-#' (`"leiden"`).
+#' Options are multi-level (`"multilevel"`/`"louvain"`), Walktrap (`"walktrap"`)
+#' or Leiden (`"leiden"`).
 #' @param scheme String specifying the weighting scheme to use for constructing
 #' the SNN graph. This can be `"ranked"` (default), `"jaccard"` or `"number"`.
 #' @param resolution Numeric scalar specifying the resolution to use for
@@ -33,7 +33,7 @@ clusterSNNGraph <- function(object, ...) {
 #' @inheritParams scrapper::buildSnnGraph
 #' @return An integer vector with cluster assignments for each cell. Each method
 #' may also return additional attributes.
-#' - For method=`"multilevel"`, we have:
+#' - For method=`"multilevel"`/`"louvain"`, we have:
 #'    * `levels`, a list of integer vectors with cluster assignments for each
 #' cell at each level. Assignments are sorted by decreasing resolution (i.e.,
 #' fewer, larger clusters).
@@ -60,7 +60,10 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
                                     BNPARAM = AnnoyParam(), threads = NULL) {
     threads <- set_threads(threads)
     assert_number_whole(n_neighbors)
-    method <- match.arg(method, c("multilevel", "walktrap", "leiden"))
+    method <- match.arg(
+        method,
+        c("multilevel", "louvain", "walktrap", "leiden")
+    )
     scheme <- match.arg(scheme, c("ranked", "jaccard", "number"))
     assert_number_decimal(resolution)
     objective <- match.arg(objective, c("modularity", "cpm"))
@@ -82,7 +85,7 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
         graph <- my_graph
     }
     set_seed(seed)
-    if (method == "multilevel") {
+    if (any(method == c("multilevel", "louvain"))) {
         clustering <- igraph::cluster_louvain(
             graph = graph,
             resolution = resolution,

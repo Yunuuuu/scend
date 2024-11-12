@@ -46,8 +46,8 @@ clusterSNNGraph(object, ...)
 to construct the graph.}
 
 \item{method}{String specifying the community detection method to use.
-Options are multi-level (\code{"multilevel"}), Walktrap (\code{"walktrap"}) or Leiden
-(\code{"leiden"}).}
+Options are multi-level (\code{"multilevel"}/\code{"louvain"}), Walktrap (\code{"walktrap"})
+or Leiden (\code{"leiden"}).}
 
 \item{scheme}{String specifying the weighting scheme to use for constructing
 the SNN graph. This can be \code{"ranked"} (default), \code{"jaccard"} or \code{"number"}.}
@@ -86,7 +86,7 @@ contains the expression values.}
 An integer vector with cluster assignments for each cell. Each method
 may also return additional attributes.
 \itemize{
-\item For method=\code{"multilevel"}, we have:
+\item For method=\code{"multilevel"}/\code{"louvain"}, we have:
 \itemize{
 \item \code{levels}, a list of integer vectors with cluster assignments for each
 cell at each level. Assignments are sorted by decreasing resolution (i.e.,
