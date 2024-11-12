@@ -20,8 +20,6 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
     # `runPCA` arguments
     d = 50L, scale = FALSE,
     subset_row = NULL, n_hvgs = 500, prop_hvgs = 0.1,
-    block_weight_policy = NULL,
-    variable_block_weight = c(0, 1000),
     from_residuals = FALSE, extra_work = 7,
     iterations = 1000, seed = NULL,
     realized = TRUE,
@@ -47,8 +45,6 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
         object = object,
         threads = threads,
         d = d, scale = scale, subset_row = subset_row,
-        block_weight_policy = block_weight_policy,
-        variable_block_weight = variable_block_weight,
         from_residuals = from_residuals, extra_work = extra_work,
         iterations = iterations, seed = random_seed(1L),
         realized = realized

@@ -16,8 +16,6 @@ quickCluster(object, ...)
   subset_row = NULL,
   n_hvgs = 500,
   prop_hvgs = 0.1,
-  block_weight_policy = NULL,
-  variable_block_weight = c(0, 1000),
   from_residuals = FALSE,
   extra_work = 7,
   iterations = 1000,
@@ -35,8 +33,6 @@ quickCluster(object, ...)
   subset_row = NULL,
   n_hvgs = 500,
   prop_hvgs = 0.1,
-  block_weight_policy = NULL,
-  variable_block_weight = c(0, 1000),
   from_residuals = FALSE,
   extra_work = 7,
   iterations = 1000,
@@ -71,15 +67,6 @@ features in \code{object} are used.}
 
 \item{prop_hvgs}{Numeric scalar specifying the proportion of genes to report
 as HVGs.}
-
-\item{block_weight_policy}{A string of \code{"variable"}, \code{"equal"}, or \code{"none"}
-specifying the policy to use for weighting different blocks when computing
-the average for each statistic Only used if \code{block} is not \code{NULL}.}
-
-\item{variable_block_weight}{Numeric vector of length 2, specifying the
-parameters for variable block weighting. The first and second values are used
-as the lower and upper bounds, respectively, for the variable weight
-calculation. Only used if \code{block} is not \code{NULL} and \code{block_weight_policy = "variable"}.}
 
 \item{from_residuals}{Logical scalar indicating whether to compute the PC
 scores from the residuals in the presence of a blocking factor. By default,
