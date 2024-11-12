@@ -30,12 +30,12 @@ check_seed <- function(seed, len = 1L,
     } else if (len == 1L) {
         assert_number_whole(seed, arg = arg, call = call)
     }
-    if (len > 1L) seed <- random_seeds(seed, len, arg = arg, call = call)
+    if (len > 1L) seed <- check_seeds(seed, len, arg = arg, call = call)
     seed
 }
 
-random_seeds <- function(seed, len, arg = caller_arg(seed),
-                         call = caller_call()) {
+check_seeds <- function(seed, len, arg = caller_arg(seed),
+                        call = caller_call()) {
     if (length(seed) == 1L) {
         set_seed(seed)
         random_seed(len)
