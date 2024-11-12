@@ -30,8 +30,8 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
         object = object, threads = threads,
         size_factors = size_factors
     )
-    if (length(seed) == 2L) {
-        seed <- as.integer(seed)
+    if (length(seed) >= 2L) {
+        seed <- .subset(as.integer(seed), seq_len(2L))
     } else {
         seed <- check_seed(seed)
         set_seed(seed)
