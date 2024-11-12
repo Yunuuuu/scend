@@ -29,6 +29,7 @@ runMNN <- function(object, ...) {
 #' (`"input"`). Only used for automatic merges, i.e., when `order=NULL`.
 #' @inheritParams scrapper::correctMnn
 #' @seealso [`correctMnn`][scrapper::correctMnn]
+#' @importFrom BiocNeighbors AnnoyParam
 #' @export
 #' @rdname runMNN
 runMNN.default <- function(object, block, k = 15L, ...,
