@@ -3,7 +3,6 @@
 #' @inheritParams runPCA
 #' @export
 scoreFeatureSet <- function(object, ...) {
-    rlang::check_dots_used()
     UseMethod("scoreFeatureSet")
 }
 
@@ -24,6 +23,7 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
                                     extra_work = 7,
                                     iterations = 1000, seed = NULL,
                                     realized = TRUE, threads = NULL) {
+    rlang::check_dots_empty()
     threads <- set_threads(threads)
     seed <- check_seed(seed)
     set_seed(seed)

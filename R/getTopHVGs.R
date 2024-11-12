@@ -11,7 +11,6 @@
 #' @return A character of highly variable genes.
 #' @export
 getTopHVGs <- function(stats, ...) {
-    rlang::check_dots_used()
     UseMethod("getTopHVGs")
 }
 
@@ -20,6 +19,7 @@ getTopHVGs <- function(stats, ...) {
 getTopHVGs.scend_modelGeneVar <- function(stats, n = NULL, prop = NULL,
                                           larger = TRUE, keep_ties = TRUE,
                                           ...) {
+    rlang::check_dots_empty()
     assert_number_whole(n, min = 0, allow_null = TRUE)
     assert_number_decimal(prop, min = 0, max = 1, allow_null = TRUE)
     assert_bool(larger)

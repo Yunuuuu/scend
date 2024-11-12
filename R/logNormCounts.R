@@ -1,7 +1,6 @@
 #' @inherit scrapper::normalizeCounts title description
 #' @export
 logNormCounts <- function(object, ...) {
-    rlang::check_dots_used()
     UseMethod("logNormCounts")
 }
 
@@ -30,6 +29,7 @@ logNormCounts.default <- function(object, size_factors = NULL,
                                   center_size_factors = TRUE,
                                   block = NULL, mode = NULL,
                                   threads = NULL) {
+    rlang::check_dots_empty()
     ans <- .logNormCounts(
         object = object,
         size_factors = size_factors,

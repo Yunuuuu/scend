@@ -4,7 +4,6 @@
 #' which is a numeric vector containing the QC metrics for all cells.
 #' @export
 perCellQCMetrics <- function(object, ...) {
-    rlang::check_dots_used()
     UseMethod("perCellQCMetrics")
 }
 
@@ -14,6 +13,7 @@ perCellQCMetrics <- function(object, ...) {
 #' @rdname perCellQCMetrics
 perCellQCMetrics.default <- function(object, subsets = NULL,
                                      threads = NULL, ...) {
+    rlang::check_dots_empty()
     threads <- set_threads(threads)
     metrics <- scrapper::computeRnaQcMetrics(object,
         subsets = subsets %||% list(), num.threads = threads

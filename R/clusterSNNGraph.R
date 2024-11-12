@@ -7,7 +7,6 @@
 #' - [`cluster_walktrap`][igraph::cluster_walktrap]
 #' @export
 clusterSNNGraph <- function(object, ...) {
-    rlang::check_dots_used()
     UseMethod("clusterSNNGraph")
 }
 

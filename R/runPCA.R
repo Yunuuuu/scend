@@ -3,7 +3,6 @@
 #' @param object A matrix-like object. Rows are features and columns are cells.
 #' @export
 runPCA <- function(object, ...) {
-    rlang::check_dots_used()
     UseMethod("runPCA")
 }
 
@@ -42,6 +41,7 @@ runPCA.default <- function(object,
                            from_residuals = FALSE, extra_work = 7,
                            iterations = 1000, seed = NULL,
                            realized = TRUE, threads = NULL) {
+    rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.null(subset_row)) object <- object[subset_row, , drop = FALSE]
     seed <- check_seed(seed)

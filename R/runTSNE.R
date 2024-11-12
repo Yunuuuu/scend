@@ -2,7 +2,6 @@
 #'
 #' @export
 runTSNE <- function(object, ...) {
-    rlang::check_dots_used()
     UseMethod("runTSNE")
 }
 
@@ -34,6 +33,7 @@ runTSNE.default <- function(object, perplexity = 30L, n_neighbors = NULL,
                             max_depth = 20L, approximate = FALSE,
                             max_iter = 500L, seed = NULL,
                             BNPARAM = AnnoyParam(), threads = NULL) {
+    rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (is.null(n_neighbors)) {
         n_neighbors <- scrapper::tsnePerplexityToNeighbors(perplexity)

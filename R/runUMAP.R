@@ -2,7 +2,6 @@
 #'
 #' @export
 runUMAP <- function(object, ...) {
-    rlang::check_dots_used()
     UseMethod("runUMAP")
 }
 
@@ -28,6 +27,7 @@ runUMAP.default <- function(object, n_dim = 2L, n_neighbors = 15L,
                             ...,
                             optimization = FALSE, seed = NULL,
                             BNPARAM = AnnoyParam(), threads = NULL) {
+    rlang::check_dots_empty()
     threads <- set_threads(threads)
     seed <- check_seed(seed)
     scrapper::runUmap(
