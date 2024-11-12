@@ -30,13 +30,7 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
         object = object, threads = threads,
         size_factors = size_factors
     )
-    if (length(seed) >= 2L) {
-        seed <- .subset(as.integer(seed), seq_len(2L))
-    } else {
-        seed <- check_seed(seed)
-        set_seed(seed)
-        seed <- random_seed(2L)
-    }
+    seed <- check_seed(seed, 2L)
 
     if (is.null(subset_row)) {
         fit <- modelGeneVar(object, threads = threads)

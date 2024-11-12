@@ -22,13 +22,30 @@ quickdf <- function(x) {
 }
 
 #' @importFrom rlang caller_arg caller_call
-check_seed <- function(seed, arg = caller_arg(seed), call = caller_call()) {
+check_seed <- function(seed, len = 1L,
+                       arg = caller_arg(seed), call = caller_call()) {
     if (is.null(seed)) {
         if (is.null(old_seed())) on.exit(restore_rng(NULL))
-        random_seed(1L)
-    } else {
+        seed <- random_seed(1L)
+    } else if (len == 1L) {
         assert_number_whole(seed, arg = arg, call = call)
-        seed
+    }
+    if (len > 1L) seed <- random_seeds(seed, len, arg = arg, call = call)
+    seed
+}
+
+random_seeds <- function(seed, len, arg = caller_arg(seed),
+                         call = caller_call()) {
+    if (length(seed) == 1L) {
+        set_seed(seed)
+        random_seed(len)
+    } else if (length(seed) != len) {
+        cli::cli_abort(
+            "{.arg {arg}} must be a scalar or of length {len}",
+            call = call
+        )
+    } else {
+        seed[seq_len(len)]
     }
 }
 
