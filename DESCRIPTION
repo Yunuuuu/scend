@@ -16,6 +16,7 @@ RoxygenNote: 7.3.2
 Imports: 
     BiocNeighbors,
     cli,
+    igraph,
     rlang (>= 1.1.0),
     scrapper
 Suggests: 

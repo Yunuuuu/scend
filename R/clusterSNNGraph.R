@@ -6,6 +6,10 @@
 #' @export
 clusterSNNGraph <- function(object, ...) UseMethod("clusterSNNGraph")
 
+#' @param ... Additional arguments passed on to
+#' [`cluster_louvain`][igraph::cluster_louvain],
+#' [`cluster_leiden`][igraph::cluster_leiden] or
+#' [`cluster_walktrap`][igraph::cluster_walktrap].
 #' @param n_neighbors Integer scalar specifying the number of neighbors to use
 #' to construct the graph.
 #' @param method String specifying the community detection method to use.
@@ -48,7 +52,7 @@ clusterSNNGraph.default <- function(object, n_neighbors = 15L,
                                     ...,
                                     scheme = NULL, resolution = 1L,
                                     objective = NULL, steps = 4L,
-                                    seed = 1234L,
+                                    seed = NULL,
                                     BNPARAM = AnnoyParam(), threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
@@ -56,9 +60,9 @@ clusterSNNGraph.default <- function(object, n_neighbors = 15L,
     method <- match.arg(method, c("multilevel", "walktrap", "leiden"))
     scheme <- match.arg(scheme, c("ranked", "jaccard", "number"))
     assert_number_decimal(resolution)
-    objective <- match.arg(objective, c("modularity", "CPM"))
+    objective <- match.arg(objective, c("modularity", "cpm"))
     assert_number_whole(steps)
-    assert_number_whole(seed)
+    seed <- check_seed(seed)
     graph <- scrapper::buildSnnGraph(
         object,
         num.neighbors = n_neighbors,
@@ -66,14 +70,35 @@ clusterSNNGraph.default <- function(object, n_neighbors = 15L,
         num.threads = threads,
         BNPARAM = BNPARAM
     )
-    clustering <- scrapper::clusterGraph(
-        x = graph, method = method,
-        multilevel.resolution = resolution,
-        leiden.resolution = resolution,
-        leiden.objective = objective,
-        walktrap.steps = steps,
-        seed = seed
-    )
+    set_seed(seed)
+    if (method == "multilevel") {
+        clustering <- igraph::cluster_louvain(
+            graph = graph,
+            resolution = resolution,
+            weights = igraph::E(graph)$weight,
+            ...
+        )
+    } else if (method == "leiden") {
+        leiden.objective <- if (objective == "cpm") {
+            "CPM"
+        } else {
+            "modularity"
+        }
+        clustering <- igraph::cluster_leiden(
+            graph = graph,
+            objective_function = leiden.objective,
+            resolution = resolution,
+            weights = igraph::E(graph)$weight,
+            ...
+        )
+    } else if (method == "walktrap") {
+        clustering <- igraph::cluster_walktrap(
+            graph = graph,
+            steps = steps,
+            weights = igraph::E(graph)$weight,
+            ...
+        )
+    }
     out <- clustering$membership
     for (i in setdiff(names(clustering), "membership")) {
         attr(out, i) <- .subset2(clustering, i)

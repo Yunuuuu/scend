@@ -19,10 +19,12 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
                                     block = NULL, block_weight_policy = NULL,
                                     variable_block_weight = c(0, 1000),
                                     extra_work = 7,
-                                    iterations = 1000, seed = 1234L,
+                                    iterations = 1000, seed = NULL,
                                     realized = TRUE, threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
+    seed <- check_seed(seed)
+    set_seed(seed)
     if (is.list(feature_sets)) {
         out <- lapply(feature_sets, function(features) {
             .scoreFeatureSet(
@@ -31,8 +33,10 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
                 rank = rank, scale = scale,
                 block = block, block_weight_policy = block_weight_policy,
                 variable_block_weight = variable_block_weight,
-                extra_work = extra_work, iterations = iterations,
-                threads = threads
+                extra_work = extra_work,
+                iterations = iterations,
+                seed = random_seed(1L),
+                realized = realized, threads = threads
             )
         })
         weights <- lapply(out, attr, which = "weights", exact = TRUE)
@@ -47,8 +51,10 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
             rank = rank, scale = scale,
             block = block, block_weight_policy = block_weight_policy,
             variable_block_weight = variable_block_weight,
-            extra_work = extra_work, iterations = iterations,
-            threads = threads
+            extra_work = extra_work,
+            iterations = iterations,
+            seed = random_seed(1L),
+            realized = realized, threads = threads
         )
         dim(out) <- c(1L, length(out))
         colnames(out) <- colnames(object)

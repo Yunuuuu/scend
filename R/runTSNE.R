@@ -29,13 +29,14 @@ runTSNE <- function(object, ...) UseMethod("runTSNE")
 runTSNE.default <- function(object, perplexity = 30L, n_neighbors = NULL,
                             ...,
                             max_depth = 20L, approximate = FALSE,
-                            max_iter = 500L, seed = 1234L,
+                            max_iter = 500L, seed = NULL,
                             BNPARAM = AnnoyParam(), threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (is.null(n_neighbors)) {
         n_neighbors <- scrapper::tsnePerplexityToNeighbors(perplexity)
     }
+    seed <- check_seed(seed)
     scrapper::runTsne(
         x = object,
         perplexity = perplexity,

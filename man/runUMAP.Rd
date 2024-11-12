@@ -17,7 +17,7 @@ runUMAP(object, ...)
   min_dist = 0.01,
   ...,
   optimization = FALSE,
-  seed = 1234L,
+  seed = NULL,
   BNPARAM = AnnoyParam(),
   threads = NULL
 )

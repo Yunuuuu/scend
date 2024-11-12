@@ -20,7 +20,7 @@ scoreFeatureSet(object, ...)
   variable_block_weight = c(0, 1000),
   extra_work = 7,
   iterations = 1000,
-  seed = 1234L,
+  seed = NULL,
   realized = TRUE,
   threads = NULL
 )

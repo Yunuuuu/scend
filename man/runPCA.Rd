@@ -21,7 +21,7 @@ runPCA(object, ...)
   from_residuals = FALSE,
   extra_work = 7,
   iterations = 1000,
-  seed = 1234L,
+  seed = NULL,
   realized = TRUE,
   threads = NULL
 )

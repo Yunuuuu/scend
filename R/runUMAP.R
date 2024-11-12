@@ -23,10 +23,11 @@ runUMAP <- function(object, ...) UseMethod("runUMAP")
 runUMAP.default <- function(object, n_dim = 2L, n_neighbors = 15L,
                             n_epochs = -1L, min_dist = 0.01,
                             ...,
-                            optimization = FALSE, seed = 1234L,
+                            optimization = FALSE, seed = NULL,
                             BNPARAM = AnnoyParam(), threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
+    seed <- check_seed(seed)
     scrapper::runUmap(
         x = object,
         num.dim = n_dim,

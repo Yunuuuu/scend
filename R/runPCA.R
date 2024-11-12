@@ -34,11 +34,12 @@ runPCA.default <- function(object,
                            block = NULL, block_weight_policy = NULL,
                            variable_block_weight = c(0, 1000),
                            from_residuals = FALSE, extra_work = 7,
-                           iterations = 1000, seed = 1234L,
+                           iterations = 1000, seed = NULL,
                            realized = TRUE, threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.null(subset_row)) object <- object[subset_row, , drop = FALSE]
+    seed <- check_seed(seed)
     pcs <- scrapper::runPca(
         x = object,
         number = d,

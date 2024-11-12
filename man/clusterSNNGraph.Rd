@@ -18,7 +18,7 @@ clusterSNNGraph(object, ...)
   resolution = 1L,
   objective = NULL,
   steps = 4L,
-  seed = 1234L,
+  seed = NULL,
   BNPARAM = AnnoyParam(),
   threads = NULL
 )
@@ -37,11 +37,10 @@ clusterSNNGraph(object, ...)
 \arguments{
 \item{object}{A matrix-like object. Rows are features and columns are cells.}
 
-\item{...}{\itemize{
-\item \code{default} method: not used.
-\item \code{SingleCellExperiment} and \code{Seurat} method: additional arguments passed to
-\code{default} methods.
-}}
+\item{...}{Additional arguments passed on to
+\code{\link[igraph:cluster_louvain]{cluster_louvain}},
+\code{\link[igraph:cluster_leiden]{cluster_leiden}} or
+\code{\link[igraph:cluster_walktrap]{cluster_walktrap}}.}
 
 \item{n_neighbors}{Integer scalar specifying the number of neighbors to use
 to construct the graph.}

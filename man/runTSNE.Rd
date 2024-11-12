@@ -17,7 +17,7 @@ runTSNE(object, ...)
   max_depth = 20L,
   approximate = FALSE,
   max_iter = 500L,
-  seed = 1234L,
+  seed = NULL,
   BNPARAM = AnnoyParam(),
   threads = NULL
 )
