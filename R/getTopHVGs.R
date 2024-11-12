@@ -5,7 +5,7 @@
 #' genes. Typically the `residuals` from [`modelGeneVar`] are used here.
 #' @inheritParams scrapper::chooseHighlyVariableGenes
 #' @param keep_ties Logical scalar indicating whether to keep tied values of
-#' `stats`, even if `top` may be exceeded.
+#' `stats`, even if `n` may be exceeded.
 #' @return A character of highly variable genes.
 #' @export
 getTopHVGs <- function(stats, ...) {

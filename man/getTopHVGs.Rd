@@ -20,7 +20,7 @@ genes. Typically the \code{residuals} from \code{\link{modelGeneVar}} are used h
 \item{larger}{Logical scalar indicating whether larger values of \code{stats} correspond to more variable genes.}
 
 \item{keep_ties}{Logical scalar indicating whether to keep tied values of
-\code{stats}, even if \code{top} may be exceeded.}
+\code{stats}, even if \code{n} may be exceeded.}
 }
 \value{
 A character of highly variable genes.
