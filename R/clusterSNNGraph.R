@@ -24,7 +24,7 @@ clusterSNNGraph <- function(object, ...) UseMethod("clusterSNNGraph")
 #' @param steps Integer scalar specifying the number of steps to use for
 #' `Walktrap` clustering.
 #' @param objective String specifying the objective function to use for Leiden
-#' clustering: "CPM" or "modularity" (default).
+#' clustering: "cpm" or "modularity" (default).
 #' @param seed Integer scalar specifying the seed to use for multi-level or
 #' Leiden clustering.
 #' @inheritParams scrapper::clusterGraph

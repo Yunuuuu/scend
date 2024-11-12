@@ -56,7 +56,7 @@ the SNN graph. This can be \code{"ranked"} (default), \code{"jaccard"} or \code{
 \code{multi-level} or \code{Leiden} clustering.}
 
 \item{objective}{String specifying the objective function to use for Leiden
-clustering: "CPM" or "modularity" (default).}
+clustering: "cpm" or "modularity" (default).}
 
 \item{steps}{Integer scalar specifying the number of steps to use for
 \code{Walktrap} clustering.}
