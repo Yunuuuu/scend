@@ -14,6 +14,8 @@ quickCluster(object, ...)
   d = 50L,
   scale = FALSE,
   subset_row = NULL,
+  n_hvgs = 500,
+  prop_hvgs = 0.1,
   block_weight_policy = NULL,
   variable_block_weight = c(0, 1000),
   from_residuals = FALSE,
@@ -31,6 +33,8 @@ quickCluster(object, ...)
   d = 50L,
   scale = FALSE,
   subset_row = NULL,
+  n_hvgs = 500,
+  prop_hvgs = 0.1,
   block_weight_policy = NULL,
   variable_block_weight = c(0, 1000),
   from_residuals = FALSE,
@@ -62,6 +66,11 @@ variance.}
 \item{subset_row}{Integer, logical or character vector specifying which
 features to use in the PCA (e.g., highly variable genes). If \code{NULL}, all
 features in \code{object} are used.}
+
+\item{n_hvgs}{Integer specifying the number of top genes to retain.}
+
+\item{prop_hvgs}{Numeric scalar specifying the proportion of genes to report
+as HVGs.}
 
 \item{block_weight_policy}{A string of \code{"variable"}, \code{"equal"}, or \code{"none"}
 specifying the policy to use for weighting different blocks when computing
