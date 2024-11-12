@@ -19,7 +19,7 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
     object, size_factors = NULL,
     # `runPCA` arguments
     d = 50L, scale = FALSE,
-    subset_row = NULL, n_hvgs = 500, prop_hvgs = 0.1,
+    subset_row = NULL, n_hvgs = 2000, prop_hvgs = NULL,
     from_residuals = FALSE, extra_work = 7,
     iterations = 1000, seed = NULL,
     realized = TRUE,
