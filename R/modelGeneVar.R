@@ -14,7 +14,10 @@
 #' attribute, a list of data frames containing the equivalent statistics for
 #' each block.
 #' @export
-modelGeneVar <- function(object, ...) UseMethod("modelGeneVar")
+modelGeneVar <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("modelGeneVar")
+}
 
 #' @param assay Integer scalar or string indicating which assay of x
 #' contains the expression values.
@@ -72,7 +75,6 @@ modelGeneVar.default <- function(object,
                                  transform = TRUE, span = 0.3,
                                  use_min_width = FALSE, min_width = 1,
                                  min_window_count = 200, threads = NULL) {
-    rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.null(block)) {
         block_weight_policy <- match.arg(
