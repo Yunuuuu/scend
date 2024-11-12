@@ -11,7 +11,7 @@ clusterSNNGraph(object, ...)
 
 \method{clusterSNNGraph}{default}(
   object,
-  n_neighbors = 15L,
+  n_neighbors = 10L,
   method = "leiden",
   ...,
   scheme = NULL,

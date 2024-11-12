@@ -49,7 +49,7 @@ clusterSNNGraph <- function(object, ...) UseMethod("clusterSNNGraph")
 #' @importFrom BiocNeighbors AnnoyParam
 #' @export
 #' @rdname clusterSNNGraph
-clusterSNNGraph.default <- function(object, n_neighbors = 15L,
+clusterSNNGraph.default <- function(object, n_neighbors = 10L,
                                     method = "leiden",
                                     ...,
                                     scheme = NULL, resolution = 1L,
