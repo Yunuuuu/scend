@@ -55,7 +55,7 @@ quickMNN(object, ...)
 each cell in \code{object}.}
 
 \item{size_factors}{A numeric vector of length equal to the number of cells
-in \code{x}, containing positive size factors for all cells.}
+in \code{object}, containing positive size factors for all cells.}
 
 \item{k}{Integer scalar specifying the number of neighbors to use when
 identifying MNN pairs.}

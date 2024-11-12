@@ -42,7 +42,7 @@ integers). Rows are features and columns are cells.}
 }}
 
 \item{size_factors}{A numeric vector of length equal to the number of cells
-in \code{x}, containing positive size factors for all cells.}
+in \code{object}, containing positive size factors for all cells.}
 
 \item{log}{Numeric scalar specifying the base of the log-transformation. If
 \code{NULL}, won't do log-transformation.}

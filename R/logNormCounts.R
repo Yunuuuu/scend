@@ -7,7 +7,7 @@ logNormCounts <- function(object, ...) {
 
 #' @inheritParams modelGeneVar
 #' @param size_factors A numeric vector of length equal to the number of cells
-#' in `x`, containing positive size factors for all cells.
+#' in `object`, containing positive size factors for all cells.
 #' @param log Numeric scalar specifying the base of the log-transformation. If
 #' `NULL`, won't do log-transformation.
 #' @param pseudo_count Numeric scalar specifying the positive pseudo-count to
