@@ -74,6 +74,14 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
         num.threads = threads,
         BNPARAM = BNPARAM
     )
+    if (!inherits(graph, "igraph")) {
+        my_graph <- igraph::make_undirected_graph(
+            graph$edges,
+            n = graph$vertices
+        )
+        igraph::E(my_graph)$weight <- graph$weights
+        graph <- my_graph
+    }
     set_seed(seed)
     if (method == "multilevel") {
         clustering <- igraph::cluster_louvain(
