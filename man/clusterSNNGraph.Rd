@@ -114,7 +114,9 @@ Graph-based clustering with \code{scrapper}
 }
 \seealso{
 \itemize{
-\item \link[scrapper:buildSnnGraph]{buildSnnGraph}
-\item \link[scrapper:clusterGraph]{clusterGraph}
+\item \code{\link[scrapper:buildSnnGraph]{buildSnnGraph}}
+\item \code{\link[igraph:cluster_louvain]{cluster_louvain}}
+\item \code{\link[igraph:cluster_leiden]{cluster_leiden}}
+\item \code{\link[igraph:cluster_walktrap]{cluster_walktrap}}
 }
 }

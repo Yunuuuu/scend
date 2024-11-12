@@ -1,8 +1,10 @@
 #' Graph-based clustering with `scrapper`
 #'
 #' @seealso
-#' - [buildSnnGraph][scrapper::buildSnnGraph]
-#' - [clusterGraph][scrapper::clusterGraph]
+#' - [`buildSnnGraph`][scrapper::buildSnnGraph]
+#' - [`cluster_louvain`][igraph::cluster_louvain]
+#' - [`cluster_leiden`][igraph::cluster_leiden]
+#' - [`cluster_walktrap`][igraph::cluster_walktrap]
 #' @export
 clusterSNNGraph <- function(object, ...) UseMethod("clusterSNNGraph")
 
