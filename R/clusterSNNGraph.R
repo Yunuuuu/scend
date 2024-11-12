@@ -6,7 +6,10 @@
 #' - [`cluster_leiden`][igraph::cluster_leiden]
 #' - [`cluster_walktrap`][igraph::cluster_walktrap]
 #' @export
-clusterSNNGraph <- function(object, ...) UseMethod("clusterSNNGraph")
+clusterSNNGraph <- function(object, ...) {
+    rlang::check_dots_used()
+    UseMethod("clusterSNNGraph")
+}
 
 #' @param ... Additional arguments passed on to
 #' [`cluster_louvain`][igraph::cluster_louvain],
@@ -56,7 +59,6 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
                                     objective = NULL, steps = 4L,
                                     seed = NULL,
                                     BNPARAM = AnnoyParam(), threads = NULL) {
-    rlang::check_dots_empty()
     threads <- set_threads(threads)
     assert_number_whole(n_neighbors)
     method <- match.arg(method, c("multilevel", "walktrap", "leiden"))
