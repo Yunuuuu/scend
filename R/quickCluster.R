@@ -37,7 +37,7 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
     set_seed(seed)
 
     if (is.null(subset_row)) {
-        fit <- modelGeneVar(object)
+        fit <- modelGeneVar(object, threads = threads)
         # At least 500 genes, or 10% of genes; whichever is larger.
         subset_row <- getTopHVGs(fit, n = n_hvgs, prop = prop_hvgs)
     }
