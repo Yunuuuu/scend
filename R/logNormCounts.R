@@ -54,15 +54,6 @@ logNormCounts.default <- function(object, size_factors = NULL,
     assert_number_decimal(log, allow_null = TRUE, call = call)
     assert_number_whole(pseudo_count, call = call)
     assert_bool(center_size_factors, call = call)
-    if (is.null(mode)) {
-        mode <- "per-block"
-    } else {
-        mode <- rlang::arg_match0(
-            mode,
-            c("per-block", "lowest"),
-            error_call = call
-        )
-    }
     threads <- set_threads(threads, call = call)
     if (is.null(size_factors)) {
         # `scuttle::librarySizeFactors()`
@@ -71,7 +62,17 @@ logNormCounts.default <- function(object, size_factors = NULL,
         )
         size_factors <- .subset2(size_factors, "sum")
     }
+    out <- list(size_factors = size_factors)
     if (center_size_factors) {
+        if (is.null(mode)) {
+            mode <- "per-block"
+        } else {
+            mode <- rlang::arg_match0(
+                mode,
+                c("per-block", "lowest"),
+                error_call = call
+            )
+        }
         size_factors <- scrapper::centerSizeFactors(
             size.factors = size_factors, block = block, mode = mode
         )
@@ -82,7 +83,7 @@ logNormCounts.default <- function(object, size_factors = NULL,
         log = !is.null(log), pseudo.count = pseudo_count,
         log.base = log, preserve.sparsity = FALSE
     )
-    list(logcounts = logcounts, size_factors = size_factors)
+    c(list(logcounts = logcounts), out)
 }
 
 #' @param assay Integer scalar or string indicating which assay of x
@@ -96,13 +97,11 @@ logNormCounts.SingleCellExperiment <- function(object, size_factors = NULL,
                                                ...,
                                                assay = "counts",
                                                name = "logcounts") {
-    internal_sf <- SingleCellExperiment::sizeFactors(object)
-    assign_sf <- is.null(size_factors) && is.null(internal_sf)
-    size_factors <- size_factors %||% internal_sf
+    size_factors <- size_factors %||% SingleCellExperiment::sizeFactors(object)
     mat <- .get_mat_from_sce(object, assay)
     ans <- .logNormCounts(object = mat, size_factors = size_factors, ...)
     SummarizedExperiment::assay(object, name) <- .subset2(ans, "logcounts")
-    if (assign_sf) {
+    if (is.null(size_factors)) { # if no size factors
         SingleCellExperiment::sizeFactors(object) <- .subset2(
             ans, "size_factors"
         )
