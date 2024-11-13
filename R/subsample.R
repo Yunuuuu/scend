@@ -1,23 +1,23 @@
 #' @inherit scrapper::subsampleByNeighbors title description return
 #' @inheritParams modelGeneVar
 #' @export
-downsample <- function(object, ...) {
-    UseMethod("downsample")
+subsample <- function(object, ...) {
+    UseMethod("subsample")
 }
 
 #' @export
-#' @rdname downsample
-downsample.SingleCellExperiment <- function(object, ..., assay = "counts") {
+#' @rdname subsample
+subsample.SingleCellExperiment <- function(object, ..., assay = "counts") {
     mat <- .get_mat_from_sce(object, assay)
-    downsample(object = mat, ...)
+    subsample(object = mat, ...)
 }
 
 #' @export
-#' @rdname downsample
-downsample.Seurat <- function(object, ...,
-                              assay = NULL, layer = "counts") {
+#' @rdname subsample
+subsample.Seurat <- function(object, ...,
+                             assay = NULL, layer = "counts") {
     mat <- .get_mat_from_seurat(object, assay, layer)
-    downsample(object = mat, ...)
+    subsample(object = mat, ...)
 }
 
 #' @param n_neighbors Integer scalar specifying the number of neighbors to
@@ -31,10 +31,10 @@ downsample.Seurat <- function(object, ...,
 #' @seealso [subsampleByNeighbors][scrapper::subsampleByNeighbors]
 #' @importFrom BiocNeighbors AnnoyParam
 #' @export
-#' @rdname downsample
-downsample.default <- function(object, n_neighbors = 20, ...,
-                               min_remaining = 10, BNPARAM = AnnoyParam(),
-                               threads = NULL) {
+#' @rdname subsample
+subsample.default <- function(object, n_neighbors = 20, ...,
+                              min_remaining = 10, BNPARAM = AnnoyParam(),
+                              threads = NULL) {
     rlang::check_dots_empty()
     assert_number_whole(n_neighbors)
     assert_number_whole(min_remaining)
