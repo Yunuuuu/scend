@@ -4,7 +4,7 @@ set_threads <- function(threads,
                         arg = rlang::caller_arg(threads),
                         call = rlang::caller_call()) {
     assert_number_whole(threads,
-        min = 1L, allow_null = TRUE, arg = arg, call = call
+        min = 1, allow_null = TRUE, arg = arg, call = call
     )
     if (is.null(threads)) {
         parallel::detectCores()
