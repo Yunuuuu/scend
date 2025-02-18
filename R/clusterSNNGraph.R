@@ -69,6 +69,7 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
     objective <- match.arg(objective, c("modularity", "cpm"))
     assert_number_whole(steps)
     seed <- check_seed(seed)
+    set_seed(seed)
     graph <- scrapper::buildSnnGraph(
         object,
         num.neighbors = n_neighbors,
@@ -84,7 +85,6 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
         igraph::E(my_graph)$weight <- graph$weights
         graph <- my_graph
     }
-    set_seed(seed)
     if (any(method == c("multilevel", "louvain"))) {
         clustering <- igraph::cluster_louvain(
             graph = graph,
@@ -101,7 +101,7 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
         clustering <- igraph::cluster_leiden(
             graph = graph,
             objective_function = leiden.objective,
-            resolution = resolution,
+            resolution_parameter = resolution,
             weights = igraph::E(graph)$weight,
             ...
         )
