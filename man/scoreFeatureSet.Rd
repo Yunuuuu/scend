@@ -62,7 +62,7 @@ calculation. Only used if \code{block} is not \code{NULL} and \code{block_weight
 \item{extra_work}{Integer scalar specifying the extra dimensions for the
 IRLBA workspace.}
 
-\item{iterations}{Integer scalar specifying the maximum nunber of restart iterations for IRLBA.}
+\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.}
 
 \item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
 
@@ -85,8 +85,8 @@ contains the expression values.}
 A matrix of feature scores.
 }
 \description{
-Compute per-cell scores for a gene set, defined as the column sums of a rank-1 approximation to the submatrix for the feature set.
-This uses the same approach implemented in the \pkg{GSDecon} package from Jason Hackney.
+Compute per-cell scores for a gene set, defined as the column sums of a rank-1 approximation to the submatrix for the gene set.
+This uses the same approach implemented in the \pkg{GSDecon} package by Jason Hackney.
 }
 \seealso{
 \code{\link[scrapper:scoreGeneSet]{scoreGeneSet}}

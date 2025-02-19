@@ -84,7 +84,7 @@ if \code{block} is not \code{NULL}.}
 \item{extra_work}{Integer scalar specifying the extra dimensions for the
 IRLBA workspace.}
 
-\item{iterations}{Integer scalar specifying the maximum nunber of restart iterations for IRLBA.}
+\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.}
 
 \item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
 

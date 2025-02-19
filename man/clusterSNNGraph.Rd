@@ -61,10 +61,10 @@ clustering: "cpm" or "modularity" (default).}
 \item{steps}{Integer scalar specifying the number of steps to use for
 \code{Walktrap} clustering.}
 
-\item{seed}{Integer scalar specifying the seed to use for multi-level or
-Leiden clustering.}
+\item{seed}{Integer scalar specifying the seed to use for \code{multi-level} or
+\code{Leiden} clustering.}
 
-\item{BNPARAM}{A \linkS4class{BiocNeighborParam} object specifying the algorithm to use.
+\item{BNPARAM}{A \link[BiocNeighbors]{BiocNeighborParam} object specifying the algorithm to use.
 Only used if \code{x} is not a list of existing nearest-neighbor search results.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
