@@ -27,8 +27,8 @@ clusterSNNGraph <- function(object, ...) {
 #' `Walktrap` clustering.
 #' @param objective String specifying the objective function to use for Leiden
 #' clustering: "cpm" or "modularity" (default).
-#' @param seed Integer scalar specifying the seed to use for multi-level or
-#' Leiden clustering.
+#' @param seed Integer scalar specifying the seed to use for `multi-level` or
+#' `Leiden` clustering.
 #' @inheritParams scrapper::clusterGraph
 #' @inheritParams scrapper::buildSnnGraph
 #' @return An integer vector with cluster assignments for each cell. Each method
@@ -77,19 +77,18 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
         num.threads = threads,
         BNPARAM = BNPARAM
     )
+    weights <- graph$weights
     if (!inherits(graph, "igraph")) {
         my_graph <- igraph::make_undirected_graph(
             graph$edges,
             n = graph$vertices
         )
-        igraph::E(my_graph)$weight <- graph$weights
+        igraph::E(my_graph)$weight <- weights
         graph <- my_graph
     }
     if (any(method == c("multilevel", "louvain"))) {
         clustering <- igraph::cluster_louvain(
-            graph = graph,
-            resolution = resolution,
-            weights = igraph::E(graph)$weight,
+            graph = graph, resolution = resolution, weights = weights,
             ...
         )
     } else if (method == "leiden") {
@@ -102,18 +101,16 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
             graph = graph,
             objective_function = leiden.objective,
             resolution_parameter = resolution,
-            weights = igraph::E(graph)$weight,
+            weights = weights,
             ...
         )
     } else if (method == "walktrap") {
         clustering <- igraph::cluster_walktrap(
-            graph = graph,
-            steps = steps,
-            weights = igraph::E(graph)$weight,
+            graph = graph, steps = steps, weights = weights,
             ...
         )
     }
-    out <- clustering$membership
+    out <- as.factor(clustering$membership)
     for (i in setdiff(names(clustering), "membership")) {
         attr(out, i) <- .subset2(clustering, i)
     }
