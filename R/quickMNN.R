@@ -51,9 +51,7 @@ quickMNN.SingleCellExperiment <- function(
     lognorm_args$threads <- lognorm_args$threads %||% threads
     lognorm_args$size_factors <- size_factors %||% lognorm_args$size_factors
     lognorm_args$mode <- mode %||% lognorm_args$size_factors
-    object <- rlang::inject(logNormCounts(
-        object = object, block = block, !!!lognorm_args
-    ))
+    object <- rlang::inject(logNormCounts(object = object, !!!lognorm_args))
 
     # dimensionality reduction
     object <- runPCA(
@@ -115,13 +113,11 @@ quickMNN.Seurat <- function(
     lognorm_args$threads <- lognorm_args$threads %||% threads
     lognorm_args$size_factors <- size_factors %||% lognorm_args$size_factors
     lognorm_args$mode <- mode %||% lognorm_args$size_factors
-    object <- rlang::inject(logNormCounts(
-        object = object, block = block, !!!lognorm_args
-    ))
+    object <- rlang::inject(logNormCounts(object = object, !!!lognorm_args))
 
     # dimensionality reduction
     object <- runPCA(
-        object = object, block = block,
+        object = object,
         layer = lognorm_args$name,
         threads = threads, name = "PCA",
         d = d, scale = scale, subset_row = subset_row,
