@@ -54,7 +54,10 @@ infercnv.matrix <- function(object, granges, groups, ref_groups = character(),
             "the length of {.arg groups}",
             "must be compatible with {.code ncol(x)}"
         ))
+    } else if (anyDuplicated(colnames(object))) {
+        cli::cli_abort("Duplicated cell names found in {.arg object}")
     }
+
     # The first column is the cell name,
     # and the 2nd column indicates the known cell type.
     anno <- data.frame(
@@ -84,7 +87,7 @@ infercnv.matrix <- function(object, granges, groups, ref_groups = character(),
             split(granges, granges[[keytype]]),
             ignore.strand = TRUE
         )
-        granges <- unlist(granges[lengths(granges) == 1])
+        granges <- unlist(granges[lengths(granges) == 1L])
     } else if (methods::is(granges, "TxDb")) {
         keytype <- keytype %||% "gene_id"
         if (!identical(keytype, "gene_id")) {
@@ -106,7 +109,7 @@ infercnv.matrix <- function(object, granges, groups, ref_groups = character(),
             )
         }
         granges <- GenomicRanges::reduce(granges, ignore.strand = TRUE)
-        granges <- unlist(granges[lengths(granges) == 1])
+        granges <- unlist(granges[lengths(granges) == 1L])
     } else if (methods::is(granges, "GRanges")) {
         if (standard_chr) {
             granges <- GenomeInfoDb::keepStandardChromosomes(
