@@ -223,6 +223,11 @@ Only used when standard_chr is \code{TRUE}.}
 \item{min_max_counts_per_cell}{minimum and maximum counts allowed per cell. Any cells outside this range will be removed from the counts matrix. default=(100, +Inf) and uses all cells. If used, should be set as c(min_counts, max_counts)}
 
 \item{png_res}{Resolution for png output.}
+
+\item{assay}{Integer scalar or string indicating which assay of x
+contains the expression values.}
+
+\item{layer}{Name of the layer to get from the assay data.}
 }
 \description{
 Run infercnv workflow

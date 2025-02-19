@@ -152,6 +152,7 @@ infercnv.matrix <- function(object, granges, groups, ref_groups = character(),
 #' @rdname infercnv
 infercnv.dgCMatrix <- infercnv.matrix
 
+#' @inheritParams logNormCounts
 #' @export
 #' @rdname infercnv
 infercnv.SingleCellExperiment <- function(object, ..., assay = "counts") {
@@ -159,6 +160,7 @@ infercnv.SingleCellExperiment <- function(object, ..., assay = "counts") {
     infercnv(object = mat, ...)
 }
 
+#' @inheritParams logNormCounts
 #' @export
 #' @rdname infercnv
 infercnv.Seurat <- function(object, ..., assay = NULL, layer = "counts") {
