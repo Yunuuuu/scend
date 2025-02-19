@@ -64,15 +64,7 @@ logNormCounts.default <- function(object, size_factors = NULL,
     }
     out <- list(size_factors = size_factors)
     if (center_size_factors) {
-        if (is.null(mode)) {
-            mode <- "per-block"
-        } else {
-            mode <- rlang::arg_match0(
-                mode,
-                c("per-block", "lowest"),
-                error_call = call
-            )
-        }
+        mode <- arg_match(mode, c("per-block", "lowest"), call = call)
         size_factors <- scrapper::centerSizeFactors(
             size.factors = size_factors, block = block, mode = mode
         )

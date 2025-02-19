@@ -48,7 +48,7 @@ integers). Rows are features and columns are cells.}
 \item{...}{\itemize{
 \item \code{default} method: not used.
 \item \code{SingleCellExperiment} and \code{Seurat} method: additional arguments passed to
-\code{default} methods.
+\code{default} method.
 }}
 
 \item{n_dim}{Integer scalar specifying the number of dimensions of the output

@@ -18,7 +18,7 @@ clusterSNNGraph <- function(object, ...) {
 #' to construct the graph.
 #' @param method String specifying the community detection method to use.
 #' Options are multi-level (`"multilevel"`/`"louvain"`), Walktrap (`"walktrap"`)
-#' or Leiden (`"leiden"`).
+#' or Leiden (`"leiden"`) (default).
 #' @param scheme String specifying the weighting scheme to use for constructing
 #' the SNN graph. This can be `"ranked"` (default), `"jaccard"` or `"number"`.
 #' @param resolution Numeric scalar specifying the resolution to use for
@@ -51,8 +51,7 @@ clusterSNNGraph <- function(object, ...) {
 #' @importFrom BiocNeighbors AnnoyParam
 #' @export
 #' @rdname clusterSNNGraph
-clusterSNNGraph.default <- function(object, n_neighbors = 10L,
-                                    method = "leiden",
+clusterSNNGraph.default <- function(object, n_neighbors = 10L, method = NULL,
                                     ...,
                                     scheme = NULL, resolution = 1L,
                                     objective = NULL, steps = 4L,
@@ -60,14 +59,20 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
                                     BNPARAM = AnnoyParam(), threads = NULL) {
     threads <- set_threads(threads)
     assert_number_whole(n_neighbors)
-    method <- rlang::arg_match0(
+    method <- arg_match(
         method,
-        c("multilevel", "louvain", "walktrap", "leiden")
+        c("multilevel", "louvain", "walktrap", "leiden"),
+        default = "leiden"
     )
-    scheme <- rlang::arg_match0(scheme, c("ranked", "jaccard", "number"))
-    assert_number_decimal(resolution)
-    objective <- rlang::arg_match0(objective, c("modularity", "cpm"))
-    assert_number_whole(steps)
+    scheme <- arg_match(scheme, c("ranked", "jaccard", "number"))
+    if (identical(method, "walktrap")) {
+        assert_number_whole(steps)
+    } else {
+        assert_number_decimal(resolution)
+        if (identical(method, "leiden")) {
+            objective <- arg_match(objective, c("modularity", "cpm"))
+        }
+    }
     seed <- check_seed(seed)
     set_seed(seed)
     graph <- scrapper::buildSnnGraph(

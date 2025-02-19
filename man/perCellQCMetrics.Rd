@@ -22,7 +22,7 @@ integers). Rows are features and columns are cells.}
 \item{...}{\itemize{
 \item \code{default} method: not used.
 \item \code{SingleCellExperiment} and \code{Seurat} method: additional arguments passed to
-\code{default} methods.
+\code{default} method.
 }}
 
 \item{subsets}{List of vectors specifying gene subsets of interest, typically for control-like features like mitochondrial genes or spike-in transcripts.

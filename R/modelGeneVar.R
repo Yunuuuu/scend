@@ -4,7 +4,7 @@
 #' @param ...
 #'  - `default` method: not used.
 #'  - `SingleCellExperiment` and `Seurat` method: additional arguments passed to
-#'    `default` methods.
+#'    `default` method.
 #' @return A data frame of class `scend_modelGeneVar` with the columns `means`,
 #' `variances`, `fitted` `residuals`, each of which is a numeric vector
 #' containing the statistic of the same name across all genes.
@@ -77,7 +77,7 @@ modelGeneVar.default <- function(object,
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.null(block)) {
-        block_weight_policy <- rlang::arg_match0(
+        block_weight_policy <- arg_match(
             block_weight_policy, c("variable", "equal", "none")
         )
     }

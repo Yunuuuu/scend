@@ -48,7 +48,7 @@ integers). Rows are features and columns are cells.}
 \item{...}{\itemize{
 \item \code{default} method: not used.
 \item \code{SingleCellExperiment} and \code{Seurat} method: additional arguments passed to
-\code{default} methods.
+\code{default} method.
 }}
 
 \item{perplexity}{Numeric scalar specifying the perplexity to use in the

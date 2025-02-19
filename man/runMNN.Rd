@@ -49,7 +49,7 @@ runMNN(object, ...)
 \item{...}{\itemize{
 \item \code{default} method: not used.
 \item \code{SingleCellExperiment} and \code{Seurat} method: additional arguments passed to
-\code{default} methods.
+\code{default} method.
 }}
 
 \item{block}{Factor specifying the block of origin (e.g., batch, sample) for

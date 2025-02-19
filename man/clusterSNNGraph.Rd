@@ -12,7 +12,7 @@ clusterSNNGraph(object, ...)
 \method{clusterSNNGraph}{default}(
   object,
   n_neighbors = 10L,
-  method = "leiden",
+  method = NULL,
   ...,
   scheme = NULL,
   resolution = 1L,
@@ -47,7 +47,7 @@ to construct the graph.}
 
 \item{method}{String specifying the community detection method to use.
 Options are multi-level (\code{"multilevel"}/\code{"louvain"}), Walktrap (\code{"walktrap"})
-or Leiden (\code{"leiden"}).}
+or Leiden (\code{"leiden"}) (default).}
 
 \item{scheme}{String specifying the weighting scheme to use for constructing
 the SNN graph. This can be \code{"ranked"} (default), \code{"jaccard"} or \code{"number"}.}

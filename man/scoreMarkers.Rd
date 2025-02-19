@@ -33,7 +33,7 @@ integers). Rows are features and columns are cells.}
 \item{...}{\itemize{
 \item \code{default} method: not used.
 \item \code{SingleCellExperiment} and \code{Seurat} method: additional arguments passed to
-\code{default} methods.
+\code{default} method.
 }}
 
 \item{assay}{Integer scalar or string indicating which assay of x

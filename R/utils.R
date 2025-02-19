@@ -22,6 +22,19 @@ quickdf <- function(x) {
 }
 
 #' @importFrom rlang caller_arg caller_call
+arg_match <- function(x, values, default = .subset(values, 1L),
+                      arg = caller_arg(x), call = caller_call()) {
+    if (is.null(x)) {
+        default
+    } else {
+        rlang::arg_match0(
+            arg = x, values = values,
+            arg_nm = arg, error_call = call
+        )
+    }
+}
+
+#' @importFrom rlang caller_arg caller_call
 check_seed <- function(seed, len = 1L,
                        arg = caller_arg(seed), call = caller_call()) {
     if (is.null(seed)) {

@@ -1,23 +1,23 @@
 #' @inherit scrapper::subsampleByNeighbors title description return
 #' @inheritParams modelGeneVar
 #' @export
-subsample <- function(object, ...) {
-    UseMethod("subsample")
+subSample <- function(object, ...) {
+    UseMethod("subSample")
 }
 
 #' @export
-#' @rdname subsample
-subsample.SingleCellExperiment <- function(object, ..., assay = "counts") {
+#' @rdname subSample
+subSample.SingleCellExperiment <- function(object, ..., assay = "counts") {
     mat <- .get_mat_from_sce(object, assay)
-    subsample(object = mat, ...)
+    subSample(object = mat, ...)
 }
 
 #' @export
-#' @rdname subsample
-subsample.Seurat <- function(object, ...,
+#' @rdname subSample
+subSample.Seurat <- function(object, ...,
                              assay = NULL, layer = "counts") {
     mat <- .get_mat_from_seurat(object, assay, layer)
-    subsample(object = mat, ...)
+    subSample(object = mat, ...)
 }
 
 #' @param n_neighbors Integer scalar specifying the number of neighbors to
@@ -31,8 +31,8 @@ subsample.Seurat <- function(object, ...,
 #' @seealso [subsampleByNeighbors][scrapper::subsampleByNeighbors]
 #' @importFrom BiocNeighbors AnnoyParam
 #' @export
-#' @rdname subsample
-subsample.default <- function(object, n_neighbors = 20, ...,
+#' @rdname subSample
+subSample.default <- function(object, n_neighbors = 20, ...,
                               min_remaining = 10, BNPARAM = AnnoyParam(),
                               threads = NULL) {
     rlang::check_dots_empty()

@@ -38,7 +38,7 @@ integers). Rows are features and columns are cells.}
 \item{...}{\itemize{
 \item \code{default} method: not used.
 \item \code{SingleCellExperiment} and \code{Seurat} method: additional arguments passed to
-\code{default} methods.
+\code{default} method.
 }}
 
 \item{size_factors}{A numeric vector of length equal to the number of cells
