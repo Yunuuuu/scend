@@ -17,6 +17,7 @@ Imports:
     BiocNeighbors,
     cli,
     igraph,
+    methods,
     parallel,
     rlang (>= 1.1.0),
     scrapper

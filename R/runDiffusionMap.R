@@ -73,6 +73,7 @@ runDiffusionMap.Seurat <- function(object, ...,
 #' roots meet this criteria.
 #'
 #' @param object A [`DiffusionMap`][destiny::DiffusionMap] object.
+#' @param ... Additional arguments passed on to the method.
 #' @param start,ends The `start` and `ends` cluster identity. start must have a
 #'   length `1L`, while the length of ends ranges from `1L` to `2L`. All `start`
 #'   and `ends` must exist in `ref`. If `ends` is `NULL`, this only check if one
@@ -88,8 +89,10 @@ diffusionMapRoots <- function(object, ...) {
 }
 
 #' @export
-diffusionMapRoots.DiffusionMap <- function(object, start, ends = NULL,
+#' @rdname diffusionMapRoots
+diffusionMapRoots.DiffusionMap <- function(object, ..., start, ends = NULL,
                                            ref, n_root = 100L) {
+    rlang::check_dots_empty()
     assert_number_whole(start, min = 1)
     assert_number_whole(n_root, min = 1)
     if (length(object@d) != length(ref)) {
@@ -108,29 +111,20 @@ diffusionMapRoots.DiffusionMap <- function(object, start, ends = NULL,
 
     # we extract the top `n_root` with maximal DPT from start notes.
     roots <- which(ref == start, useNames = FALSE)
-    dpt <- methods::new("DPT",
-        branch = matrix(), tips = matrix(),
-        dm = object
-    )
+    dpt <- methods::new("DPT", branch = matrix(), tips = matrix(), dm = object)
     dpt <- dpt[sample(roots, size = 1L)][roots]
     n_root <- min(n_root, length(roots), na.rm = TRUE)
     roots <- roots[order(dpt, decreasing = TRUE)][seq_len(n_root)]
-
     roots[vapply(
-        roots, is_matched_root, logical(1L),
-        dm = object, start = start,
-        ends = ends, ref = ref
+        roots,
+        function(dm, root, start, ends, ref) {
+            tips <- destiny::find_tips(dm, root = root)
+            if (is.null(ends)) {
+                any(tips %in% start, na.rm = TRUE)
+            } else {
+                setequal(ref[tips], c(start, ends))
+            }
+        }, logical(1L),
+        dm = object, start = start, ends = ends, ref = ref
     )]
-}
-
-# root is the index
-# start, end1 and end2 are all a single string.
-# ref is the reference of start, end1 and end2.
-is_matched_root <- function(dm, root, start, ends, ref) {
-    tips <- destiny::find_tips(dm, root = root)
-    if (is.null(ends)) {
-        any(tips %in% start, na.rm = TRUE)
-    } else {
-        setequal(ref[tips], c(start, ends))
-    }
 }

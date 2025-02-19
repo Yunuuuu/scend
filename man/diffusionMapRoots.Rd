@@ -2,12 +2,17 @@
 % Please edit documentation in R/runDiffusionMap.R
 \name{diffusionMapRoots}
 \alias{diffusionMapRoots}
+\alias{diffusionMapRoots.DiffusionMap}
 \title{Find roots in a DiffusionMap object}
 \usage{
 diffusionMapRoots(object, ...)
+
+\method{diffusionMapRoots}{DiffusionMap}(object, ..., start, ends = NULL, ref, n_root = 100L)
 }
 \arguments{
 \item{object}{A \code{\link[destiny:DiffusionMap-class]{DiffusionMap}} object.}
+
+\item{...}{Additional arguments passed on to the method.}
 
 \item{start, ends}{The \code{start} and \code{ends} cluster identity. start must have a
 length \code{1L}, while the length of ends ranges from \code{1L} to \code{2L}. All \code{start}
