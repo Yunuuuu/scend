@@ -1,7 +1,6 @@
 `%||%` <- function(x, y) if (is.null(x)) y else x
 
-set_threads <- function(threads,
-                        arg = rlang::caller_arg(threads),
+set_threads <- function(threads, arg = rlang::caller_arg(threads),
                         call = rlang::caller_call()) {
     assert_number_whole(threads,
         min = 1, allow_null = TRUE, arg = arg, call = call
@@ -38,34 +37,34 @@ arg_match <- function(x, values, default = .subset(values, 1L),
 check_seed <- function(seed, len = 1L,
                        arg = caller_arg(seed), call = caller_call()) {
     if (is.null(seed)) {
-        if (is.null(old_seed())) on.exit(restore_rng(NULL))
-        seed <- random_seed(1L)
+        oseed <- old_seed()
+        on.exit(restore_rng(oseed))
+        seed <- random_seed(len)
     } else if (len == 1L) {
         assert_number_whole(seed, arg = arg, call = call)
-    }
-    if (len > 1L) seed <- check_seeds(seed, len, arg = arg, call = call)
-    seed
-}
-
-check_seeds <- function(seed, len, arg = caller_arg(seed),
-                        call = caller_call()) {
-    if (length(seed) == 1L) {
-        set_seed(seed)
-        random_seed(len)
-    } else if (length(seed) != len) {
-        cli::cli_abort(
-            "{.arg {arg}} must be a scalar or of length {len}",
-            call = call
-        )
     } else {
-        seed[seq_len(len)]
+        # we need multiple seeds
+        if (length(seed) == 1L) {
+            oseed <- old_seed()
+            on.exit(restore_rng(oseed))
+            set.seed(seed)
+            seed <- random_seed(len)
+        } else if (length(seed) != len) {
+            cli::cli_abort(
+                "{.arg {arg}} must be a single number or of length {len}",
+                call = call
+            )
+        } else {
+            seed <- seed[seq_len(len)]
+        }
     }
+    seed
 }
 
 #' @importFrom rlang caller_env
 set_seed <- function(seed, envir = caller_env()) {
-    run <- substitute(on.exit(restore_rng(oseed)), list(oseed = old_seed()))
-    eval(run, envir = envir)
+    code <- substitute(on.exit(restore_rng(oseed)), list(oseed = old_seed()))
+    eval(code, envir = envir)
     set.seed(seed)
 }
 
