@@ -12,6 +12,7 @@ quickMNN(object, ...)
   object,
   block,
   size_factors = NULL,
+  mode = NULL,
   d = 50L,
   scale = FALSE,
   subset_row = NULL,
@@ -23,13 +24,15 @@ quickMNN(object, ...)
   seed = NULL,
   realized = TRUE,
   ...,
-  threads = NULL
+  threads = NULL,
+  lognorm_args = list()
 )
 
 \method{quickMNN}{Seurat}(
   object,
   block,
   size_factors = NULL,
+  mode = NULL,
   d = 50L,
   scale = FALSE,
   subset_row = NULL,
@@ -41,7 +44,8 @@ quickMNN(object, ...)
   seed = NULL,
   realized = TRUE,
   ...,
-  threads = NULL
+  threads = NULL,
+  lognorm_args = list()
 )
 }
 \arguments{
@@ -58,6 +62,11 @@ each cell in \code{x}. Alternatively \code{NULL} if all cells are from the same 
 
 \item{size_factors}{A numeric vector of length equal to the number of cells
 in \code{object}, containing positive size factors for all cells.}
+
+\item{mode}{String specifying how to scale size factors across blocks.
+\code{"lowest"} will scale all size factors by the the lowest per-block average.
+\code{"per-block"} will center the size factors in each block separately. Ignored
+if \code{center_size_factors = FALSE}.}
 
 \item{d}{Integer scalar specifying the number of top PCs to obtain.}
 
@@ -97,6 +106,8 @@ of increased memory usage.}
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, all detected threads will be used. See
 \code{\link[parallel:detectCores]{detectCores}}.}
+
+\item{lognorm_args}{A list of additional arguments passed on to \code{\link[=runPCA]{runPCA()}}.}
 }
 \description{
 Quick fastMNN with \code{scrapper}

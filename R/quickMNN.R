@@ -2,6 +2,7 @@
 #'
 #' @inheritDotParams runMNN
 #' @inheritParams runPCA
+#' @param lognorm_args A list of additional arguments passed on to [`runPCA()`].
 #' @inheritParams logNormCounts
 #' @seealso
 #' - [`logNormCounts`]
@@ -13,7 +14,9 @@ quickMNN <- function(object, ...) UseMethod("quickMNN")
 #' @export
 #' @rdname quickMNN
 quickMNN.SingleCellExperiment <- function(
-    object, block, size_factors = NULL,
+    object, block,
+    # `logNormCounts` arguments
+    size_factors = NULL, mode = NULL,
     # `runPCA` arguments
     d = 50L, scale = FALSE, subset_row = NULL,
     block_weight_policy = NULL,
@@ -22,18 +25,40 @@ quickMNN.SingleCellExperiment <- function(
     iterations = 1000, seed = NULL,
     realized = TRUE,
     # `runMNN` arguments
-    ..., threads = NULL) {
-    # nromalization, adjust for differences in sequencing depth
-    object <- logNormCounts(
-        object = object, block = block, threads = threads,
-        size_factors = size_factors,
-        name = "multiBatchNorm"
-    )
+    ..., threads = NULL,
+    # additional arguments
+    lognorm_args = list()) {
+    # nromalization, adjust for differences in sequencing depth --------
+    # This can be done before variance-modelling or after.
+    # - https://github.com/LTLA/batchelor/blob/master/R/quickCorrect.R; in the
+    #   source code of `quickCorrect`, variance-modelling is performed after
+    #   multiBatchNorm.
+    # All following threads suggested run variance-modelling in the original
+    # counts.
+    # - https://bioconductor.riken.jp/packages/3.8/workflows/vignettes/simpleSingleCell/inst/doc/work-5-mnn.html
+    # - https://support.bioconductor.org/p/9145895/#9145905
+    # - http://bioconductor.org/books/3.16/OSCA.multisample/integrating-datasets.html#slower-setup
+    # So I prefered to use multiBatchNorm only for the batch corrected logcounts
+    # (Don't touch the original logcounts). If the computer has a large memory,
+    # it's better to use `dgCMatrix` since it's much faster and accurater.
+    #
+    # - multiBatchNorm need size factor, if it's NULL, the internal will
+    #   calculate it with `librarySizeFactors` function
+    # - For normalizetion, I prefer never to use the `subset.row` since library
+    #   size is the total sum of counts across all genes for each cell
+    lognorm_args$block <- block
+    lognorm_args$name <- lognorm_args$name %||% "multiBatchNorm"
+    lognorm_args$threads <- lognorm_args$threads %||% threads
+    lognorm_args$size_factors <- size_factors %||% lognorm_args$size_factors
+    lognorm_args$mode <- mode %||% lognorm_args$size_factors
+    object <- rlang::inject(logNormCounts(
+        object = object, block = block, !!!lognorm_args
+    ))
 
     # dimensionality reduction
     object <- runPCA(
         object = object,
-        assay = "multiBatchNorm",
+        assay = lognorm_args$name,
         threads = threads, name = "PCA",
         d = d, scale = scale, subset_row = subset_row,
         block = block, block_weight_policy = block_weight_policy,
@@ -53,7 +78,9 @@ quickMNN.SingleCellExperiment <- function(
 #' @export
 #' @rdname quickMNN
 quickMNN.Seurat <- function(
-    object, block, size_factors = NULL,
+    object, block,
+    # `logNormCounts` arguments
+    size_factors = NULL, mode = NULL,
     # `runPCA` arguments
     d = 50L, scale = FALSE, subset_row = NULL,
     block_weight_policy = NULL,
@@ -62,18 +89,40 @@ quickMNN.Seurat <- function(
     iterations = 1000, seed = NULL,
     realized = TRUE,
     # `runMNN` arguments
-    ..., threads = NULL) {
-    # nromalization, adjust for differences in sequencing depth
-    object <- logNormCounts(
-        object = object, block = block, threads = threads,
-        size_factors = size_factors,
-        name = "multiBatchNorm"
-    )
+    ..., threads = NULL,
+    # additional arguments
+    lognorm_args = list()) {
+    # nromalization, adjust for differences in sequencing depth --------
+    # This can be done before variance-modelling or after.
+    # - https://github.com/LTLA/batchelor/blob/master/R/quickCorrect.R; in the
+    #   source code of `quickCorrect`, variance-modelling is performed after
+    #   multiBatchNorm.
+    # All following threads suggested run variance-modelling in the original
+    # counts.
+    # - https://bioconductor.riken.jp/packages/3.8/workflows/vignettes/simpleSingleCell/inst/doc/work-5-mnn.html
+    # - https://support.bioconductor.org/p/9145895/#9145905
+    # - http://bioconductor.org/books/3.16/OSCA.multisample/integrating-datasets.html#slower-setup
+    # So I prefered to use multiBatchNorm only for the batch corrected logcounts
+    # (Don't touch the original logcounts). If the computer has a large memory,
+    # it's better to use `dgCMatrix` since it's much faster and accurater.
+    #
+    # - multiBatchNorm need size factor, if it's NULL, the internal will
+    #   calculate it with `librarySizeFactors` function
+    # - For normalizetion, I prefer never to use the `subset.row` since library
+    #   size is the total sum of counts across all genes for each cell
+    lognorm_args$block <- block
+    lognorm_args$name <- lognorm_args$name %||% "multiBatchNorm"
+    lognorm_args$threads <- lognorm_args$threads %||% threads
+    lognorm_args$size_factors <- size_factors %||% lognorm_args$size_factors
+    lognorm_args$mode <- mode %||% lognorm_args$size_factors
+    object <- rlang::inject(logNormCounts(
+        object = object, block = block, !!!lognorm_args
+    ))
 
     # dimensionality reduction
     object <- runPCA(
         object = object, block = block,
-        layer = "multiBatchNorm",
+        layer = lognorm_args$name,
         threads = threads, name = "PCA",
         d = d, scale = scale, subset_row = subset_row,
         block = block, block_weight_policy = block_weight_policy,
