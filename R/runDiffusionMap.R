@@ -20,6 +20,8 @@ runDiffusionMap <- function(object, ...) {
     UseMethod("runDiffusionMap")
 }
 
+#' @param tips The cell `index`/`indices` from which to calculate the `DPT(s)`
+#' (integer of length `[1, 3]`).
 #' @export
 #' @rdname runDiffusionMap
 runDiffusionMap.default <- function(object, d = 20L, ...,

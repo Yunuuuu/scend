@@ -55,7 +55,8 @@ which allows the use of kNN-sparsified matrices (see the return value of \code{\
 
 \item{d}{Integer scalar specifying the number of top PCs to obtain.}
 
-\item{tips}{The cell index/indices from which to calculate the DPT(s) (integer of length 1-3)}
+\item{tips}{The cell \code{index}/\code{indices} from which to calculate the \code{DPT(s)}
+(integer of length \verb{[1, 3]}).}
 
 \item{w_width}{Window width to use for deciding the branch cutoff}
 
