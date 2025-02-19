@@ -41,7 +41,7 @@ connecting the `scrapper` package with either `Seurat` or
 | `modelGeneVar`    | Model per-gene variances in expression        |
 | `runPCA`          | Principal component analysis                  |
 | `runMNN`          | Fast mutual nearest neighbors correction      |
-| `downsample`      | Downsample cells based on their neighbors     |
+| `subSample`       | Subsample cells based on their neighbors      |
 | `runTSNE`         | t-stochastic neighbor embedding               |
 | `runUMAP`         | uniform manifold approximation and projection |
 | `clusterSNNGraph` | Graph-based clustering                        |
