@@ -37,16 +37,16 @@ arg_match <- function(x, values, default = .subset(values, 1L),
 check_seed <- function(seed, len = 1L,
                        arg = caller_arg(seed), call = caller_call()) {
     if (is.null(seed)) {
-        oseed <- old_seed()
-        on.exit(restore_rng(oseed))
+        orng <- old_rng()
+        on.exit(restore_rng(orng))
         seed <- random_seed(len)
     } else if (len == 1L) {
         assert_number_whole(seed, arg = arg, call = call)
     } else {
         # we need multiple seeds
         if (length(seed) == 1L) {
-            oseed <- old_seed()
-            on.exit(restore_rng(oseed))
+            orng <- old_rng()
+            on.exit(restore_rng(orng))
             set.seed(seed)
             seed <- random_seed(len)
         } else if (length(seed) != len) {
@@ -63,12 +63,12 @@ check_seed <- function(seed, len = 1L,
 
 #' @importFrom rlang caller_env
 set_seed <- function(seed, envir = caller_env()) {
-    code <- substitute(on.exit(restore_rng(oseed)), list(oseed = old_seed()))
+    code <- substitute(on.exit(restore_rng(orng)), list(orng = old_rng()))
     eval(code, envir = envir)
     set.seed(seed)
 }
 
-old_seed <- function() {
+old_rng <- function() {
     if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
         get(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
     } else {
@@ -76,13 +76,13 @@ old_seed <- function() {
     }
 }
 
-restore_rng <- function(oseed) {
-    if (is.null(oseed)) {
+restore_rng <- function(orng) {
+    if (is.null(orng)) {
         if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
             rm(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
         }
     } else {
-        assign(".Random.seed", oseed, envir = .GlobalEnv, inherits = FALSE)
+        assign(".Random.seed", orng, envir = .GlobalEnv, inherits = FALSE)
     }
 }
 
