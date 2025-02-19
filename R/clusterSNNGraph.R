@@ -60,13 +60,13 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L,
                                     BNPARAM = AnnoyParam(), threads = NULL) {
     threads <- set_threads(threads)
     assert_number_whole(n_neighbors)
-    method <- match.arg(
+    method <- rlang::arg_match0(
         method,
         c("multilevel", "louvain", "walktrap", "leiden")
     )
-    scheme <- match.arg(scheme, c("ranked", "jaccard", "number"))
+    scheme <- rlang::arg_match0(scheme, c("ranked", "jaccard", "number"))
     assert_number_decimal(resolution)
-    objective <- match.arg(objective, c("modularity", "cpm"))
+    objective <- rlang::arg_match0(objective, c("modularity", "cpm"))
     assert_number_whole(steps)
     seed <- check_seed(seed)
     set_seed(seed)

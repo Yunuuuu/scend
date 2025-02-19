@@ -30,7 +30,7 @@ subCluster.default <- function(object, groups, restricted = NULL, ...,
                                clusterFn = clusterSNNGraph, format = "%s.%s",
                                new_level = "fill-end") {
     # Seurat::FindSubCluster()
-    policy <- match.arg(
+    policy <- rlang::arg_match0(
         new_level,
         c("insert", "fill-end", "fill-start", "start", "end")
     )

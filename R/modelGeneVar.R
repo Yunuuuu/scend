@@ -77,7 +77,7 @@ modelGeneVar.default <- function(object,
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.null(block)) {
-        block_weight_policy <- match.arg(
+        block_weight_policy <- rlang::arg_match0(
             block_weight_policy, c("variable", "equal", "none")
         )
     }
