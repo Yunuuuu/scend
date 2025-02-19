@@ -31,7 +31,8 @@ subCluster.default <- function(object, groups, restricted = NULL, ...,
                                new_level = "fill-end") {
     policy <- arg_match(
         new_level,
-        c("insert", "fill-end", "fill-start", "start", "end")
+        c("insert", "fill-end", "fill-start", "start", "end"),
+        default = "fill-end"
     )
     by_groups <- split(seq_along(groups), groups)
     if (!is.null(restricted)) {
