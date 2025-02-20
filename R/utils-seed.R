@@ -42,7 +42,6 @@ old_rng <- function() {
 }
 
 restore_rng <- function(orng) {
-    browser()
     if (is.null(orng)) {
         if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
             rm(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
