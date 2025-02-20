@@ -9,7 +9,7 @@
 \usage{
 runDiffusionMap(object, ...)
 
-\method{runDiffusionMap}{default}(object, d = 20L, ..., tips = NULL, w_width = 0.1)
+\method{runDiffusionMap}{default}(object, n_dim = 20L, ..., tips = NULL, w_width = 0.1)
 
 \method{runDiffusionMap}{SingleCellExperiment}(
   object,
@@ -53,7 +53,7 @@ which allows the use of kNN-sparsified matrices (see the return value of \code{\
     \item{\code{verbose}}{Show a progressbar and other progress information (default: do it if censoring is enabled)}
   }}
 
-\item{d}{Integer scalar specifying the number of top PCs to obtain.}
+\item{n_dim}{Integer scalar specifying the number of top PCs to obtain.}
 
 \item{tips}{The cell \code{index}/\code{indices} from which to calculate the \code{DPT(s)}
 (integer of length \verb{[1, 3]}).}

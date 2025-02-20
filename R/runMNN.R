@@ -7,8 +7,8 @@ runMNN <- function(object, ...) {
 
 #' @param block Factor specifying the block of origin (e.g., batch, sample) for
 #' each cell in `object`.
-#' @param k Integer scalar specifying the number of neighbors to use when
-#' identifying MNN pairs.
+#' @param n_neighbors Integer scalar specifying the number of neighbors to use
+#' when identifying MNN pairs.
 #' @param n_mads Numeric scalar specifying the number of median absolute
 #' deviations to use for removing outliers in the center-of-mass calculations.
 #' @param robust_iterations Integer scalar specifying the number of iterations
@@ -31,7 +31,7 @@ runMNN <- function(object, ...) {
 #' @importFrom BiocNeighbors AnnoyParam
 #' @export
 #' @rdname runMNN
-runMNN.default <- function(object, block, k = 15L, ...,
+runMNN.default <- function(object, block, n_neighbors = 15L, ...,
                            n_mads = 3L,
                            robust_iterations = 2, robust_trim = 0.25,
                            mass_cap = NULL,
@@ -41,7 +41,7 @@ runMNN.default <- function(object, block, k = 15L, ...,
     # run MNN --------------------------------------------------------
     .runMNN(
         object = object,
-        block = block, k = k,
+        block = block, n_neighbors = n_neighbors,
         n_mads = n_mads,
         robust_iterations = robust_iterations,
         robust_trim = robust_trim,
@@ -77,13 +77,13 @@ runMNN.Seurat <- function(object, ...,
     add_dimred_to_seurat(object, mnn, name, assay, layer, dimred)
 }
 
-.runMNN <- function(object, block, k, n_mads,
+.runMNN <- function(object, block, n_neighbors, n_mads,
                     robust_iterations, robust_trim, mass_cap,
                     order, reference_policy, BNPARAM,
                     threads) {
     mnn_res <- scrapper::correctMnn(
         x = object,
-        block = block, num.neighbors = k,
+        block = block, num.neighbors = n_neighbors,
         num.mads = n_mads,
         robust.iterations = robust_iterations,
         robust.trim = robust_trim,

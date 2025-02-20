@@ -11,7 +11,7 @@ quickCluster(object, ...)
 \method{quickCluster}{SingleCellExperiment}(
   object,
   size_factors = NULL,
-  d = 50L,
+  n_dim = 50L,
   scale = FALSE,
   subset_row = NULL,
   n_hvgs = 2000,
@@ -19,16 +19,16 @@ quickCluster(object, ...)
   from_residuals = FALSE,
   extra_work = 7,
   iterations = 1000,
+  ...,
   seed = NULL,
   realized = TRUE,
-  ...,
   threads = NULL
 )
 
 \method{quickCluster}{Seurat}(
   object,
   size_factors = NULL,
-  d = 50L,
+  n_dim = 50L,
   scale = FALSE,
   subset_row = NULL,
   n_hvgs = 2000,
@@ -36,9 +36,9 @@ quickCluster(object, ...)
   from_residuals = FALSE,
   extra_work = 7,
   iterations = 1000,
+  ...,
   seed = NULL,
   realized = TRUE,
-  ...,
   threads = NULL
 )
 }
@@ -54,7 +54,7 @@ quickCluster(object, ...)
 \item{size_factors}{A numeric vector of length equal to the number of cells
 in \code{object}, containing positive size factors for all cells.}
 
-\item{d}{Integer scalar specifying the number of top PCs to obtain.}
+\item{n_dim}{Integer scalar specifying the number of top PCs to obtain.}
 
 \item{scale}{Logical scalar indicating whether to scale rows to unit
 variance.}

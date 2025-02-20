@@ -9,7 +9,7 @@ runPCA <- function(object, ...) {
 #' @param subset_row Integer, logical or character vector specifying which
 #' features to use in the PCA (e.g., highly variable genes). If `NULL`, all
 #' features in `object` are used.
-#' @param d Integer scalar specifying the number of top PCs to obtain.
+#' @param n_dim Integer scalar specifying the number of top PCs to obtain.
 #' @param scale Logical scalar indicating whether to scale rows to unit
 #' variance.
 #' @inheritParams modelGeneVar
@@ -34,8 +34,8 @@ runPCA <- function(object, ...) {
 #'    [`reductions`][SeuratObject::Seurat-class] named as `name`.
 #' @export
 #' @rdname runPCA
-runPCA.default <- function(object,
-                           d = 50L, scale = FALSE, subset_row = NULL, ...,
+runPCA.default <- function(object, n_dim = 50L, scale = FALSE,
+                           subset_row = NULL, ...,
                            block = NULL, block_weight_policy = NULL,
                            variable_block_weight = c(0, 1000),
                            from_residuals = FALSE, extra_work = 7,
@@ -47,7 +47,7 @@ runPCA.default <- function(object,
     seed <- check_seed(seed)
     pcs <- scrapper::runPca(
         x = object,
-        number = d,
+        number = n_dim,
         scale = scale,
         block = block,
         block.weight.policy = block_weight_policy,

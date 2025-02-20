@@ -24,11 +24,11 @@ runDiffusionMap <- function(object, ...) {
 #' (integer of length `[1, 3]`).
 #' @export
 #' @rdname runDiffusionMap
-runDiffusionMap.default <- function(object, d = 20L, ...,
+runDiffusionMap.default <- function(object, n_dim = 20L, ...,
                                     tips = NULL, w_width = 0.1) {
     dm <- destiny::DiffusionMap(
         data = object, ...,
-        n_eigs = d, rotate = FALSE,
+        n_eigs = n_dim, rotate = FALSE,
         n_pcs = NA, suppress_dpt = FALSE
     )
     if (is.null(tips)) {

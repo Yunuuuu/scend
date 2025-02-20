@@ -2,7 +2,8 @@
 #'
 #' @inheritDotParams runMNN
 #' @inheritParams runPCA
-#' @param lognorm_args A list of additional arguments passed on to [`runPCA()`].
+#' @param lognorm_args A list of additional arguments passed on to
+#' [`logNormCounts()`].
 #' @inheritParams logNormCounts
 #' @seealso
 #' - [`logNormCounts`]
@@ -13,21 +14,22 @@ quickMNN <- function(object, ...) UseMethod("quickMNN")
 
 #' @export
 #' @rdname quickMNN
-quickMNN.SingleCellExperiment <- function(
-    object, block,
-    # `logNormCounts` arguments
-    size_factors = NULL, mode = NULL,
-    # `runPCA` arguments
-    d = 50L, scale = FALSE, subset_row = NULL,
-    block_weight_policy = NULL,
-    variable_block_weight = c(0, 1000),
-    from_residuals = FALSE, extra_work = 7,
-    iterations = 1000, seed = NULL,
-    realized = TRUE,
-    # `runMNN` arguments
-    ..., threads = NULL,
-    # additional arguments
-    lognorm_args = list()) {
+quickMNN.SingleCellExperiment <- function(object, block,
+                                          # `logNormCounts` arguments
+                                          size_factors = NULL, mode = NULL,
+                                          # `runPCA` arguments
+                                          n_dim = 50L, scale = FALSE,
+                                          subset_row = NULL,
+                                          block_weight_policy = NULL,
+                                          variable_block_weight = c(0, 1000),
+                                          from_residuals = FALSE,
+                                          extra_work = 7,
+                                          iterations = 1000, seed = NULL,
+                                          realized = TRUE,
+                                          # `runMNN` arguments
+                                          ..., threads = NULL,
+                                          # additional arguments
+                                          lognorm_args = list()) {
     # nromalization, adjust for differences in sequencing depth --------
     # This can be done before variance-modelling or after.
     # - https://github.com/LTLA/batchelor/blob/master/R/quickCorrect.R; in the
@@ -51,6 +53,7 @@ quickMNN.SingleCellExperiment <- function(
     lognorm_args$threads <- lognorm_args$threads %||% threads
     lognorm_args$size_factors <- size_factors %||% lognorm_args$size_factors
     lognorm_args$mode <- mode %||% lognorm_args$size_factors
+    lognorm_args$object <- NULL
     object <- rlang::inject(logNormCounts(object = object, !!!lognorm_args))
 
     # dimensionality reduction
@@ -58,7 +61,7 @@ quickMNN.SingleCellExperiment <- function(
         object = object,
         assay = lognorm_args$name,
         threads = threads, name = "PCA",
-        d = d, scale = scale, subset_row = subset_row,
+        n_dim = n_dim, scale = scale, subset_row = subset_row,
         block = block, block_weight_policy = block_weight_policy,
         variable_block_weight = variable_block_weight,
         from_residuals = from_residuals, extra_work = extra_work,
@@ -75,21 +78,20 @@ quickMNN.SingleCellExperiment <- function(
 
 #' @export
 #' @rdname quickMNN
-quickMNN.Seurat <- function(
-    object, block,
-    # `logNormCounts` arguments
-    size_factors = NULL, mode = NULL,
-    # `runPCA` arguments
-    d = 50L, scale = FALSE, subset_row = NULL,
-    block_weight_policy = NULL,
-    variable_block_weight = c(0, 1000),
-    from_residuals = FALSE, extra_work = 7,
-    iterations = 1000, seed = NULL,
-    realized = TRUE,
-    # `runMNN` arguments
-    ..., threads = NULL,
-    # additional arguments
-    lognorm_args = list()) {
+quickMNN.Seurat <- function(object, block,
+                            # `logNormCounts` arguments
+                            size_factors = NULL, mode = NULL,
+                            # `runPCA` arguments
+                            n_dim = 50L, scale = FALSE, subset_row = NULL,
+                            block_weight_policy = NULL,
+                            variable_block_weight = c(0, 1000),
+                            from_residuals = FALSE, extra_work = 7,
+                            iterations = 1000, seed = NULL,
+                            realized = TRUE,
+                            # `runMNN` arguments
+                            ..., threads = NULL,
+                            # additional arguments
+                            lognorm_args = list()) {
     # nromalization, adjust for differences in sequencing depth --------
     # This can be done before variance-modelling or after.
     # - https://github.com/LTLA/batchelor/blob/master/R/quickCorrect.R; in the
@@ -113,6 +115,7 @@ quickMNN.Seurat <- function(
     lognorm_args$threads <- lognorm_args$threads %||% threads
     lognorm_args$size_factors <- size_factors %||% lognorm_args$size_factors
     lognorm_args$mode <- mode %||% lognorm_args$size_factors
+    lognorm_args$object <- NULL
     object <- rlang::inject(logNormCounts(object = object, !!!lognorm_args))
 
     # dimensionality reduction
@@ -120,7 +123,7 @@ quickMNN.Seurat <- function(
         object = object,
         layer = lognorm_args$name,
         threads = threads, name = "PCA",
-        d = d, scale = scale, subset_row = subset_row,
+        n_dim = n_dim, scale = scale, subset_row = subset_row,
         block = block, block_weight_policy = block_weight_policy,
         variable_block_weight = variable_block_weight,
         from_residuals = from_residuals, extra_work = extra_work,

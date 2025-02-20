@@ -11,7 +11,7 @@ runPCA(object, ...)
 
 \method{runPCA}{default}(
   object,
-  d = 50L,
+  n_dim = 50L,
   scale = FALSE,
   subset_row = NULL,
   ...,
@@ -54,7 +54,7 @@ runPCA(object, ...)
 \code{default} method.
 }}
 
-\item{d}{Integer scalar specifying the number of top PCs to obtain.}
+\item{n_dim}{Integer scalar specifying the number of top PCs to obtain.}
 
 \item{scale}{Logical scalar indicating whether to scale rows to unit
 variance.}

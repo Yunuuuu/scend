@@ -12,7 +12,7 @@ runMNN(object, ...)
 \method{runMNN}{default}(
   object,
   block,
-  k = 15L,
+  n_neighbors = 15L,
   ...,
   n_mads = 3L,
   robust_iterations = 2,
@@ -55,8 +55,8 @@ runMNN(object, ...)
 \item{block}{Factor specifying the block of origin (e.g., batch, sample) for
 each cell in \code{object}.}
 
-\item{k}{Integer scalar specifying the number of neighbors to use when
-identifying MNN pairs.}
+\item{n_neighbors}{Integer scalar specifying the number of neighbors to use
+when identifying MNN pairs.}
 
 \item{n_mads}{Numeric scalar specifying the number of median absolute
 deviations to use for removing outliers in the center-of-mass calculations.}

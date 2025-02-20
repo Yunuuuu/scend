@@ -13,7 +13,7 @@ quickMNN(object, ...)
   block,
   size_factors = NULL,
   mode = NULL,
-  d = 50L,
+  n_dim = 50L,
   scale = FALSE,
   subset_row = NULL,
   block_weight_policy = NULL,
@@ -33,7 +33,7 @@ quickMNN(object, ...)
   block,
   size_factors = NULL,
   mode = NULL,
-  d = 50L,
+  n_dim = 50L,
   scale = FALSE,
   subset_row = NULL,
   block_weight_policy = NULL,
@@ -68,7 +68,7 @@ in \code{object}, containing positive size factors for all cells.}
 \code{"per-block"} will center the size factors in each block separately. Ignored
 if \code{center_size_factors = FALSE}.}
 
-\item{d}{Integer scalar specifying the number of top PCs to obtain.}
+\item{n_dim}{Integer scalar specifying the number of top PCs to obtain.}
 
 \item{scale}{Logical scalar indicating whether to scale rows to unit
 variance.}
@@ -107,7 +107,8 @@ of increased memory usage.}
 \code{NULL}, all detected threads will be used. See
 \code{\link[parallel:detectCores]{detectCores}}.}
 
-\item{lognorm_args}{A list of additional arguments passed on to \code{\link[=runPCA]{runPCA()}}.}
+\item{lognorm_args}{A list of additional arguments passed on to
+\code{\link[=logNormCounts]{logNormCounts()}}.}
 }
 \description{
 Quick fastMNN with \code{scrapper}

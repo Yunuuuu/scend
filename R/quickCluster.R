@@ -15,16 +15,14 @@
 #' @export
 quickCluster <- function(object, ...) UseMethod("quickCluster")
 
-.quickCluster <- function(
-    object, size_factors = NULL,
-    # `runPCA` arguments
-    d = 50L, scale = FALSE,
-    subset_row = NULL, n_hvgs = 2000, prop_hvgs = NULL,
-    from_residuals = FALSE, extra_work = 7,
-    iterations = 1000, seed = NULL,
-    realized = TRUE,
-    # `clusterSNNGraph` arguments
-    ..., threads = NULL) {
+.quickCluster <- function(object, size_factors = NULL,
+                          # `runPCA` arguments
+                          n_dim = 50L, scale = FALSE,
+                          subset_row = NULL, n_hvgs = 2000, prop_hvgs = NULL,
+                          from_residuals = FALSE, extra_work = 7,
+                          iterations = 1000,
+                          # `clusterSNNGraph` arguments
+                          ..., seed = NULL, realized = TRUE, threads = NULL) {
     # nromalization, adjust for differences in sequencing depth
     object <- logNormCounts(
         object = object, threads = threads,
@@ -42,7 +40,7 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
     object <- runPCA(
         object = object,
         threads = threads,
-        d = d, scale = scale, subset_row = subset_row,
+        n_dim = n_dim, scale = scale, subset_row = subset_row,
         from_residuals = from_residuals, extra_work = extra_work,
         iterations = iterations, seed = seed[1L],
         realized = realized
