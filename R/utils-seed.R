@@ -2,12 +2,12 @@
 check_seed <- function(seed, len = 1L,
                        arg = caller_arg(seed), call = caller_call()) {
     if (is.null(seed)) {
-        restore_rng_hook()
+        restore_seed_hook()
         seed <- random_seed(len)
     } else if (len == 1L) {
         assert_number_whole(seed, arg = arg, call = call)
     } else if (length(seed) == 1L) { # we need multiple seeds
-        restore_rng_hook()
+        restore_seed_hook()
         set.seed(seed)
         seed <- random_seed(len)
     } else if (length(seed) != len) {
@@ -21,51 +21,81 @@ check_seed <- function(seed, len = 1L,
     seed
 }
 
+#' @param seed An integer nubmer.
 #' @importFrom rlang caller_env
+#' @noRd
 set_seed <- function(seed, envir = caller_env()) {
-    restore_rng_hook(envir = envir)
+    restore_seed_hook(envir = envir)
     set.seed(seed)
 }
 
-old_rng <- function() {
-    # styler: off
-    if (exists(".Random.seed", envir = .GlobalEnv,
-               mode = "integer",  inherits = FALSE)) {
-        # styler: on
-        get(".Random.seed",
-            envir = .GlobalEnv,
-            mode = "integer", inherits = FALSE
-        )
-    } else {
-        NULL
-    }
+has_seed <- function() {
+    exists(".Random.seed",
+        envir = globalenv(),
+        mode = "integer", inherits = FALSE
+    )
 }
 
-restore_rng <- function(orng) {
-    if (is.null(orng)) {
-        if (exists(".Random.seed", envir = .GlobalEnv, inherits = FALSE)) {
-            rm(".Random.seed", envir = .GlobalEnv, inherits = FALSE)
-        }
+get_seed <- function() {
+    if (!has_seed()) {
+        return(NULL)
+    }
+    list(
+        rng = get(".Random.seed",
+            envir = globalenv(),
+            mode = "integer", inherits = FALSE
+        ),
+        rng_kind = RNGkind()
+    )
+}
+
+rm_seed <- function() {
+    if (!has_seed()) {
+        return(NULL)
+    }
+    set.seed(seed = NULL)
+    rm(".Random.seed", envir = globalenv())
+}
+
+restore_seed <- function(seed) {
+    if (is.null(seed)) {
+        rm_seed()
     } else {
-        assign(".Random.seed", orng, envir = .GlobalEnv, inherits = FALSE)
+        restore_rng_kind(seed$rng_kind)
+        if (is.null(seed$rng)) {
+            if (exists(".Random.seed", envir = globalenv(), inherits = FALSE)) {
+                rm(".Random.seed", envir = globalenv(), inherits = FALSE)
+            }
+        } else {
+            set.seed(seed$rng)
+        }
     }
 }
 
 #' @importFrom rlang caller_env
-restore_rng_hook <- function(after = TRUE, orng = old_rng(),
-                             envir = caller_env()) {
-    code <- substitute(restore_rng(orng), list(orng = orng))
+restore_seed_hook <- function(after = TRUE, seed = get_seed(),
+                              envir = caller_env()) {
+    expr <- substitute(restore_seed(seed), list(seed = seed))
     do.call(
-        base::on.exit, list(expr = code, add = TRUE, after = after),
+        base::on.exit, list(expr = expr, add = TRUE, after = after),
         envir = envir
     )
+}
+
+restore_rng_kind <- function(rng_kind) {
+    RNGkind(.subset2(rng_kind, 1L), normal.kind = .subset2(rng_kind, 2L))
+    if (identical(sample_kind <- .subset2(rng_kind, 3L), "Rounding")) {
+        suppressWarnings(RNGkind(sample.kind = sample_kind))
+    } else {
+        RNGkind(sample.kind = sample_kind)
+    }
 }
 
 random_seed <- function(n) sample.int(1e6L, n)
 
 seed <- function(x = NULL, rng_kind = NULL, rng_normal_kind = NULL) {
     structure(
-        list(seed = x, rng_kind = rng_kind, rng_normal_kind = rng_normal_kind),
+        list(rng = x, rng_kind = rng_kind, rng_normal_kind = rng_normal_kind),
         class = "scend_seed"
     )
 }
