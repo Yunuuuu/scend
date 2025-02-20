@@ -51,9 +51,14 @@ restore_rng <- function(orng) {
     }
 }
 
-restore_rng_hook <- function(orng = old_rng(), envir = parent.frame()) {
-    code <- substitute(on.exit(restore_rng(orng)), list(orng = orng))
-    eval(code, envir = envir)
+#' @importFrom rlang caller_env
+restore_rng_hook <- function(after = TRUE, orng = old_rng(),
+                             envir = caller_env()) {
+    code <- substitute(restore_rng(orng), list(orng = orng))
+    do.call(
+        base::on.exit, list(expr = code, add = TRUE, after = after),
+        envir = envir
+    )
 }
 
 random_seed <- function(n) sample.int(1e6L, n)
