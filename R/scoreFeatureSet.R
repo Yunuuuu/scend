@@ -20,9 +20,9 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
                                     rank = 1, scale = FALSE,
                                     block = NULL, block_weight_policy = NULL,
                                     variable_block_weight = c(0, 1000),
-                                    extra_work = 7,
-                                    iterations = 1000, seed = NULL,
-                                    realized = TRUE, threads = NULL) {
+                                    extra_work = 7, iterations = 1000,
+                                    seed = NULL, realized = TRUE, 
+                                    threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.list(feature_sets)) feature_sets <- list(feature_sets)
@@ -43,6 +43,7 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
     weights <- lapply(out, attr, which = "weights", exact = TRUE)
     weights <- do.call(base::cbind, weights)
     out <- do.call(base::rbind, out)
+    rownames(out) <- names(feature_sets) %||% seq_along(feature_sets)
     colnames(out) <- colnames(object)
     structure(out, weights = weights)
 }
