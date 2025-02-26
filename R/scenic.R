@@ -70,9 +70,7 @@
 #' identifiers of the cells in the loom file.
 #' @param transpose Transpose the expression matrix if counts is supplied as a
 #' `.loom` file (rows=genes x columns=cells).
-#' @param threads The number of workers to use. Only valid if using
-#' dask_multiprocessing, custom_multiprocessing or local as mode. (default:
-#' `1`).
+#' @inheritParams modelGeneVar
 #' @param seed Seed for the expression matrix ranking step. The default is to
 #' use a random seed.
 #' @param overwrite A boolean value indicates whether overriding the

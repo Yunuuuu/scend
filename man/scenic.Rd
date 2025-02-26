@@ -155,9 +155,9 @@ identifiers of the cells in the loom file.}
 \item{transpose}{Transpose the expression matrix if counts is supplied as a
 \code{.loom} file (rows=genes x columns=cells).}
 
-\item{threads}{The number of workers to use. Only valid if using
-dask_multiprocessing, custom_multiprocessing or local as mode. (default:
-\code{1}).}
+\item{threads}{Integer scalar specifying the number of threads to use. If
+\code{NULL}, all detected threads will be used. See
+\code{\link[parallel:detectCores]{detectCores}}.}
 
 \item{seed}{Seed for the expression matrix ranking step. The default is to
 use a random seed.}
