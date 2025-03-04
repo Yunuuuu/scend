@@ -75,11 +75,7 @@ restore_seed <- function(seed) {
 #' @importFrom rlang caller_env
 restore_seed_hook <- function(after = TRUE, seed = get_seed(),
                               envir = caller_env()) {
-    expr <- substitute(restore_seed(seed), list(seed = seed))
-    do.call(
-        base::on.exit, list(expr = expr, add = TRUE, after = after),
-        envir = envir
-    )
+    set_exit(restore_seed(!!seed), envir = envir, after = after)
 }
 
 restore_rng_kind <- function(rng_kind) {

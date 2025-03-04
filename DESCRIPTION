@@ -21,7 +21,8 @@ Imports:
     methods,
     parallel,
     rlang (>= 1.1.0),
-    scrapper
+    scrapper,
+    utils
 Suggests: 
     BiocGenerics,
     destiny,
