@@ -306,4 +306,4 @@ scenic.SummarizedExperiment <- function(object, ...) {
 
 #' @export
 #' @rdname scenic
-scenic.SummarizedExperiment <- scenic.SummarizedExperiment
+scenic.Seurat <- scenic.SummarizedExperiment

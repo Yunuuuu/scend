@@ -5,6 +5,7 @@
 \alias{scenic.LoomExperiment}
 \alias{scenic.SingleCellExperiment}
 \alias{scenic.SummarizedExperiment}
+\alias{scenic.Seurat}
 \title{Single-Cell Regulatory Network Inference and Clustering}
 \usage{
 scenic(object, ...)
@@ -50,7 +51,7 @@ scenic(object, ...)
 
 \method{scenic}{SummarizedExperiment}(object, ...)
 
-\method{scenic}{SummarizedExperiment}(object, ...)
+\method{scenic}{Seurat}(object, ...)
 }
 \arguments{
 \item{object}{Single cell gene expression counts matrix, (rows=genes x
