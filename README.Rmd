@@ -46,16 +46,21 @@ with either `Seurat` or `SingleCellExperiment` objects.
 
 ## Available functions
 
-| functions         | Description                                   |
-| ----------------- | --------------------------------------------- |
-| `logNormCounts`   | Log-transformed normalized expression         |
-| `modelGeneVar`    | Model per-gene variances in expression        |
-| `runPCA`          | Principal component analysis                  |
-| `runMNN`          | Fast mutual nearest neighbors correction      |
-| `subSample`       | Subsample cells based on their neighbors      |
-| `runTSNE`         | t-stochastic neighbor embedding               |
-| `runUMAP`         | uniform manifold approximation and projection |
-| `clusterSNNGraph` | Graph-based clustering                        |
-| `subCluster`      | Find subclusters                              |
-| `scoreMarkers`    | Score marker genes                            |
-| `scoreFeatureSet` | Score feature set activity for each cell      |
+| functions            | Description                                             |
+| -------------------- | ------------------------------------------------------- |
+| `librarySizeFactors` | Compute library size factors                            |
+| `logNormCounts`      | Log-transformed normalized expression                   |
+| `modelGeneVar`       | Model per-gene variances in expression                  |
+| `runPCA`             | Principal component analysis                            |
+| `runMNN`             | Fast mutual nearest neighbors correction                |
+| `subSample`          | Subsample cells based on their neighbors                |
+| `runTSNE`            | t-stochastic neighbor embedding                         |
+| `runUMAP`            | uniform manifold approximation and projection           |
+| `runDiffusionMap`    | diffusion map                                           |
+| `clusterSNNGraph`    | Graph-based clustering                                  |
+| `subCluster`         | Find subclusters                                        |
+| `scoreMarkers`       | Score marker genes                                      |
+| `scoreFeatureSet`    | Score feature set activity for each cell                |
+| `infercnv`           | Run infercnv workflow                                   |
+| `scenic`             | Single-Cell Regulatory Network Inference and Clustering |
+|                      |                                                         |

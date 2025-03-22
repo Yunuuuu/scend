@@ -57,10 +57,7 @@ logNormCounts.default <- function(object, size_factors = NULL,
     threads <- set_threads(threads, call = call)
     if (is.null(size_factors)) {
         # `scuttle::librarySizeFactors()`
-        size_factors <- scrapper::computeRnaQcMetrics(object,
-            subsets = list(), num.threads = threads
-        )
-        size_factors <- .subset2(size_factors, "sum")
+        size_factors <- librarySizeFactors(object)
     }
     out <- list(size_factors = size_factors)
     if (center_size_factors) {
