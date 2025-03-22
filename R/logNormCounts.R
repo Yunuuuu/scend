@@ -82,7 +82,7 @@ logNormCounts.default <- function(object, size_factors = NULL,
 #' [`SetAssayData`][SeuratObject::SetAssayData].
 #' @export
 #' @rdname logNormCounts
-logNormCounts.SingleCellExperiment <- function(object, size_factors = NULL,
+logNormCounts.SummarizedExperiment <- function(object, size_factors = NULL,
                                                ...,
                                                assay = "counts",
                                                name = "logcounts") {

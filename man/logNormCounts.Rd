@@ -3,7 +3,7 @@
 \name{logNormCounts}
 \alias{logNormCounts}
 \alias{logNormCounts.default}
-\alias{logNormCounts.SingleCellExperiment}
+\alias{logNormCounts.SummarizedExperiment}
 \alias{logNormCounts.Seurat}
 \title{Normalize the count matrix}
 \usage{
@@ -21,7 +21,7 @@ logNormCounts(object, ...)
   threads = NULL
 )
 
-\method{logNormCounts}{SingleCellExperiment}(
+\method{logNormCounts}{SummarizedExperiment}(
   object,
   size_factors = NULL,
   ...,

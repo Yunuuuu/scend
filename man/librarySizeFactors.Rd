@@ -4,7 +4,7 @@
 \alias{librarySizeFactors}
 \alias{librarySizeFactors.default}
 \alias{librarySizeFactors.DelayedArray}
-\alias{librarySizeFactors.SingleCellExperiment}
+\alias{librarySizeFactors.SummarizedExperiment}
 \alias{librarySizeFactors.Seurat}
 \title{Compute library size factors}
 \usage{
@@ -14,7 +14,7 @@ librarySizeFactors(object, ...)
 
 \method{librarySizeFactors}{DelayedArray}(object, ...)
 
-\method{librarySizeFactors}{SingleCellExperiment}(object, ..., assay = "counts")
+\method{librarySizeFactors}{SummarizedExperiment}(object, ..., assay = "counts")
 
 \method{librarySizeFactors}{Seurat}(object, ..., assay = NULL, layer = "counts")
 }

@@ -28,7 +28,7 @@ librarySizeFactors.DelayedArray <- function(object, ...) {
 
 #' @export
 #' @rdname librarySizeFactors
-librarySizeFactors.SingleCellExperiment <- function(object,
+librarySizeFactors.SummarizedExperiment <- function(object,
                                                     ...,
                                                     assay = "counts") {
     librarySizeFactors(object = .get_mat_from_sce(object, assay), ...)
