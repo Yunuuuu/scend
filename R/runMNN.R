@@ -93,8 +93,9 @@ runMNN.Seurat <- function(object, ...,
         BNPARAM = BNPARAM,
         num.threads = threads
     )
-    out <- t(mnn_res$corrected)
-    attr(out, "merge_order") <- mnn_res$merge.order
-    attr(out, "n_pairs") <- mnn_res$num.pairs
-    out
+    new_dimred(
+        t(mnn_res$corrected),
+        merge_order = mnn_res$merge.order,
+        n_pairs = mnn_res$num.pairs
+    )
 }
