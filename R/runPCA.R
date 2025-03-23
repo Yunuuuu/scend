@@ -63,11 +63,12 @@ runPCA.default <- function(object, n_dim = 50L, scale = FALSE,
     # batch_pcs$components:
     # a numeric matrix containing the top principal components. Each row
     # corresponds to a PC and each column corresponds to a cell.
-    out <- t(pcs$components)
-    attr(out, "percentVar") <- pcs$variance.explained / pcs$total.variance
-    attr(out, "totalVariance") <- pcs$total.variance
-    attr(out, "rotation") <- pcs$rotation
-    out
+    new_dimred(
+        t(pcs$components),
+        percentVar = pcs$variance.explained / pcs$total.variance,
+        totalVariance = pcs$total.variance,
+        rotation = pcs$rotation
+    )
 }
 
 #' @param dimred String or integer scalar specifying the existing dimensionality
