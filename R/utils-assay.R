@@ -56,3 +56,10 @@ add_dimred_to_seurat <- function(object, value, name, assay, layer,
     )
     object
 }
+
+new_dimred <- function(dimred, ..., class = NULL) {
+    # SingleCellExperiment can only accept `reduced.dim.matrix` class
+    class(dimred) <- c(class, "reduced.dim.matrix", "matrix")
+    mostattributes(x) <- c(attributes(dimred), list(...))
+    dimred
+}

@@ -38,7 +38,7 @@ runDiffusionMap.default <- function(object, n_dim = 20L, ...,
     }
     attr(dpt, "w_width") <- w_width
     evs <- destiny::eigenvectors(dm)
-    SingleCellExperiment::reduced.dim.matrix(evs, DPT = dpt)
+    new_dimred(evs, DPT = dpt, class = "DiffusionMap")
 }
 
 #' @export
