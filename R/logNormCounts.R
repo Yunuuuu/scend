@@ -66,12 +66,22 @@ logNormCounts.default <- function(object, size_factors = NULL,
             size.factors = size_factors, block = block, mode = mode
         )
     }
-    logcounts <- scrapper::normalizeCounts(
-        x = object,
-        size.factors = size_factors,
-        log = !is.null(log), pseudo.count = pseudo_count,
-        log.base = log, preserve.sparsity = FALSE
-    )
+    if (utils::packageVersion("scrapper") >= "1.1.14") {
+        logcounts <- scrapper::normalizeCounts(
+            x = object,
+            size.factors = size_factors,
+            log = !is.null(log), pseudo.count = pseudo_count,
+            log.base = log, preserve.sparsity = FALSE,
+            delayed = methods::is(object, "DelayedArray")
+        )
+    } else {
+        logcounts <- scrapper::normalizeCounts(
+            x = object,
+            size.factors = size_factors,
+            log = !is.null(log), pseudo.count = pseudo_count,
+            log.base = log, preserve.sparsity = FALSE
+        )
+    }
     c(list(logcounts = logcounts), out)
 }
 
