@@ -5,7 +5,7 @@
 \alias{clusterSNNGraph.default}
 \alias{clusterSNNGraph.SingleCellExperiment}
 \alias{clusterSNNGraph.Seurat}
-\title{Graph-based clustering with \code{scrapper}}
+\title{Shared nearest neighbor Graph-based clustering}
 \usage{
 clusterSNNGraph(object, ...)
 
@@ -91,7 +91,7 @@ after each merge step.
 }
 }
 \description{
-Graph-based clustering with \code{scrapper}
+Shared nearest neighbor Graph-based clustering
 }
 \seealso{
 \itemize{

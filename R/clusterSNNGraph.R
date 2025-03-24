@@ -1,4 +1,4 @@
-#' Graph-based clustering with `scrapper`
+#' Shared nearest neighbor Graph-based clustering
 #'
 #' @seealso
 #' - [`buildSnnGraph`][scrapper::buildSnnGraph]
