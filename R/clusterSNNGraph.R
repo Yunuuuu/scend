@@ -11,6 +11,7 @@ clusterSNNGraph <- function(object, ...) {
 }
 
 #' @param ... Additional arguments passed on to [`clusterGraph()`].
+#' @inheritParams clusterGraph
 #' @param n_neighbors Integer scalar specifying the number of neighbors to use
 #' to construct the graph.
 #' @param scheme String specifying the weighting scheme to use for constructing

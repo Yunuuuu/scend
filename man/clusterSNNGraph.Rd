@@ -31,12 +31,16 @@ clusterSNNGraph(object, ...)
 )
 }
 \arguments{
-\item{object}{A matrix-like object. Rows are features and columns are cells.}
+\item{object}{A \code{\link[igraph:make_graph]{graph}} object.}
 
 \item{...}{Additional arguments passed on to \code{\link[=clusterGraph]{clusterGraph()}}.}
 
 \item{n_neighbors}{Integer scalar specifying the number of neighbors to use
 to construct the graph.}
+
+\item{method}{String specifying the community detection method to use.
+Options are multi-level (\code{"multilevel"}/\code{"louvain"}), Walktrap (\code{"walktrap"})
+or Leiden (\code{"leiden"}) (default).}
 
 \item{scheme}{String specifying the weighting scheme to use for constructing
 the SNN graph. This can be \code{"ranked"} (default), \code{"jaccard"} or \code{"number"}.}
