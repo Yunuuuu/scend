@@ -2,8 +2,6 @@
 check_seed <- function(seed, len = 1L,
                        arg = caller_arg(seed), call = caller_call()) {
     if (is.null(seed)) {
-        restore_seed_hook()
-        seed <- random_seed(len)
     } else if (len == 1L) {
         assert_number_whole(seed, arg = arg, call = call)
     } else if (length(seed) == 1L) { # we need multiple seeds
@@ -25,8 +23,10 @@ check_seed <- function(seed, len = 1L,
 #' @importFrom rlang caller_env
 #' @noRd
 set_seed <- function(seed, envir = caller_env()) {
-    restore_seed_hook(envir = envir)
-    set.seed(seed)
+    if (!is.null(seed)) {
+        restore_seed_hook(envir = envir)
+        set.seed(seed)
+    }
 }
 
 has_seed <- function() {
