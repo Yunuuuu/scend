@@ -1,5 +1,3 @@
-`%||%` <- function(x, y) if (is.null(x)) y else x
-
 set_threads <- function(threads, arg = rlang::caller_arg(threads),
                         call = rlang::caller_call()) {
     assert_number_whole(threads,
