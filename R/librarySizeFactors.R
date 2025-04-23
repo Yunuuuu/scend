@@ -23,7 +23,7 @@ librarySizeFactors.default <- function(object, ..., threads = NULL) {
 librarySizeFactors.DelayedArray <- function(object, ...) {
     rlang::check_dots_empty()
     # Will fallback to `DelayedArray::blockApply()`
-    colSums(object)
+    DelayedArray::colSums(object)
 }
 
 #' @export
