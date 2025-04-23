@@ -79,8 +79,7 @@ overfitting in high-density intervals.}
 used if \code{use_min_width=TRUE}.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, all detected threads will be used. See
-\code{\link[parallel:detectCores]{detectCores}}.}
+\code{NULL}, a single thread will be used.}
 }
 \value{
 A data frame of class \code{scend_modelGeneVar} with the columns \code{means},

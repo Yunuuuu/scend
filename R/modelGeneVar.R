@@ -62,8 +62,7 @@ modelGeneVar.Seurat <- function(object, ..., assay = NULL, layer = "data") {
 #' @param min_window_count Minimum number of observations in each window. Only
 #' used if `use_min_width=TRUE`.
 #' @param threads Integer scalar specifying the number of threads to use. If
-#' `NULL`, all detected threads will be used. See
-#' [`detectCores`][parallel::detectCores].
+#' `NULL`, a single thread will be used.
 #' @export
 #' @rdname modelGeneVar
 modelGeneVar.default <- function(object,

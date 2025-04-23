@@ -104,8 +104,7 @@ optimal memory layout for \code{IRLBA}. This improves computation time at the co
 of increased memory usage.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, all detected threads will be used. See
-\code{\link[parallel:detectCores]{detectCores}}.}
+\code{NULL}, a single thread will be used.}
 
 \item{lognorm_args}{A list of additional arguments passed on to
 \code{\link[=logNormCounts]{logNormCounts()}}.}

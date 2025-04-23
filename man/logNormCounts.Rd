@@ -63,8 +63,7 @@ cells belong to the same batch. Ignored if \code{center_size_factors = FALSE}.}
 if \code{center_size_factors = FALSE}.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, all detected threads will be used. See
-\code{\link[parallel:detectCores]{detectCores}}.}
+\code{NULL}, a single thread will be used.}
 
 \item{assay}{Integer scalar or string indicating which assay of x
 contains the expression values.}

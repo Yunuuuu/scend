@@ -157,8 +157,7 @@ identifiers of the cells in the loom file.}
 \code{.loom} file (rows=genes x columns=cells).}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, all detected threads will be used. See
-\code{\link[parallel:detectCores]{detectCores}}.}
+\code{NULL}, a single thread will be used.}
 
 \item{seed}{Seed for the expression matrix ranking step. The default is to
 use a random seed.}

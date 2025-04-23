@@ -74,8 +74,7 @@ algorithm to use. Only used if \code{object} does not contain existing
 nearest-neighbor results.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, all detected threads will be used. See
-\code{\link[parallel:detectCores]{detectCores}}.}
+\code{NULL}, a single thread will be used.}
 
 \item{dimred}{String or integer scalar specifying the existing dimensionality
 reduction results to use.}

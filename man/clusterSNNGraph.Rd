@@ -49,8 +49,7 @@ the SNN graph. This can be \code{"ranked"} (default), \code{"jaccard"} or \code{
 Only used if \code{x} is not a list of existing nearest-neighbor search results.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, all detected threads will be used. See
-\code{\link[parallel:detectCores]{detectCores}}.}
+\code{NULL}, a single thread will be used.}
 
 \item{dimred}{String or integer scalar specifying the existing dimensionality
 reduction results to use.}

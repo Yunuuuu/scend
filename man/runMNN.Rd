@@ -84,8 +84,7 @@ residual sum of squares (\code{"max-rss"}), or the first specified input
 \item{BNPARAM}{A \link[BiocNeighbors]{BiocNeighborParam} object specifying the nearest-neighbor algorithm to use.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, all detected threads will be used. See
-\code{\link[parallel:detectCores]{detectCores}}.}
+\code{NULL}, a single thread will be used.}
 
 \item{dimred}{String or integer scalar specifying the existing dimensionality
 reduction results to use.}

@@ -68,8 +68,7 @@ log-expression values). This is incorporated into the effect sizes for
 effects for every pairwise comparison.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, all detected threads will be used. See
-\code{\link[parallel:detectCores]{detectCores}}.}
+\code{NULL}, a single thread will be used.}
 }
 \value{
 A list of data frame of marker statistics.
