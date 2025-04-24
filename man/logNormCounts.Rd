@@ -17,8 +17,7 @@ logNormCounts(object, ...)
   pseudo_count = 1L,
   center_size_factors = TRUE,
   block = NULL,
-  mode = NULL,
-  threads = NULL
+  mode = NULL
 )
 
 \method{logNormCounts}{SummarizedExperiment}(
@@ -61,9 +60,6 @@ cells belong to the same batch. Ignored if \code{center_size_factors = FALSE}.}
 \code{"lowest"} will scale all size factors by the the lowest per-block average.
 \code{"per-block"} will center the size factors in each block separately. Ignored
 if \code{center_size_factors = FALSE}.}
-
-\item{threads}{Integer scalar specifying the number of threads to use. If
-\code{NULL}, a single thread will be used.}
 
 \item{assay}{Integer scalar or string indicating which assay of x
 contains the expression values.}

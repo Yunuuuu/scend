@@ -43,6 +43,19 @@ runUMAP.default <- function(object, n_dim = 2L, n_neighbors = 15L,
     )
 }
 
+#' @export
+runUMAP.HDF5Matrix <- function(object, ..., threads = NULL) {
+    threads <- set_threads(threads)
+    if (threads > 1L) {
+        cli::cli_warn(c(
+            "Cannot use multiple threads for {.cls HDF5Matrix}",
+            i = "Will use {.code threads = 1} instead"
+        ))
+        threads <- 1L
+    }
+    NextMethod()
+}
+
 #' @inheritParams runPCA
 #' @export
 #' @rdname runUMAP

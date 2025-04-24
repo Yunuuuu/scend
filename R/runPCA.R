@@ -71,6 +71,19 @@ runPCA.default <- function(object, n_dim = 50L, scale = FALSE,
     )
 }
 
+#' @export
+runPCA.HDF5Matrix <- function(object, ..., threads = NULL) {
+    threads <- set_threads(threads)
+    if (threads > 1L) {
+        cli::cli_warn(c(
+            "Cannot use multiple threads for {.cls HDF5Matrix}",
+            i = "Will use {.code threads = 1} instead"
+        ))
+        threads <- 1L
+    }
+    NextMethod()
+}
+
 #' @param dimred String or integer scalar specifying the existing dimensionality
 #' reduction results to use.
 #' @param n_dimred Integer scalar or vector specifying the dimensions to use if

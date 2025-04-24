@@ -11,8 +11,8 @@ perCellQCMetrics <- function(object, ...) {
 #' @inheritParams scrapper::computeRnaQcMetrics
 #' @export
 #' @rdname perCellQCMetrics
-perCellQCMetrics.default <- function(object, subsets = NULL,
-                                     threads = NULL, ...) {
+perCellQCMetrics.default <- function(object, subsets = NULL, ...,
+                                     threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     metrics <- scrapper::computeRnaQcMetrics(object,
@@ -25,6 +25,19 @@ perCellQCMetrics.default <- function(object, subsets = NULL,
         out <- c(out, subsets)
     }
     quickdf(out)
+}
+
+#' @export
+perCellQCMetrics.HDF5Matrix <- function(object, ..., threads = NULL) {
+    threads <- set_threads(threads)
+    if (threads > 1L) {
+        cli::cli_warn(c(
+            "Cannot use multiple threads for {.cls HDF5Matrix}",
+            i = "Will use {.code threads = 1} instead"
+        ))
+        threads <- 1L
+    }
+    NextMethod()
 }
 
 #' @export

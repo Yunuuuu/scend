@@ -61,6 +61,19 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L, method = NULL,
     clusterGraph(object = graph, ..., method = method)
 }
 
+#' @export
+clusterSNNGraph.HDF5Matrix <- function(object, ..., threads = NULL) {
+    threads <- set_threads(threads)
+    if (threads > 1L) {
+        cli::cli_warn(c(
+            "Cannot use multiple threads for {.cls HDF5Matrix}",
+            i = "Will use {.code threads = 1} instead"
+        ))
+        threads <- 1L
+    }
+    NextMethod()
+}
+
 #' @inheritParams runPCA
 #' @export
 #' @rdname clusterSNNGraph

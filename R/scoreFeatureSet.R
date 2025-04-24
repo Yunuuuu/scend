@@ -21,7 +21,7 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
                                     block = NULL, block_weight_policy = NULL,
                                     variable_block_weight = c(0, 1000),
                                     extra_work = 7, iterations = 1000,
-                                    seed = NULL, realized = TRUE, 
+                                    seed = NULL, realized = TRUE,
                                     threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
@@ -46,6 +46,19 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
     rownames(out) <- names(feature_sets) %||% seq_along(feature_sets)
     colnames(out) <- colnames(object)
     structure(out, weights = weights)
+}
+
+#' @export
+scoreFeatureSet.HDF5Matrix <- function(object, ..., threads = NULL) {
+    threads <- set_threads(threads)
+    if (threads > 1L) {
+        cli::cli_warn(c(
+            "Cannot use multiple threads for {.cls HDF5Matrix}",
+            i = "Will use {.code threads = 1} instead"
+        ))
+        threads <- 1L
+    }
+    NextMethod()
 }
 
 #' @param name A string of the assay name for the scores.

@@ -9,7 +9,7 @@
 \usage{
 perCellQCMetrics(object, ...)
 
-\method{perCellQCMetrics}{default}(object, subsets = NULL, threads = NULL, ...)
+\method{perCellQCMetrics}{default}(object, subsets = NULL, ..., threads = NULL)
 
 \method{perCellQCMetrics}{SingleCellExperiment}(object, ..., assay = "counts")
 

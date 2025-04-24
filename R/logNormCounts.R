@@ -27,15 +27,14 @@ logNormCounts.default <- function(object, size_factors = NULL,
                                   ...,
                                   log = 2L, pseudo_count = 1L,
                                   center_size_factors = TRUE,
-                                  block = NULL, mode = NULL,
-                                  threads = NULL) {
+                                  block = NULL, mode = NULL) {
     rlang::check_dots_empty()
     ans <- .logNormCounts(
         object = object,
         size_factors = size_factors,
         log = log, pseudo_count = pseudo_count,
         center_size_factors = center_size_factors,
-        block = block, mode = mode, threads = threads
+        block = block, mode = mode
     )
     .subset2(ans, "logcounts")
 }
@@ -44,8 +43,7 @@ logNormCounts.default <- function(object, size_factors = NULL,
 .logNormCounts <- function(object, size_factors = NULL,
                            log = 2L, pseudo_count = 1L,
                            center_size_factors = TRUE,
-                           block = NULL, mode = NULL,
-                           threads = NULL) {
+                           block = NULL, mode = NULL) {
     call <- caller_call()
 
     assert_(size_factors, is.numeric, "a numeric",
