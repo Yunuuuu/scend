@@ -18,9 +18,8 @@ runTSNE <- function(object, ...) {
 #' cells to be assigned to the same leaf node of the quadtree.
 #' @param max_iter Integer scalar specifying the maximum number of iterations to
 #' perform.
-#' @param BNPARAM A \linkS4class{BiocNeighborParam} object specifying the
-#' algorithm to use. Only used if `object` does not contain existing
-#' nearest-neighbor results.
+#' @param bnparam A \linkS4class{BiocNeighborParam} object specifying the
+#' algorithm to use.
 #' @inheritParams modelGeneVar
 #' @inheritParams scrapper::runTsne
 #' @inherit runPCA return
@@ -32,7 +31,7 @@ runTSNE.default <- function(object, perplexity = 30L, n_neighbors = NULL,
                             ...,
                             max_depth = 20L, approximate = FALSE,
                             max_iter = 500L, seed = NULL,
-                            BNPARAM = AnnoyParam(), threads = NULL) {
+                            bnparam = AnnoyParam(), threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (is.null(n_neighbors)) {
@@ -47,7 +46,7 @@ runTSNE.default <- function(object, perplexity = 30L, n_neighbors = NULL,
         leaf.approximation = approximate,
         max.iterations = max_iter,
         seed = seed, num.threads = threads,
-        BNPARAM = BNPARAM
+        BNPARAM = bnparam
     )
 }
 

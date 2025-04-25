@@ -27,6 +27,8 @@ runMNN <- function(object, ...) {
 #' residual sum of squares (`"max-rss"`), or the first specified input
 #' (`"input"`). Only used for automatic merges, i.e., when `order=NULL`.
 #' @inheritParams scrapper::correctMnn
+#' @inheritParams runPCA
+#' @inheritParams runTSNE
 #' @seealso [`correctMnn`][scrapper::correctMnn]
 #' @importFrom BiocNeighbors AnnoyParam
 #' @export
@@ -36,7 +38,7 @@ runMNN.default <- function(object, block, n_neighbors = 15L, ...,
                            robust_iterations = 2, robust_trim = 0.25,
                            mass_cap = NULL,
                            order = NULL, reference_policy = NULL,
-                           BNPARAM = AnnoyParam(), threads = NULL) {
+                           bnparam = AnnoyParam(), threads = NULL) {
     rlang::check_dots_empty()
     # run MNN --------------------------------------------------------
     .runMNN(
@@ -48,7 +50,7 @@ runMNN.default <- function(object, block, n_neighbors = 15L, ...,
         mass_cap = mass_cap,
         order = order,
         reference_policy = reference_policy,
-        BNPARAM = BNPARAM,
+        bnparam = bnparam,
         threads = set_threads(threads)
     )
 }
@@ -66,7 +68,6 @@ runMNN.HDF5Matrix <- function(object, ..., threads = NULL) {
     NextMethod()
 }
 
-#' @inheritParams runPCA
 #' @export
 #' @rdname runMNN
 runMNN.SingleCellExperiment <- function(object, ...,
@@ -78,7 +79,6 @@ runMNN.SingleCellExperiment <- function(object, ...,
     add_dimred_to_sce(object, mnn, name)
 }
 
-#' @inheritParams runPCA
 #' @export
 #' @rdname runMNN
 runMNN.Seurat <- function(object, ...,
@@ -92,7 +92,7 @@ runMNN.Seurat <- function(object, ...,
 
 .runMNN <- function(object, block, n_neighbors, n_mads,
                     robust_iterations, robust_trim, mass_cap,
-                    order, reference_policy, BNPARAM,
+                    order, reference_policy, bnparam,
                     threads) {
     mnn_res <- scrapper::correctMnn(
         x = object,
@@ -103,7 +103,7 @@ runMNN.Seurat <- function(object, ...,
         mass.cap = mass_cap,
         order = order,
         reference.policy = reference_policy,
-        BNPARAM = BNPARAM,
+        BNPARAM = bnparam,
         num.threads = threads
     )
     new_dimred(

@@ -26,7 +26,7 @@ runUMAP.default <- function(object, n_dim = 2L, n_neighbors = 15L,
                             n_epochs = -1L, min_dist = 0.01,
                             ...,
                             optimization = FALSE, seed = NULL,
-                            BNPARAM = AnnoyParam(), threads = NULL) {
+                            bnparam = AnnoyParam(), threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     seed <- check_seed(seed)
@@ -39,7 +39,7 @@ runUMAP.default <- function(object, n_dim = 2L, n_neighbors = 15L,
         seed = seed,
         num.threads = threads,
         parallel.optimization = optimization,
-        BNPARAM = BNPARAM
+        BNPARAM = bnparam
     )
 }
 

@@ -33,7 +33,7 @@ subSample.Seurat <- function(object, ...,
 #' @export
 #' @rdname subSample
 subSample.default <- function(object, n_neighbors = 20, ...,
-                              min_remaining = 10, BNPARAM = AnnoyParam(),
+                              min_remaining = 10, bnparam = AnnoyParam(),
                               threads = NULL) {
     rlang::check_dots_empty()
     assert_number_whole(n_neighbors)
@@ -44,7 +44,7 @@ subSample.default <- function(object, n_neighbors = 20, ...,
         num.neighbors = n_neighbors,
         min.remaining = min_remaining,
         num.threads = threads,
-        BNPARAM = BNPARAM
+        BNPARAM = bnparam
     )
 }
 

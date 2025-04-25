@@ -18,7 +18,7 @@ subSample(object, ...)
   n_neighbors = 20,
   ...,
   min_remaining = 10,
-  BNPARAM = AnnoyParam(),
+  bnparam = AnnoyParam(),
   threads = NULL
 )
 }
@@ -46,9 +46,8 @@ remaining (i.e., unselected) neighbors that a cell must have in order to be
 considered for selection. This should be less than or equal to
 \code{n_neighbors}.}
 
-\item{BNPARAM}{A \linkS4class{BiocNeighborParam} object specifying the
-algorithm to use. Only used if \code{object} does not contain existing
-nearest-neighbor results.}
+\item{bnparam}{A \linkS4class{BiocNeighborParam} object specifying the
+algorithm to use.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}

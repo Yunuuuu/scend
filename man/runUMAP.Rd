@@ -18,7 +18,7 @@ runUMAP(object, ...)
   ...,
   optimization = FALSE,
   seed = NULL,
-  BNPARAM = AnnoyParam(),
+  bnparam = AnnoyParam(),
   threads = NULL
 )
 
@@ -69,9 +69,8 @@ optimization step.}
 
 \item{seed}{Integer scalar specifying the seed to use for generating the initial coordinates.}
 
-\item{BNPARAM}{A \linkS4class{BiocNeighborParam} object specifying the
-algorithm to use. Only used if \code{object} does not contain existing
-nearest-neighbor results.}
+\item{bnparam}{A \linkS4class{BiocNeighborParam} object specifying the
+algorithm to use.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}

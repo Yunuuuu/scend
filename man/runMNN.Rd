@@ -20,7 +20,7 @@ runMNN(object, ...)
   mass_cap = NULL,
   order = NULL,
   reference_policy = NULL,
-  BNPARAM = AnnoyParam(),
+  bnparam = AnnoyParam(),
   threads = NULL
 )
 
@@ -81,7 +81,8 @@ the most variable batch (\code{"max-variance"}), the batch with the largest
 residual sum of squares (\code{"max-rss"}), or the first specified input
 (\code{"input"}). Only used for automatic merges, i.e., when \code{order=NULL}.}
 
-\item{BNPARAM}{A \link[BiocNeighbors]{BiocNeighborParam} object specifying the nearest-neighbor algorithm to use.}
+\item{bnparam}{A \linkS4class{BiocNeighborParam} object specifying the
+algorithm to use.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}

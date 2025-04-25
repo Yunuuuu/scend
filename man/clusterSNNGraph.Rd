@@ -15,7 +15,7 @@ clusterSNNGraph(object, ...)
   method = NULL,
   ...,
   scheme = NULL,
-  BNPARAM = AnnoyParam(),
+  bnparam = AnnoyParam(),
   threads = NULL
 )
 
@@ -45,8 +45,8 @@ or Leiden (\code{"leiden"}) (default).}
 \item{scheme}{String specifying the weighting scheme to use for constructing
 the SNN graph. This can be \code{"ranked"} (default), \code{"jaccard"} or \code{"number"}.}
 
-\item{BNPARAM}{A \link[BiocNeighbors]{BiocNeighborParam} object specifying the algorithm to use.
-Only used if \code{x} is not a list of existing nearest-neighbor search results.}
+\item{bnparam}{A \linkS4class{BiocNeighborParam} object specifying the
+algorithm to use.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}

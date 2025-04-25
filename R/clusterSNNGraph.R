@@ -17,6 +17,7 @@ clusterSNNGraph <- function(object, ...) {
 #' @param scheme String specifying the weighting scheme to use for constructing
 #' the SNN graph. This can be `"ranked"` (default), `"jaccard"` or `"number"`.
 #' @inheritParams scrapper::buildSnnGraph
+#' @inheritParams runTSNE
 #' @return An integer vector with cluster assignments for each cell. Each method
 #' may also return additional attributes.
 #' - For method=`"multilevel"`/`"louvain"`, we have:
@@ -39,7 +40,7 @@ clusterSNNGraph <- function(object, ...) {
 #' @rdname clusterSNNGraph
 clusterSNNGraph.default <- function(object, n_neighbors = 10L, method = NULL,
                                     ..., scheme = NULL,
-                                    BNPARAM = AnnoyParam(), threads = NULL) {
+                                    bnparam = AnnoyParam(), threads = NULL) {
     threads <- set_threads(threads)
     assert_number_whole(n_neighbors)
     scheme <- arg_match(scheme, c("ranked", "jaccard", "number"))
@@ -48,7 +49,7 @@ clusterSNNGraph.default <- function(object, n_neighbors = 10L, method = NULL,
         num.neighbors = n_neighbors,
         weight.scheme = scheme,
         num.threads = threads,
-        BNPARAM = BNPARAM
+        BNPARAM = bnparam
     )
     if (!inherits(graph, "igraph")) {
         my_graph <- igraph::make_undirected_graph(
