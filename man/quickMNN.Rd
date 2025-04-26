@@ -23,6 +23,7 @@ quickMNN(object, ...)
   iterations = 1000,
   seed = NULL,
   realized = TRUE,
+  pca_name = "PCA",
   ...,
   threads = NULL,
   lognorm_args = list()
@@ -43,6 +44,7 @@ quickMNN(object, ...)
   iterations = 1000,
   seed = NULL,
   realized = TRUE,
+  pca_name = "PCA",
   ...,
   threads = NULL,
   lognorm_args = list()
@@ -102,6 +104,9 @@ IRLBA workspace.}
 \item{realized}{Logical scalar indicating whether to realize \code{object} into an
 optimal memory layout for \code{IRLBA}. This improves computation time at the cost
 of increased memory usage.}
+
+\item{pca_name}{String specifying the name to be used to store the result in
+the input object.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}

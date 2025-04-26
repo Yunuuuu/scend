@@ -10,13 +10,14 @@
                       local_connectivity = 1,
                       approx = NULL,
                       use_annoy = NULL, use_faiss = NULL,
-                      scanpy_logging = False) {
-    anndata <- reticulate::import("anndata", convert = FALSE)
-    bbknn <- reticulate::import("bbknn", convert = FALSE)
-    sc <- reticulate::import("scanpy", convert = FALSE)
-    new_dimred(
-        t(mnn_res$corrected),
-        merge_order = mnn_res$merge.order,
-        n_pairs = mnn_res$num.pairs
-    )
+                      scanpy_logging = FALSE) {
+    # TO-DO:
+    # anndata <- reticulate::import("anndata", convert = FALSE)
+    # bbknn <- reticulate::import("bbknn", convert = FALSE)
+    # sc <- reticulate::import("scanpy", convert = FALSE)
+    # new_dimred(
+    #     t(mnn_res$corrected),
+    #     merge_order = mnn_res$merge.order,
+    #     n_pairs = mnn_res$num.pairs
+    # )
 }

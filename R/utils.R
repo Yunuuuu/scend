@@ -6,7 +6,7 @@ set_threads <- function(threads, arg = rlang::caller_arg(threads),
     if (is.null(threads)) {
         1L
     } else {
-        as.integer(threads)
+        as.integer(min(threads, parallel::detectCores()))
     }
 }
 
