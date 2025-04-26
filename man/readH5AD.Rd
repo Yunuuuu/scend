@@ -2,22 +2,22 @@
 % Please edit documentation in R/readH5AD.R
 \name{readH5AD}
 \alias{readH5AD}
-\title{Read H5AD}
+\title{Read an H5AD File}
 \usage{
 readH5AD(file, delayed = TRUE)
 }
 \arguments{
-\item{file}{A string of \code{h5ad} file path.}
+\item{file}{A string specifying the path to the \code{.h5ad} file.}
 
-\item{delayed}{A logical value indicating whether assays should be loaded as
-\code{\link[HDF5Array:HDF5ArraySeed-class]{HDF5Array}}/
-\code{\link[HDF5Array:H5SparseMatrix-class]{H5SparseMatrix}}
-from the \code{HDF5Array} package.}
+\item{delayed}{A logical value indicating whether the assay data should be
+loaded as \code{\link[HDF5Array:HDF5ArraySeed-class]{HDF5Array}} or
+\code{\link[HDF5Array:H5SparseMatrix-class]{H5SparseMatrix}} objects from the \strong{HDF5Array}
+package.}
 }
 \value{
-A
-\link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment} object.
+A \link[SingleCellExperiment:SingleCellExperiment]{SingleCellExperiment}
+object.
 }
 \description{
-Read H5AD
+Read an H5AD File
 }

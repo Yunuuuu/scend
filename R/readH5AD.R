@@ -1,12 +1,12 @@
-#' Read H5AD
+#' Read an H5AD File
 #'
-#' @param file A string of `h5ad` file path.
-#' @param delayed A logical value indicating whether assays should be loaded as
-#' [`HDF5Array`][HDF5Array::HDF5ArraySeed()]/
-#' [`H5SparseMatrix`][HDF5Array::H5SparseMatrix]
-#' from the `HDF5Array` package.
-#' @return A
-#' [SingleCellExperiment][SingleCellExperiment::SingleCellExperiment] object.
+#' @param file A string specifying the path to the `.h5ad` file.
+#' @param delayed A logical value indicating whether the assay data should be
+#' loaded as [`HDF5Array`][HDF5Array::HDF5ArraySeed()] or
+#' [`H5SparseMatrix`][HDF5Array::H5SparseMatrix] objects from the **HDF5Array**
+#' package.
+#' @return A [SingleCellExperiment][SingleCellExperiment::SingleCellExperiment]
+#' object.
 #' @export
 readH5AD <- function(file, delayed = TRUE) {
     # https://github.com/scverse/anndata/blob/main/src/anndata/_io/h5ad.py#L177-L274
