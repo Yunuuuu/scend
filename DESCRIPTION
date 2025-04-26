@@ -17,9 +17,11 @@ Imports:
     BiocNeighbors,
     blit,
     cli,
+    HDF5Array,
     igraph,
     methods,
     parallel,
+    rhdf5,
     rlang (>= 1.1.0),
     scrapper,
     utils
@@ -35,5 +37,6 @@ Suggests:
     DelayedArray,
     SeuratObject,
     SingleCellExperiment,
-    SummarizedExperiment
+    SummarizedExperiment,
+    S4Vectors
 ByteCompile: true
