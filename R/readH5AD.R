@@ -250,7 +250,7 @@ h5_read_dim_mats <- function(file, path, fields) {
 h5_read_dim_pairs <- function(file, path, fields) {
     out <- lapply(fields, function(field) {
         out <- HDF5Array::H5SparseMatrix(file, file.path(path, field))
-        as(out, "sparseMatrix")
+        methods::as(out, "sparseMatrix")
     })
     names(out) <- fields
     out
