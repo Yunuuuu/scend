@@ -17,7 +17,7 @@ Imports:
     igraph,
     parallel,
     BiocNeighbors,
-    scrapper,
+    scrapper (>= 1.6.0),
     HDF5Array,
     DelayedArray,
     rhdf5,

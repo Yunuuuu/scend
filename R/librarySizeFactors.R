@@ -15,7 +15,7 @@ librarySizeFactors.default <- function(object, ..., threads = NULL) {
     size_factors <- scrapper::computeRnaQcMetrics(object,
         subsets = list(), num.threads = threads
     )
-    .subset2(size_factors, "sum")
+    size_factors$sum
 }
 
 #' @export
