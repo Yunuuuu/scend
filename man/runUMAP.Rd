@@ -85,7 +85,7 @@ dimred is specified.}
 contains the expression values.}
 
 \item{name}{String specifying the name to be used to store the result in the
-\code{\link[SingleCellExperiment:reducedDims]{reducedDims}} or
+\code{\link[SingleCellExperiment:reducedDim]{reducedDims}} or
 \code{\link[SeuratObject:Seurat-class]{reductions}} of the output.}
 
 \item{layer}{Name of the layer to get from the assay data.}
@@ -95,7 +95,7 @@ contains the expression values.}
 \item \code{default} method: A numeric matrix where rows are cells and columns are
 the two dimensions of the embedding.
 \item \code{SingleCellExperiment} method: embedding was added into
-\code{\link[SingleCellExperiment:reducedDims]{reducedDims}} named as \code{name}.
+\code{\link[SingleCellExperiment:reducedDim]{reducedDims}} named as \code{name}.
 \item \code{Seurat} method: embedding was added into
 \code{\link[SeuratObject:Seurat-class]{reductions}} named as \code{name}.
 }

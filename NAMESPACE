@@ -50,10 +50,6 @@ S3method(runUMAP,HDF5Matrix)
 S3method(runUMAP,Seurat)
 S3method(runUMAP,SingleCellExperiment)
 S3method(runUMAP,default)
-S3method(scenic,LoomExperiment)
-S3method(scenic,Seurat)
-S3method(scenic,SingleCellExperiment)
-S3method(scenic,SummarizedExperiment)
 S3method(scoreFeatureSet,HDF5Matrix)
 S3method(scoreFeatureSet,Seurat)
 S3method(scoreFeatureSet,SummarizedExperiment)
@@ -84,18 +80,19 @@ export(runMNN)
 export(runPCA)
 export(runTSNE)
 export(runUMAP)
-export(scenic)
 export(scoreFeatureSet)
 export(scoreMarkers)
 export(subCluster)
 export(subSample)
 importFrom(BiocNeighbors,AnnoyParam)
-importFrom(rlang,abort)
-importFrom(rlang,caller_arg)
-importFrom(rlang,caller_call)
-importFrom(rlang,caller_env)
-importFrom(rlang,ffi_standalone_check_number_1.0.7)
-importFrom(rlang,ffi_standalone_is_bool_1.0.7)
-importFrom(rlang,is_missing)
-importFrom(rlang,is_string)
-importFrom(rlang,is_vector)
+importFrom(rlang,
+  abort,
+  caller_arg,
+  caller_call,
+  caller_env,
+  ffi_standalone_check_number_1.0.7,
+  ffi_standalone_is_bool_1.0.7,
+  is_missing,
+  is_string,
+  is_vector
+)

@@ -10,7 +10,7 @@ diffusionMapRoots(object, ...)
 \method{diffusionMapRoots}{DiffusionMap}(object, ..., start, ends = NULL, ref, n_root = 100L)
 }
 \arguments{
-\item{object}{A \code{\link[destiny:DiffusionMap-class]{DiffusionMap}} object.}
+\item{object}{A \code{\link[destiny:DiffusionMap]{DiffusionMap}} object.}
 
 \item{...}{Additional arguments passed on to the method.}
 

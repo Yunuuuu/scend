@@ -11,9 +11,16 @@ addPerCellQCMetrics(object, ...)
 integers). Rows are features and columns are cells.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=perCellQCMetrics]{perCellQCMetrics}}
+  Arguments passed on to \code{\link{perCellQCMetrics}}
   \describe{
-    \item{\code{}}{}
+    \item{\code{subsets}}{Named list of vectors specifying gene subsets of interest, typically for control-like features like mitochondrial genes or spike-in transcripts.
+Each vector may be logical (whether to keep each row), integer (row indices) or character (row names).
+For character vectors, strings not present in \code{rownames(x)} are ignored.}
+    \item{\code{assay}}{Integer scalar or string indicating which assay of x
+contains the expression values.}
+    \item{\code{layer}}{Name of the layer to get from the assay data.}
+    \item{\code{threads}}{Integer scalar specifying the number of threads to use. If
+\code{NULL}, a single thread will be used.}
   }}
 }
 \description{
@@ -22,6 +29,6 @@ Add QC metrics
 \seealso{
 \itemize{
 \item \code{\link{perCellQCMetrics}}
-\item \code{\link[scrapper:rna_quality_control]{computeRnaQcMetrics}}
+\item \code{\link[scrapper:computeRnaQcMetrics]{computeRnaQcMetrics}}
 }
 }

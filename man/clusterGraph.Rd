@@ -18,7 +18,7 @@ clusterGraph(object, ...)
 )
 }
 \arguments{
-\item{object}{A \code{\link[igraph:make_graph]{graph}} object.}
+\item{object}{A \code{\link[igraph:graph]{graph}} object.}
 
 \item{...}{Additional arguments passed on to
 \code{\link[igraph:cluster_louvain]{cluster_louvain}},

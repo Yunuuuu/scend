@@ -65,13 +65,14 @@ if \code{center_size_factors = FALSE}.}
 contains the expression values.}
 
 \item{name}{String specifying the name to be used to store the assay name in
-the \code{\link[SummarizedExperiment:SummarizedExperiment-class]{assays}} or the layer name in
-\code{\link[SeuratObject:AssayData]{SetAssayData}}.}
+the \code{\link[SummarizedExperiment:assays]{assays}} or the layer name in
+\code{\link[SeuratObject:SetAssayData]{SetAssayData}}.}
 
 \item{layer}{Name of the layer to get from the assay data.}
 }
 \description{
-Apply scaling normalization to a count matrix to obtain log-transformed normalized expression values.
+Apply scaling normalization and log-transformation to a count matrix.
+This yields normalized expression values that can be used in downstream procedures like PCA.
 }
 \seealso{
 \link[scrapper:normalizeCounts]{normalizeCounts}

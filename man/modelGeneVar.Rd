@@ -92,6 +92,6 @@ attribute, a list of data frames containing the equivalent statistics for
 each block.
 }
 \description{
-Compute the variance in (log-)expression values for each gene,
-and model the trend in the variances with respect to the mean.
+Model the per-gene variances as a function of the mean in single-cell expression data.
+Highly variable genes can then be selected for downstream analyses.
 }

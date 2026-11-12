@@ -84,7 +84,8 @@ if \code{block} is not \code{NULL}.}
 \item{extra_work}{Integer scalar specifying the extra dimensions for the
 IRLBA workspace.}
 
-\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.}
+\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.
+Larger values improve accuracy at the cost of compute time.}
 
 \item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
 
@@ -105,7 +106,7 @@ reduction results to use.}
 dimred is specified.}
 
 \item{name}{String specifying the name to be used to store the result in the
-\code{\link[SingleCellExperiment:reducedDims]{reducedDims}} or
+\code{\link[SingleCellExperiment:reducedDim]{reducedDims}} or
 \code{\link[SeuratObject:Seurat-class]{reductions}} of the output.}
 
 \item{layer}{Name of the layer to get from the assay data.}
@@ -115,7 +116,7 @@ dimred is specified.}
 \item \code{default} method: A numeric matrix where rows are cells and columns are
 the two dimensions of the embedding.
 \item \code{SingleCellExperiment} method: embedding was added into
-\code{\link[SingleCellExperiment:reducedDims]{reducedDims}} named as \code{name}.
+\code{\link[SingleCellExperiment:reducedDim]{reducedDims}} named as \code{name}.
 \item \code{Seurat} method: embedding was added into
 \code{\link[SeuratObject:Seurat-class]{reductions}} named as \code{name}.
 }

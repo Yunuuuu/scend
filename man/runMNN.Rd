@@ -97,7 +97,7 @@ dimred is specified.}
 contains the expression values.}
 
 \item{name}{String specifying the name to be used to store the result in the
-\code{\link[SingleCellExperiment:reducedDims]{reducedDims}} or
+\code{\link[SingleCellExperiment:reducedDim]{reducedDims}} or
 \code{\link[SeuratObject:Seurat-class]{reductions}} of the output.}
 
 \item{layer}{Name of the layer to get from the assay data.}

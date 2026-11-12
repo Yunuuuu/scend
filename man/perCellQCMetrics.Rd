@@ -25,8 +25,9 @@ integers). Rows are features and columns are cells.}
 \code{default} method.
 }}
 
-\item{subsets}{List of vectors specifying gene subsets of interest, typically for control-like features like mitochondrial genes or spike-in transcripts.
-Each vector may be logical (whether to keep each row), integer (row indices) or character (row names).}
+\item{subsets}{Named list of vectors specifying gene subsets of interest, typically for control-like features like mitochondrial genes or spike-in transcripts.
+Each vector may be logical (whether to keep each row), integer (row indices) or character (row names).
+For character vectors, strings not present in \code{rownames(x)} are ignored.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}
@@ -45,5 +46,5 @@ Compute per-cell QC metrics from an initialized matrix of RNA counts,
 and use the metrics to suggest filter thresholds to retain high-quality cells.
 }
 \seealso{
-\code{\link[scrapper:rna_quality_control]{computeRnaQcMetrics}}
+\code{\link[scrapper:computeRnaQcMetrics]{computeRnaQcMetrics}}
 }

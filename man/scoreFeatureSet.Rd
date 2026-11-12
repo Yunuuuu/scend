@@ -42,7 +42,8 @@ scoreFeatureSet(object, ...)
 the features that belong to the set. You can also directly input an atomic
 vector if there is only one feature set.}
 
-\item{rank}{Integer scalar specifying the rank of the approximation.}
+\item{rank}{Integer scalar specifying the rank of the approximation.
+The default value of 1 assumes that each gene set only describes a single coordinated biological function.}
 
 \item{scale}{Logical scalar indicating whether to scale rows to unit
 variance.}
@@ -62,7 +63,8 @@ calculation. Only used if \code{block} is not \code{NULL} and \code{block_weight
 \item{extra_work}{Integer scalar specifying the extra dimensions for the
 IRLBA workspace.}
 
-\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.}
+\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.
+Larger values improve accuracy at the cost of compute time.}
 
 \item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
 
@@ -85,7 +87,7 @@ A matrix of feature scores.
 }
 \description{
 Compute per-cell scores for a gene set, defined as the column sums of a rank-1 approximation to the submatrix for the gene set.
-This uses the same approach implemented in the \pkg{GSDecon} package by Jason Hackney.
+This uses the same approach as the \pkg{GSDecon} package by Jason Hackney, adapted to use an approximate PCA (via IRLBA) and to support blocking.
 }
 \seealso{
 \code{\link[scrapper:scoreGeneSet]{scoreGeneSet}}

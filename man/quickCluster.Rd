@@ -46,9 +46,24 @@ quickCluster(object, ...)
 \item{object}{A matrix-like object. Rows are features and columns are cells.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=clusterSNNGraph]{clusterSNNGraph}}
+  Arguments passed on to \code{\link{clusterSNNGraph}}
   \describe{
-    \item{\code{}}{}
+    \item{\code{n_neighbors}}{Integer scalar specifying the number of neighbors to use
+to construct the graph.}
+    \item{\code{scheme}}{String specifying the weighting scheme to use for constructing
+the SNN graph. This can be \code{"ranked"} (default), \code{"jaccard"} or \code{"number"}.}
+    \item{\code{method}}{String specifying the community detection method to use.
+Options are multi-level (\code{"multilevel"}/\code{"louvain"}), Walktrap (\code{"walktrap"})
+or Leiden (\code{"leiden"}) (default).}
+    \item{\code{bnparam}}{A \linkS4class{BiocNeighborParam} object specifying the
+algorithm to use.}
+    \item{\code{assay}}{Integer scalar or string indicating which assay of x
+contains the expression values.}
+    \item{\code{layer}}{Name of the layer to get from the assay data.}
+    \item{\code{dimred}}{String or integer scalar specifying the existing dimensionality
+reduction results to use.}
+    \item{\code{n_dimred}}{Integer scalar or vector specifying the dimensions to use if
+dimred is specified.}
   }}
 
 \item{size_factors}{A numeric vector of length equal to the number of cells
@@ -77,7 +92,8 @@ if \code{block} is not \code{NULL}.}
 \item{extra_work}{Integer scalar specifying the extra dimensions for the
 IRLBA workspace.}
 
-\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.}
+\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.
+Larger values improve accuracy at the cost of compute time.}
 
 \item{seed}{Integer specifying the seed to use for the initial random vector
 in \code{IRLBA} and for \code{multi-level} or \code{Leiden} clustering.}

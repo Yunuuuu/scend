@@ -54,9 +54,39 @@ quickMNN(object, ...)
 \item{object}{A matrix-like object. Rows are features and columns are cells.}
 
 \item{...}{
-  Arguments passed on to \code{\link[=runMNN]{runMNN}}
+  Arguments passed on to \code{\link{runMNN}}
   \describe{
-    \item{\code{}}{}
+    \item{\code{n_neighbors}}{Integer scalar specifying the number of neighbors to use
+when identifying MNN pairs.}
+    \item{\code{n_mads}}{Numeric scalar specifying the number of median absolute
+deviations to use for removing outliers in the center-of-mass calculations.}
+    \item{\code{robust_iterations}}{Integer scalar specifying the number of iterations
+for robust calculation of the center of mass.}
+    \item{\code{robust_trim}}{Numeric scalar in [0, 1) specifying the trimming
+proportion for robust calculation of the center of mass.}
+    \item{\code{mass_cap}}{Integer scalar specifying the cap on the number of
+observations to use for center-of-mass calculations on the reference dataset.
+A value of \verb{100,000} may be appropriate for speeding up correction of very
+large datasets. If \code{NULL}, no cap is used.}
+    \item{\code{order}}{Vector containing levels of \code{block} in the desired merge
+order. If \code{NULL}, a suitable merge order is automatically determined.}
+    \item{\code{reference_policy}}{String specifying the policy to use to choose the
+first reference batch. This can be based on the largest batch (\code{"max-size"}),
+the most variable batch (\code{"max-variance"}), the batch with the largest
+residual sum of squares (\code{"max-rss"}), or the first specified input
+(\code{"input"}). Only used for automatic merges, i.e., when \code{order=NULL}.}
+    \item{\code{dimred}}{String or integer scalar specifying the existing dimensionality
+reduction results to use.}
+    \item{\code{n_dimred}}{Integer scalar or vector specifying the dimensions to use if
+dimred is specified.}
+    \item{\code{name}}{String specifying the name to be used to store the result in the
+\code{\link[SingleCellExperiment:reducedDim]{reducedDims}} or
+\code{\link[SeuratObject:Seurat-class]{reductions}} of the output.}
+    \item{\code{assay}}{Integer scalar or string indicating which assay of x
+contains the expression values.}
+    \item{\code{layer}}{Name of the layer to get from the assay data.}
+    \item{\code{bnparam}}{A \linkS4class{BiocNeighborParam} object specifying the
+algorithm to use.}
   }}
 
 \item{block}{Factor specifying the block of origin (e.g., batch, sample) for
@@ -97,7 +127,8 @@ if \code{block} is not \code{NULL}.}
 \item{extra_work}{Integer scalar specifying the extra dimensions for the
 IRLBA workspace.}
 
-\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.}
+\item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.
+Larger values improve accuracy at the cost of compute time.}
 
 \item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
 

@@ -21,7 +21,8 @@ genes. Typically the \code{residuals} from \code{\link{modelGeneVar}} are used h
 HVGs.}
 
 \item{larger}{Logical scalar indicating whether larger values of \code{stats} correspond to more variable genes.
-If \code{TRUE}, HVGs are defined as those with the largest values of \code{stats}.}
+If \code{TRUE}, HVGs are defined as those with the largest values of \code{stats}.
+This is typically the case for variances or related statistics, e.g., residuals.}
 
 \item{keep_ties}{Logical scalar indicating whether to keep tied values of
 \code{stats}, even if \code{n} may be exceeded.}
@@ -31,4 +32,5 @@ A character of highly variable genes.
 }
 \description{
 Choose highly variable genes (HVGs) based on a variance-related statistic.
+This is typically used to subset the gene-cell matrix prior to calling \code{\link[scrapper]{runPca}}.
 }

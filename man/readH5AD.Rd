@@ -10,8 +10,8 @@ readH5AD(file, delayed = TRUE)
 \item{file}{A string specifying the path to the \code{.h5ad} file.}
 
 \item{delayed}{A logical value indicating whether the assay data should be
-loaded as \code{\link[HDF5Array:HDF5ArraySeed-class]{HDF5Array}} or
-\code{\link[HDF5Array:H5SparseMatrix-class]{H5SparseMatrix}} objects from the \strong{HDF5Array}
+loaded as \code{\link[HDF5Array:HDF5ArraySeed]{HDF5Array}} or
+\code{\link[HDF5Array:H5SparseMatrix]{H5SparseMatrix}} objects from the \strong{HDF5Array}
 package.}
 }
 \value{

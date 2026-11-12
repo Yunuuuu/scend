@@ -33,32 +33,16 @@ runDiffusionMap(object, ...)
 \arguments{
 \item{object}{A matrix-like object. Rows are features and columns are cells.}
 
-\item{...}{
-  Arguments passed on to \code{\link[destiny:DiffusionMap-class]{destiny::DiffusionMap}}
-  \describe{
-    \item{\code{sigma}}{Diffusion scale parameter of the Gaussian kernel. One of \code{'local'}, \code{'global'}, a (\link[base]{numeric}) global sigma or a \link[destiny]{Sigmas} object.
-When choosing \code{'global'}, a global sigma will be calculated using \code{\link[destiny]{find_sigmas}}. (Optional. default: \code{'local'})
-A larger sigma might be necessary if the eigenvalues can not be found because of a singularity in the matrix}
-    \item{\code{k}}{Number of nearest neighbors to consider (default: a guess betweeen 100 and \eqn{n - 1}. See \code{\link[destiny]{find_dm_k}}).}
-    \item{\code{density_norm}}{logical. If TRUE, use density normalisation}
-    \item{\code{distance}}{Distance measurement method applied to \code{data} or a distance matrix/\code{\link[stats]{dist}}. For the allowed values, see \code{\link[destiny]{find_knn}}.
-If this is a \code{\link[Matrix]{sparseMatrix}}, zeros are interpreted as "not a close neighbors",
-which allows the use of kNN-sparsified matrices (see the return value of \code{\link[destiny]{find_knn}}.}
-    \item{\code{n_local}}{If \code{sigma == 'local'}, the \code{n_local}th nearest neighbor(s) determine(s) the local sigma}
-    \item{\code{censor_val}}{Value regarded as uncertain. Either a single value or one for every dimension (Optional, default: censor_val)}
-    \item{\code{censor_range}}{Uncertainity range for censoring (Optional, default: none). A length-2-vector of certainty range start and end. TODO: also allow \eqn{2\times G} matrix}
-    \item{\code{missing_range}}{Whole data range for missing value model. Has to be specified if NAs are in the data}
-    \item{\code{vars}}{Variables (columns) of the data to use. Specifying NULL will select all columns (default: All floating point value columns)}
-    \item{\code{knn_params}}{Parameters passed to \code{\link[destiny]{find_knn}}}
-    \item{\code{verbose}}{Show a progressbar and other progress information (default: do it if censoring is enabled)}
-  }}
+\item{...}{\itemize{
+\item \code{default} method: not used.
+\item \code{SingleCellExperiment} and \code{Seurat} method: additional arguments passed to
+\code{default} method.
+}}
 
 \item{n_dim}{Integer scalar specifying the number of top PCs to obtain.}
 
 \item{tips}{The cell \code{index}/\code{indices} from which to calculate the \code{DPT(s)}
 (integer of length \verb{[1, 3]}).}
-
-\item{w_width}{Window width to use for deciding the branch cutoff}
 
 \item{assay}{Integer scalar or string indicating which assay of x
 contains the expression values.}
@@ -70,7 +54,7 @@ reduction results to use.}
 dimred is specified.}
 
 \item{name}{String specifying the name to be used to store the result in the
-\code{\link[SingleCellExperiment:reducedDims]{reducedDims}} or
+\code{\link[SingleCellExperiment:reducedDim]{reducedDims}} or
 \code{\link[SeuratObject:Seurat-class]{reductions}} of the output.}
 
 \item{layer}{Name of the layer to get from the assay data.}
@@ -80,7 +64,7 @@ dimred is specified.}
 \item \code{default} method: A numeric matrix where rows are cells and columns are
 the two dimensions of the embedding.
 \item \code{SingleCellExperiment} method: embedding was added into
-\code{\link[SingleCellExperiment:reducedDims]{reducedDims}} named as \code{name}.
+\code{\link[SingleCellExperiment:reducedDim]{reducedDims}} named as \code{name}.
 \item \code{Seurat} method: embedding was added into
 \code{\link[SeuratObject:Seurat-class]{reductions}} named as \code{name}.
 }

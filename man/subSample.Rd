@@ -57,6 +57,7 @@ Integer vector with the indices of the selected cells in the subsample.
 }
 \description{
 Subsample a dataset by selecting cells to represent all of their nearest neighbors.
+The aim is to preserve the relative density of the original dataset while guaranteeing representation of low-frequency subpopulations.
 }
 \seealso{
 \link[scrapper:subsampleByNeighbors]{subsampleByNeighbors}
