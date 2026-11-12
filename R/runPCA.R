@@ -21,9 +21,16 @@ runPCA <- function(object, ...) {
 #' if `block` is not `NULL`.
 #' @param extra_work Integer scalar specifying the extra dimensions for the
 #' IRLBA workspace.
+#' @param subset Features to use for PCA, passed to scrapper after applying
+#' `subset_row`. Unlike `subset_row`, this retains a rotation for all input
+#' features. See [scrapper::runPca].
+#' @param tolerance Convergence tolerance for IRLBA. If `NULL`, use scrapper's
+#' default. Setting this requires a scrapper version that supports `tolerance`.
 #' @param realized Logical scalar indicating whether to realize `object` into an
 #' optimal memory layout for `IRLBA`. This improves computation time at the cost
 #' of increased memory usage.
+#' @param seed Integer seed. If `NULL`, a seed is drawn from R's random number
+#' generator, so results can be reproduced with `set.seed()`.
 #' @seealso [`runPca`][scrapper::runPca]
 #' @return
 #'  - `default` method: A numeric matrix where rows are cells and columns are
@@ -40,25 +47,36 @@ runPCA.default <- function(object, n_dim = 50L, scale = FALSE,
                            variable_block_weight = c(0, 1000),
                            from_residuals = FALSE, extra_work = 7,
                            iterations = 1000, seed = NULL,
-                           realized = TRUE, threads = NULL) {
+                           realized = TRUE, subset = NULL,
+                           tolerance = NULL, warn = TRUE,
+                           threads = NULL) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.null(subset_row)) object <- object[subset_row, , drop = FALSE]
     seed <- check_seed(seed)
-    pcs <- scrapper::runPca(
+    args <- list(
         x = object,
         number = n_dim,
         scale = scale,
+        subset = subset,
         block = block,
         block.weight.policy = block_weight_policy,
         variable.block.weight = variable_block_weight,
-        components.from.residuals = from_residuals,
         extra.work = extra_work,
         iterations = iterations,
+        warn = warn,
         seed = seed,
         realized = realized,
         num.threads = threads
     )
+    if (!is.null(tolerance)) args$tolerance <- tolerance
+    residual_arg <- if (utils::packageVersion("scrapper") >= "1.7.1") {
+        "center.scores.by.block"
+    } else {
+        "components.from.residuals"
+    }
+    args[[residual_arg]] <- from_residuals
+    pcs <- rlang::inject(scrapper::runPca(!!!args))
 
     # batch_pcs$components:
     # a numeric matrix containing the top principal components. Each row

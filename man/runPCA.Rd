@@ -23,6 +23,9 @@ runPCA(object, ...)
   iterations = 1000,
   seed = NULL,
   realized = TRUE,
+  subset = NULL,
+  tolerance = NULL,
+  warn = TRUE,
   threads = NULL
 )
 
@@ -87,11 +90,21 @@ IRLBA workspace.}
 \item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.
 Larger values improve accuracy at the cost of compute time.}
 
-\item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
+\item{seed}{Integer seed. If \code{NULL}, a seed is drawn from R's random number
+generator, so results can be reproduced with \code{set.seed()}.}
 
 \item{realized}{Logical scalar indicating whether to realize \code{object} into an
 optimal memory layout for \code{IRLBA}. This improves computation time at the cost
 of increased memory usage.}
+
+\item{subset}{Features to use for PCA, passed to scrapper after applying
+\code{subset_row}. Unlike \code{subset_row}, this retains a rotation for all input
+features. See \link[scrapper:runPca]{scrapper::runPca}.}
+
+\item{tolerance}{Convergence tolerance for IRLBA. If \code{NULL}, use scrapper's
+default. Setting this requires a scrapper version that supports \code{tolerance}.}
+
+\item{warn}{Boolean specifying whether a warning should be emitted if IRLBA failed to converge.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}

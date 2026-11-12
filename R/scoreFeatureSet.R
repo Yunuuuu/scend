@@ -12,7 +12,11 @@ scoreFeatureSet <- function(object, ...) {
 #' @inheritParams runPCA
 #' @inheritParams scrapper::scoreGeneSet
 #' @inherit scrapper::scoreGeneSet description details
-#' @return A matrix of feature scores.
+#' @param warn Whether to warn if IRLBA does not converge. Requires scrapper
+#' 1.7.1 or later when set explicitly.
+#' @return A matrix of feature scores. The `weights` attribute is a list with
+#' one data frame per feature set, containing `row` (the feature's row index in
+#' `object`) and `weight` columns.
 #' @seealso [`scoreGeneSet`][scrapper::scoreGeneSet]
 #' @rdname scoreFeatureSet
 #' @export
@@ -22,11 +26,26 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
                                     variable_block_weight = c(0, 1000),
                                     extra_work = 7, iterations = 1000,
                                     seed = NULL, realized = TRUE,
-                                    threads = NULL) {
+                                    threads = NULL, tolerance = NULL,
+                                    warn = TRUE) {
     rlang::check_dots_empty()
     threads <- set_threads(threads)
     if (!is.list(feature_sets)) feature_sets <- list(feature_sets)
+    if (!length(feature_sets)) {
+        return(structure(
+            matrix(numeric(),
+                nrow = 0L, ncol = ncol(object),
+                dimnames = list(NULL, colnames(object))
+            ),
+            weights = list()
+        ))
+    }
     seed <- check_seed(seed, length(feature_sets))
+    irlba_args <- list()
+    if (!is.null(tolerance)) irlba_args$tolerance <- tolerance
+    if (utils::packageVersion("scrapper") >= "1.7.1" || !missing(warn)) {
+        irlba_args$warn <- warn
+    }
     out <- .mapply(function(features, seed) {
         .scoreFeatureSet(
             object = object,
@@ -36,13 +55,16 @@ scoreFeatureSet.default <- function(object, feature_sets, ...,
             variable_block_weight = variable_block_weight,
             extra_work = extra_work,
             iterations = iterations,
+            irlba_args = irlba_args,
             seed = seed,
             realized = realized, threads = threads
         )
     }, list(features = feature_sets, seed = seed), NULL)
-    weights <- lapply(out, attr, which = "weights", exact = TRUE)
-    weights <- do.call(base::cbind, weights)
-    out <- do.call(base::rbind, out)
+    names(out) <- names(feature_sets)
+    weights <- lapply(out, function(x) {
+        as.data.frame(attr(x, "weights", exact = TRUE))
+    })
+    out <- rlang::inject(base::rbind(!!!out))
     rownames(out) <- names(feature_sets) %||% seq_along(feature_sets)
     colnames(out) <- colnames(object)
     structure(out, weights = weights)
@@ -88,8 +110,9 @@ scoreFeatureSet.Seurat <- function(object, ..., assay = NULL, layer = "data") {
                              variable_block_weight = c(0, 1000),
                              extra_work = 7,
                              iterations = 1000, seed = 1234L,
-                             realized = TRUE, threads = NULL) {
-    out <- scrapper::scoreGeneSet(
+                             realized = TRUE, threads = NULL,
+                             irlba_args = list()) {
+    out <- rlang::inject(scrapper::scoreGeneSet(
         object,
         set = features,
         rank = rank,
@@ -101,7 +124,8 @@ scoreFeatureSet.Seurat <- function(object, ..., assay = NULL, layer = "data") {
         iterations = iterations,
         seed = seed,
         realized = realized,
-        num.threads = threads
-    )
+        num.threads = threads,
+        !!!irlba_args
+    ))
     structure(.subset2(out, "scores"), weights = .subset2(out, "weights"))
 }

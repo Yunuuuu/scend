@@ -14,12 +14,8 @@ runMNN(object, ...)
   block,
   n_neighbors = 15L,
   ...,
-  n_mads = 3L,
-  robust_iterations = 2,
-  robust_trim = 0.25,
-  mass_cap = NULL,
-  order = NULL,
-  reference_policy = NULL,
+  n_steps = 1L,
+  merge_policy = NULL,
   bnparam = AnnoyParam(),
   threads = NULL
 )
@@ -58,28 +54,12 @@ each cell in \code{object}.}
 \item{n_neighbors}{Integer scalar specifying the number of neighbors to use
 when identifying MNN pairs.}
 
-\item{n_mads}{Numeric scalar specifying the number of median absolute
-deviations to use for removing outliers in the center-of-mass calculations.}
+\item{n_steps}{Integer specifying the number of steps in the recursive
+neighbor search used to compute the center of mass.}
 
-\item{robust_iterations}{Integer scalar specifying the number of iterations
-for robust calculation of the center of mass.}
-
-\item{robust_trim}{Numeric scalar in [0, 1) specifying the trimming
-proportion for robust calculation of the center of mass.}
-
-\item{mass_cap}{Integer scalar specifying the cap on the number of
-observations to use for center-of-mass calculations on the reference dataset.
-A value of \verb{100,000} may be appropriate for speeding up correction of very
-large datasets. If \code{NULL}, no cap is used.}
-
-\item{order}{Vector containing levels of \code{block} in the desired merge
-order. If \code{NULL}, a suitable merge order is automatically determined.}
-
-\item{reference_policy}{String specifying the policy to use to choose the
-first reference batch. This can be based on the largest batch (\code{"max-size"}),
-the most variable batch (\code{"max-variance"}), the batch with the largest
-residual sum of squares (\code{"max-rss"}), or the first specified input
-(\code{"input"}). Only used for automatic merges, i.e., when \code{order=NULL}.}
+\item{merge_policy}{String specifying the merge policy: \code{"rss"} (default),
+\code{"size"}, \code{"variance"}, or \code{"input"}. With \code{"input"}, the last batch is
+corrected first; arrange the input batches to control the merge order.}
 
 \item{bnparam}{A \linkS4class{BiocNeighborParam} object specifying the
 algorithm to use.}

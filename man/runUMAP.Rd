@@ -13,13 +13,13 @@ runUMAP(object, ...)
   object,
   n_dim = 2L,
   n_neighbors = 15L,
-  n_epochs = -1L,
+  n_epochs = NULL,
   min_dist = 0.01,
   ...,
-  optimization = FALSE,
   seed = NULL,
   bnparam = AnnoyParam(),
-  threads = NULL
+  threads = NULL,
+  optimization = FALSE
 )
 
 \method{runUMAP}{SingleCellExperiment}(
@@ -58,22 +58,23 @@ embedding.}
 in the UMAP algorithm.}
 
 \item{n_epochs}{Integer scalar specifying the number of epochs to perform.
-If set to \code{-1}, an appropriate number of epochs is chosen based on
-\code{ncol(object)}.}
+If \code{NULL} (or \code{-1} for compatibility), scrapper chooses an appropriate value.}
 
 \item{min_dist}{Numeric scalar specifying the minimum distance between
 points.}
 
-\item{optimization}{Logical scalar specifying whether to parallelize the
-optimization step.}
-
-\item{seed}{Integer scalar specifying the seed to use for generating the initial coordinates.}
+\item{seed}{Integer seed, or two integers for initialization and optimization
+respectively. A single seed is expanded reproducibly into two seeds. If
+\code{NULL}, seeds are drawn from R's random number generator.}
 
 \item{bnparam}{A \linkS4class{BiocNeighborParam} object specifying the
 algorithm to use.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}
+
+\item{optimization}{Logical scalar specifying whether to parallelize the
+optimization step using \code{threads}. If \code{FALSE}, optimization uses one thread.}
 
 \item{dimred}{String or integer scalar specifying the existing dimensionality
 reduction results to use.}

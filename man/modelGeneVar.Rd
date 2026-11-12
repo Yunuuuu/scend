@@ -18,6 +18,9 @@ modelGeneVar(object, ...)
   block = NULL,
   block_weight_policy = NULL,
   ...,
+  block_average_policy = "mean",
+  block_quantile = 0.5,
+  fit_trend = TRUE,
   variable_block_weight = c(0, 1000),
   mean_filter = TRUE,
   min_mean = 0.1,
@@ -50,6 +53,16 @@ each cell in \code{x}. Alternatively \code{NULL} if all cells are from the same 
 \item{block_weight_policy}{A string of \code{"variable"}, \code{"equal"}, or \code{"none"}
 specifying the policy to use for weighting different blocks when computing
 the average for each statistic Only used if \code{block} is not \code{NULL}.}
+
+\item{block_average_policy}{How to average statistics across blocks:
+\code{"mean"} or \code{"quantile"}. For \code{modelGeneVar}, scrapper >= 1.7.1 also
+supports \code{"none"} to omit the average.}
+
+\item{block_quantile}{Probability of the quantile used when
+\code{block_average_policy = "quantile"}.}
+
+\item{fit_trend}{Whether to fit the mean-variance trend. Requires scrapper
+1.7.1 or later when set explicitly.}
 
 \item{variable_block_weight}{Numeric vector of length 2, specifying the
 parameters for variable block weighting. The first and second values are used
@@ -90,6 +103,8 @@ If \code{block} is supplied, each of the column vectors described above contains
 the average across all blocks. The data frame will also contain \code{per_block}
 attribute, a list of data frames containing the equivalent statistics for
 each block.
+With \code{fit_trend = FALSE}, \code{fitted} and \code{residuals} are omitted. With
+\code{block_average_policy = "none"}, only \code{per_block} contains statistics.
 }
 \description{
 Model the per-gene variances as a function of the mean in single-cell expression data.

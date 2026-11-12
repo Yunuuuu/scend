@@ -10,12 +10,14 @@ runUMAP <- function(object, ...) {
 #' @param n_neighbors Integer scalar specifying the number of neighbors to use
 #' in the UMAP algorithm.
 #' @param n_epochs Integer scalar specifying the number of epochs to perform.
-#' If set to `-1`, an appropriate number of epochs is chosen based on
-#' `ncol(object)`.
+#' If `NULL` (or `-1` for compatibility), scrapper chooses an appropriate value.
 #' @param min_dist Numeric scalar specifying the minimum distance between
 #' points.
 #' @param optimization Logical scalar specifying whether to parallelize the
-#' optimization step.
+#' optimization step using `threads`. If `FALSE`, optimization uses one thread.
+#' @param seed Integer seed, or two integers for initialization and optimization
+#' respectively. A single seed is expanded reproducibly into two seeds. If
+#' `NULL`, seeds are drawn from R's random number generator.
 #' @inheritParams runTSNE
 #' @inherit runPCA return
 #' @seealso [`runUmap`][scrapper::runUmap]
@@ -23,24 +25,33 @@ runUMAP <- function(object, ...) {
 #' @export
 #' @rdname runUMAP
 runUMAP.default <- function(object, n_dim = 2L, n_neighbors = 15L,
-                            n_epochs = -1L, min_dist = 0.01,
-                            ...,
-                            optimization = FALSE, seed = NULL,
-                            bnparam = AnnoyParam(), threads = NULL) {
+                            n_epochs = NULL, min_dist = 0.01,
+                            ..., seed = NULL,
+                            bnparam = AnnoyParam(), threads = NULL,
+                            optimization = FALSE) {
     rlang::check_dots_empty()
+    assert_number_whole(n_epochs, min = -1, allow_null = TRUE)
+    assert_bool(optimization)
+    if (isTRUE(n_epochs == -1)) n_epochs <- NULL
     threads <- set_threads(threads)
-    seed <- check_seed(seed)
-    scrapper::runUmap(
+    seed <- check_seed(seed, 2L)
+    args <- list(
         x = object,
         num.dim = n_dim,
         num.neighbors = n_neighbors,
         num.epochs = n_epochs,
         min.dist = min_dist,
-        seed = seed,
+        initialize.seed = seed[1L],
+        optimize.seed = seed[2L],
         num.threads = threads,
-        parallel.optimization = optimization,
         BNPARAM = bnparam
     )
+    if (utils::packageVersion("scrapper") >= "1.7.1") {
+        args$num.threads.optimize <- if (optimization) threads else 1L
+    } else {
+        args$parallel.optimization <- optimization
+    }
+    rlang::inject(scrapper::runUmap(!!!args))
 }
 
 #' @export

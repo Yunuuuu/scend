@@ -9,23 +9,11 @@ runMNN <- function(object, ...) {
 #' each cell in `object`.
 #' @param n_neighbors Integer scalar specifying the number of neighbors to use
 #' when identifying MNN pairs.
-#' @param n_mads Numeric scalar specifying the number of median absolute
-#' deviations to use for removing outliers in the center-of-mass calculations.
-#' @param robust_iterations Integer scalar specifying the number of iterations
-#' for robust calculation of the center of mass.
-#' @param robust_trim Numeric scalar in [0, 1) specifying the trimming
-#' proportion for robust calculation of the center of mass.
-#' @param mass_cap Integer scalar specifying the cap on the number of
-#' observations to use for center-of-mass calculations on the reference dataset.
-#' A value of `100,000` may be appropriate for speeding up correction of very
-#' large datasets. If `NULL`, no cap is used.
-#' @param order Vector containing levels of `block` in the desired merge
-#' order. If `NULL`, a suitable merge order is automatically determined.
-#' @param reference_policy String specifying the policy to use to choose the
-#' first reference batch. This can be based on the largest batch (`"max-size"`),
-#' the most variable batch (`"max-variance"`), the batch with the largest
-#' residual sum of squares (`"max-rss"`), or the first specified input
-#' (`"input"`). Only used for automatic merges, i.e., when `order=NULL`.
+#' @param n_steps Integer specifying the number of steps in the recursive
+#' neighbor search used to compute the center of mass.
+#' @param merge_policy String specifying the merge policy: `"rss"` (default),
+#' `"size"`, `"variance"`, or `"input"`. With `"input"`, the last batch is
+#' corrected first; arrange the input batches to control the merge order.
 #' @inheritParams scrapper::correctMnn
 #' @inheritParams runPCA
 #' @inheritParams runTSNE
@@ -34,22 +22,19 @@ runMNN <- function(object, ...) {
 #' @export
 #' @rdname runMNN
 runMNN.default <- function(object, block, n_neighbors = 15L, ...,
-                           n_mads = 3L,
-                           robust_iterations = 2, robust_trim = 0.25,
-                           mass_cap = NULL,
-                           order = NULL, reference_policy = NULL,
+                           n_steps = 1L, merge_policy = NULL,
                            bnparam = AnnoyParam(), threads = NULL) {
     rlang::check_dots_empty()
+    merge_policy <- arg_match(
+        merge_policy,
+        c("rss", "size", "variance", "input")
+    )
+    assert_number_whole(n_steps, min = 1)
     # run MNN --------------------------------------------------------
     .runMNN(
         object = object,
         block = block, n_neighbors = n_neighbors,
-        n_mads = n_mads,
-        robust_iterations = robust_iterations,
-        robust_trim = robust_trim,
-        mass_cap = mass_cap,
-        order = order,
-        reference_policy = reference_policy,
+        n_steps = n_steps, merge_policy = merge_policy,
         bnparam = bnparam,
         threads = set_threads(threads)
     )
@@ -90,25 +75,18 @@ runMNN.Seurat <- function(object, ...,
     add_dimred_to_seurat(object, mnn, name, assay, layer, dimred)
 }
 
-.runMNN <- function(object, block, n_neighbors, n_mads,
-                    robust_iterations, robust_trim, mass_cap,
-                    order, reference_policy, bnparam,
+.runMNN <- function(object, block, n_neighbors, n_steps,
+                    merge_policy, bnparam,
                     threads) {
     mnn_res <- scrapper::correctMnn(
         x = object,
         block = block, num.neighbors = n_neighbors,
-        num.mads = n_mads,
-        robust.iterations = robust_iterations,
-        robust.trim = robust_trim,
-        mass.cap = mass_cap,
-        order = order,
-        reference.policy = reference_policy,
+        num.steps = n_steps,
+        merge.policy = merge_policy,
         BNPARAM = bnparam,
         num.threads = threads
     )
-    new_dimred(
-        t(mnn_res$corrected),
-        merge_order = mnn_res$merge.order,
-        n_pairs = mnn_res$num.pairs
-    )
+    corrected <- t(mnn_res$corrected)
+    rownames(corrected) <- colnames(object)
+    new_dimred(corrected)
 }

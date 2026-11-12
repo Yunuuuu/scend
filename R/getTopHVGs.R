@@ -3,12 +3,12 @@
 #' @param n Integer specifying the number of top genes to retain.
 #' @param prop Numeric scalar specifying the proportion of genes to report as
 #' HVGs.
-#' @param stats Numeric vector of variances (or a related statistic) across all
-#' genes. Typically the `residuals` from [`modelGeneVar`] are used here.
+#' @param stats A data frame returned by [`modelGeneVar`]. Its `residuals`
+#' column is used to select highly variable genes.
 #' @inheritParams scrapper::chooseHighlyVariableGenes
 #' @param keep_ties Logical scalar indicating whether to keep tied values of
 #' `stats`, even if `n` may be exceeded.
-#' @return A character of highly variable genes.
+#' @return An integer vector of row indices for the highly variable genes.
 #' @export
 getTopHVGs <- function(stats, ...) {
     UseMethod("getTopHVGs")
@@ -26,14 +26,15 @@ getTopHVGs.scend_modelGeneVar <- function(stats, n = NULL, prop = NULL,
     assert_bool(keep_ties)
     if (!is.null(n) && !is.null(prop)) {
         n <- max(n, round(prop * nrow(stats)))
-    } else if (!is.null(n)) {
-    } else if (!is.null(prop)) {
+    } else if (!is.null(n)) {} else if (!is.null(prop)) {
         n <- round(prop * nrow(stats))
     } else {
         n <- nrow(stats)
     }
     scrapper::chooseHighlyVariableGenes(
         .subset2(stats, "residuals"),
-        top = n, larger = larger, keep.ties = keep_ties
+        top = n,
+        larger = larger,
+        keep.ties = keep_ties
     )
 }

@@ -10,8 +10,8 @@ getTopHVGs(stats, ...)
 \method{getTopHVGs}{scend_modelGeneVar}(stats, n = NULL, prop = NULL, larger = TRUE, keep_ties = TRUE, ...)
 }
 \arguments{
-\item{stats}{Numeric vector of variances (or a related statistic) across all
-genes. Typically the \code{residuals} from \code{\link{modelGeneVar}} are used here.}
+\item{stats}{A data frame returned by \code{\link{modelGeneVar}}. Its \code{residuals}
+column is used to select highly variable genes.}
 
 \item{...}{Arguments passed to methods.}
 
@@ -28,7 +28,7 @@ This is typically the case for variances or related statistics, e.g., residuals.
 \code{stats}, even if \code{n} may be exceeded.}
 }
 \value{
-A character of highly variable genes.
+An integer vector of row indices for the highly variable genes.
 }
 \description{
 Choose highly variable genes (HVGs) based on a variance-related statistic.

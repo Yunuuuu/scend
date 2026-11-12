@@ -58,23 +58,11 @@ quickMNN(object, ...)
   \describe{
     \item{\code{n_neighbors}}{Integer scalar specifying the number of neighbors to use
 when identifying MNN pairs.}
-    \item{\code{n_mads}}{Numeric scalar specifying the number of median absolute
-deviations to use for removing outliers in the center-of-mass calculations.}
-    \item{\code{robust_iterations}}{Integer scalar specifying the number of iterations
-for robust calculation of the center of mass.}
-    \item{\code{robust_trim}}{Numeric scalar in [0, 1) specifying the trimming
-proportion for robust calculation of the center of mass.}
-    \item{\code{mass_cap}}{Integer scalar specifying the cap on the number of
-observations to use for center-of-mass calculations on the reference dataset.
-A value of \verb{100,000} may be appropriate for speeding up correction of very
-large datasets. If \code{NULL}, no cap is used.}
-    \item{\code{order}}{Vector containing levels of \code{block} in the desired merge
-order. If \code{NULL}, a suitable merge order is automatically determined.}
-    \item{\code{reference_policy}}{String specifying the policy to use to choose the
-first reference batch. This can be based on the largest batch (\code{"max-size"}),
-the most variable batch (\code{"max-variance"}), the batch with the largest
-residual sum of squares (\code{"max-rss"}), or the first specified input
-(\code{"input"}). Only used for automatic merges, i.e., when \code{order=NULL}.}
+    \item{\code{n_steps}}{Integer specifying the number of steps in the recursive
+neighbor search used to compute the center of mass.}
+    \item{\code{merge_policy}}{String specifying the merge policy: \code{"rss"} (default),
+\code{"size"}, \code{"variance"}, or \code{"input"}. With \code{"input"}, the last batch is
+corrected first; arrange the input batches to control the merge order.}
     \item{\code{dimred}}{String or integer scalar specifying the existing dimensionality
 reduction results to use.}
     \item{\code{n_dimred}}{Integer scalar or vector specifying the dimensions to use if
@@ -130,7 +118,8 @@ IRLBA workspace.}
 \item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.
 Larger values improve accuracy at the cost of compute time.}
 
-\item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
+\item{seed}{Integer seed. If \code{NULL}, a seed is drawn from R's random number
+generator, so results can be reproduced with \code{set.seed()}.}
 
 \item{realized}{Logical scalar indicating whether to realize \code{object} into an
 optimal memory layout for \code{IRLBA}. This improves computation time at the cost

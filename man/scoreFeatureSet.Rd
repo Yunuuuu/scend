@@ -22,7 +22,9 @@ scoreFeatureSet(object, ...)
   iterations = 1000,
   seed = NULL,
   realized = TRUE,
-  threads = NULL
+  threads = NULL,
+  tolerance = NULL,
+  warn = TRUE
 )
 
 \method{scoreFeatureSet}{SummarizedExperiment}(object, ..., name = "scores", assay = "logcounts")
@@ -66,7 +68,8 @@ IRLBA workspace.}
 \item{iterations}{Integer scalar specifying the maximum number of restart iterations for IRLBA.
 Larger values improve accuracy at the cost of compute time.}
 
-\item{seed}{Integer scalar specifying the seed for the initial random vector in IRLBA.}
+\item{seed}{Integer seed. If \code{NULL}, a seed is drawn from R's random number
+generator, so results can be reproduced with \code{set.seed()}.}
 
 \item{realized}{Logical scalar indicating whether to realize \code{object} into an
 optimal memory layout for \code{IRLBA}. This improves computation time at the cost
@@ -74,6 +77,12 @@ of increased memory usage.}
 
 \item{threads}{Integer scalar specifying the number of threads to use. If
 \code{NULL}, a single thread will be used.}
+
+\item{tolerance}{Convergence tolerance for IRLBA. If \code{NULL}, use scrapper's
+default. Setting this requires a scrapper version that supports \code{tolerance}.}
+
+\item{warn}{Whether to warn if IRLBA does not converge. Requires scrapper
+1.7.1 or later when set explicitly.}
 
 \item{name}{A string of the assay name for the scores.}
 
@@ -83,7 +92,9 @@ contains the expression values.}
 \item{layer}{Name of the layer to get from the assay data.}
 }
 \value{
-A matrix of feature scores.
+A matrix of feature scores. The \code{weights} attribute is a list with
+one data frame per feature set, containing \code{row} (the feature's row index in
+\code{object}) and \code{weight} columns.
 }
 \description{
 Compute per-cell scores for a gene set, defined as the column sums of a rank-1 approximation to the submatrix for the gene set.

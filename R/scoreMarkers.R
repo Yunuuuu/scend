@@ -82,8 +82,10 @@ scoreMarkers.default <- function(object, groups,
         num.threads = threads
     )
     # re-style the scores to the same with `scran.chan::scoreMarkers.chan()`
-    stats <- c("cohens.d", "auc", "delta.mean", "delta.detected")
-    lvls <- levels(groups) %||% sort(unique(groups))
+    stats <- intersect(
+        c("cohens.d", "auc", "delta.mean", "delta.detected"), names(scores)
+    )
+    lvls <- as.character(scores$group.ids)
     names(lvls) <- lvls
     if (all_pairwise) {
         pairwise <- lapply(lvls, function(e) { # experimental group
@@ -100,7 +102,9 @@ scoreMarkers.default <- function(object, groups,
                     pairwise[[e]][[c]][[i]] <- array[e, c, , drop = TRUE]
                 }
             }
-            scores[[i]] <- scrapper::summarizeEffects(array, threads)
+            scores[[i]] <- scrapper::summarizeEffects(
+                array, num.threads = threads
+            )
         }
     }
     out <- lapply(lvls, function(group) {
@@ -115,18 +119,19 @@ scoreMarkers.default <- function(object, groups,
             drop = TRUE
         ]
         for (i in stats) {
-            stat <- .subset2(.subset2(scores, i), group)
+            stat <- as.data.frame(.subset2(.subset2(scores, i), group))
             cur_stats[[i]] <- rlang::set_names(stat, function(nm) {
                 sub("min\\.rank$", "rank", nm)
             })
         }
-        do.call(cbind, cur_stats)
+        rlang::inject(cbind(!!!cur_stats))
     })
     if (all_pairwise) {
         out$pairwise <- lapply(pairwise, function(data) {
             lapply(data, function(l) {
                 class(l) <- "data.frame"
-                attr(l, "row.names") <- names(.subset2(l, 1L))
+                attr(l, "row.names") <- names(.subset2(l, 1L)) %||%
+                    seq_along(.subset2(l, 1L))
                 l
             })
         })

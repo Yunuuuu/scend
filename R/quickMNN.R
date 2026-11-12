@@ -52,7 +52,6 @@ quickMNN.SingleCellExperiment <- function(object, block,
     #   size is the total sum of counts across all genes for each cell
     lognorm_args$block <- block
     lognorm_args$name <- lognorm_args$name %||% "multiBatchNorm"
-    lognorm_args$threads <- lognorm_args$threads %||% threads
     lognorm_args$size_factors <- size_factors %||% lognorm_args$size_factors
     lognorm_args$mode <- mode %||% lognorm_args$mode
     lognorm_args$object <- NULL

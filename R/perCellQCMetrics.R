@@ -18,13 +18,13 @@ perCellQCMetrics.default <- function(object, subsets = NULL, ...,
     metrics <- scrapper::computeRnaQcMetrics(object,
         subsets = subsets %||% list(), num.threads = threads
     )
-    out <- .subset(metrics, c("sum", "detected"))
+    out <- as.data.frame(metrics[, c("sum", "detected"), drop = FALSE])
     if (length(subsets)) {
-        subsets <- .subset2(metrics, "subsets")
+        subsets <- as.data.frame(metrics[["subsets"]])
         names(subsets) <- paste("subsets", names(subsets), sep = "_")
-        out <- c(out, subsets)
+        out <- cbind(out, subsets)
     }
-    quickdf(out)
+    out
 }
 
 #' @export

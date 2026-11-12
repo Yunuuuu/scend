@@ -13,6 +13,8 @@
 #' the average across all blocks. The data frame will also contain `per_block`
 #' attribute, a list of data frames containing the equivalent statistics for
 #' each block.
+#' With `fit_trend = FALSE`, `fitted` and `residuals` are omitted. With
+#' `block_average_policy = "none"`, only `per_block` contains statistics.
 #' @export
 modelGeneVar <- function(object, ...) {
     UseMethod("modelGeneVar")
@@ -59,6 +61,13 @@ modelGeneVar.HDF5Matrix <- function(object, ..., threads = NULL) {
 #' as the lower and upper bounds, respectively, for the variable weight
 #' calculation. Only used if `block` is not `NULL` and `block_weight_policy =
 #' "variable"`.
+#' @param block_average_policy How to average statistics across blocks:
+#' `"mean"` or `"quantile"`. For `modelGeneVar`, scrapper >= 1.7.1 also
+#' supports `"none"` to omit the average.
+#' @param block_quantile Probability of the quantile used when
+#' `block_average_policy = "quantile"`.
+#' @param fit_trend Whether to fit the mean-variance trend. Requires scrapper
+#' 1.7.1 or later when set explicitly.
 #' @param mean_filter Logical scalar indicating whether to filter on the means
 #' before trend fitting.
 #' @param min_mean Numeric scalar specifying the minimum mean of genes to use in
@@ -81,6 +90,8 @@ modelGeneVar.HDF5Matrix <- function(object, ..., threads = NULL) {
 modelGeneVar.default <- function(object,
                                  block = NULL, block_weight_policy = NULL,
                                  ...,
+                                 block_average_policy = "mean",
+                                 block_quantile = 0.5, fit_trend = TRUE,
                                  variable_block_weight = c(0, 1000),
                                  mean_filter = TRUE, min_mean = 0.1,
                                  transform = TRUE, span = 0.3,
@@ -93,18 +104,27 @@ modelGeneVar.default <- function(object,
             block_weight_policy, c("variable", "equal", "none")
         )
     }
-    stats <- scrapper::modelGeneVariances(
+    args <- list(
         x = object,
         block = block, block.weight.policy = block_weight_policy,
         variable.block.weight = variable_block_weight,
+        block.average.policy = block_average_policy,
+        block.quantile = block_quantile,
         mean.filter = mean_filter,
         min.mean = min_mean, transform = transform,
         span = span, use.min.width = use_min_width,
         min.width = min_width, min.window.count = min_window_count,
         num.threads = threads
     )
-    ans <- .subset2(stats, "statistics")
-    attr(ans, "per_block") <- .subset2(stats, "per.block")
+    if (utils::packageVersion("scrapper") >= "1.7.1" || !missing(fit_trend)) {
+        args$fit.trend <- fit_trend
+    }
+    stats <- rlang::inject(scrapper::modelGeneVariances(!!!args))
+    ans <- as.data.frame(.subset2(stats, "statistics"))
+    per_block <- .subset2(stats, "per.block")
+    if (!is.null(per_block)) {
+        attr(ans, "per_block") <- lapply(per_block, as.data.frame)
+    }
     class(ans) <- c("scend_modelGeneVar", class(ans))
     ans
 }

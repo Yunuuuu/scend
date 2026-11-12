@@ -55,7 +55,7 @@ integers). Rows are features and columns are cells.}
 t-SNE algorithm.}
 
 \item{n_neighbors}{Integer scalar specifying the number of neighbors,
-typically derived from \code{perplexity}.}
+passed to scrapper. If \code{NULL}, scrapper derives it from \code{perplexity}.}
 
 \item{max_depth}{Integer scalar specifying the maximum depth of the
 Barnes-Hut quadtree. Smaller values (7-10) improve speed at the cost of
@@ -69,7 +69,8 @@ cells to be assigned to the same leaf node of the quadtree.}
 \item{max_iter}{Integer scalar specifying the maximum number of iterations to
 perform.}
 
-\item{seed}{Integer scalar specifying the seed to use for generating the initial coordinates.}
+\item{seed}{Integer seed. If \code{NULL}, a seed is drawn from R's random number
+generator, so results can be reproduced with \code{set.seed()}.}
 
 \item{bnparam}{A \linkS4class{BiocNeighborParam} object specifying the
 algorithm to use.}

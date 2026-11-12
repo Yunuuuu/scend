@@ -2,9 +2,10 @@
 check_seed <- function(seed, len = 1L,
                        arg = caller_arg(seed), call = caller_call()) {
     if (is.null(seed)) {
-    } else if (len == 1L) {
+        return(random_seed(len))
+    }
+    if (length(seed) == 1L && len > 1L) { # we need multiple seeds
         assert_number_whole(seed, arg = arg, call = call)
-    } else if (length(seed) == 1L) { # we need multiple seeds
         restore_seed_hook()
         set.seed(seed)
         seed <- random_seed(len)
@@ -15,6 +16,9 @@ check_seed <- function(seed, len = 1L,
         )
     } else {
         seed <- seed[seq_len(len)]
+        for (value in seed) {
+            assert_number_whole(value, arg = arg, call = call)
+        }
     }
     seed
 }
@@ -53,7 +57,6 @@ rm_seed <- function() {
     if (!has_seed()) {
         return(NULL)
     }
-    set.seed(seed = NULL)
     rm(".Random.seed", envir = globalenv())
 }
 
@@ -67,7 +70,7 @@ restore_seed <- function(seed) {
                 rm(".Random.seed", envir = globalenv(), inherits = FALSE)
             }
         } else {
-            set.seed(seed$rng)
+            assign(".Random.seed", seed$rng, envir = globalenv())
         }
     }
 }
@@ -75,7 +78,10 @@ restore_seed <- function(seed) {
 #' @importFrom rlang caller_env
 restore_seed_hook <- function(after = TRUE, seed = get_seed(),
                               envir = caller_env()) {
-    set_exit(restore_seed(!!seed), envir = envir, after = after)
+    force(seed)
+    restore <- function() restore_seed(seed)
+    rlang::inject(base::on.exit((!!restore)(), add = TRUE, after = !!after),
+        env = envir)
 }
 
 restore_rng_kind <- function(rng_kind) {

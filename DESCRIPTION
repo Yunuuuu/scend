@@ -36,6 +36,8 @@ Suggests:
     LoomExperiment,
     Matrix,
     SeuratObject,
-    S4Vectors
+    S4Vectors,
+    testthat (>= 3.0.0)
 ByteCompile: true
+Config/testthat/edition: 3
 Config/roxygen2/version: 8.1.0

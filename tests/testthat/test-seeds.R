@@ -1,0 +1,25 @@
+test_that("explicit seeds preserve the caller's RNG stream", {
+    old <- get_seed()
+    on.exit(restore_seed(old))
+    d <- compat_data()
+    set.seed(123)
+    before <- .Random.seed
+    scoreFeatureSet(d$logcounts, list(a = 1:20, b = 21:40), seed = 42)
+    expect_identical(.Random.seed, before)
+    clusterSNNGraph(d$pcs, n_neighbors = 5, method = "louvain", seed = 42)
+    expect_identical(.Random.seed, before)
+    expanded <- check_seed(42, 2)
+    expect_identical(.Random.seed, before)
+    expect_identical(check_seed(42, 2), expanded)
+    expect_error(check_seed(c(1, NA), 2))
+    expect_error(check_seed(1:3, 2))
+})
+
+test_that("seed expansion restores an initially absent RNG state", {
+    old <- get_seed()
+    on.exit(restore_seed(old))
+    rm_seed()
+    expect_false(has_seed())
+    expect_length(check_seed(42, 2), 2)
+    expect_false(has_seed())
+})
