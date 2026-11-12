@@ -52,7 +52,6 @@ logNormCounts.default <- function(object, size_factors = NULL,
     assert_number_decimal(log, allow_null = TRUE, call = call)
     assert_number_whole(pseudo_count, call = call)
     assert_bool(center_size_factors, call = call)
-    threads <- set_threads(threads, call = call)
     if (is.null(size_factors)) {
         # `scuttle::librarySizeFactors()`
         size_factors <- librarySizeFactors(object)

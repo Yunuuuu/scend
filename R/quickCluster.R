@@ -24,10 +24,7 @@ quickCluster <- function(object, ...) UseMethod("quickCluster")
                           # `clusterSNNGraph` arguments
                           ..., seed = NULL, realized = TRUE, threads = NULL) {
     # nromalization, adjust for differences in sequencing depth
-    object <- logNormCounts(
-        object = object, threads = threads,
-        size_factors = size_factors
-    )
+    object <- logNormCounts(object = object, size_factors = size_factors)
     seed <- check_seed(seed, 2L)
 
     if (is.null(subset_row)) {
